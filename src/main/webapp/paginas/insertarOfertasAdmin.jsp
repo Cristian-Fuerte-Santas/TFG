@@ -147,7 +147,7 @@ body {
 	</div>
 
 
-	<h2>INSERTAR HOTEL ADMIN</h2>
+
 	<div id="insertarHotelAdmin" class="container-fluid w-100">
 
 
@@ -166,6 +166,17 @@ body {
 					<label for="inputNombreHotel">Nombre del Hotel</label>
 					<form:input path="nombreHotel" type="text" id="inputNombreHotel"
 						class="form-control" placeholder="Hotel Example" required="true"></form:input>
+
+					<label for="inputDestino">Destino del Hotel</label>
+<form:select path="destino.idDestino" id="inputDestino" class="form-control"
+    required="true">
+    <form:option value="" label="Selecciona un destino"
+        disabled="true" />
+    <form:options items="${destinos}" itemValue="idDestino"
+        itemLabel="ciudad" />
+</form:select>
+
+
 
 					<label for="inputCategoriaHotel">Categoría del Hotel</label>
 					<form:input path="categoriaHotel" type="number"
@@ -187,8 +198,9 @@ body {
 						required="true"></form:input>
 
 
-				<label for="inputImagenesHotel">Imágenes del Hotel</label>
-				<input type="file" name="multipartFiles" id="inputImagenesHotel" class="form-control" multiple="true" />
+					<label for="inputImagenesHotel">Imágenes del Hotel</label>
+					<input type="file" name="multipartFiles" id="inputImagenesHotel"
+						class="form-control" multiple="true" />
 
 
 					<div class="form-check">

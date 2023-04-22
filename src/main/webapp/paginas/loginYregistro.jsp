@@ -201,7 +201,7 @@ body {
 				Sesión</button>
 
 			<a href="contraseniaOlvidada"> 
-			<span>He olvidado lacontraseña</span>
+			<span>He olvidado la contraseña</span>
 			</a>
 
 

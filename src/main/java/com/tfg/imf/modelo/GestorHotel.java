@@ -34,6 +34,8 @@ public class GestorHotel {
 	
 	@Autowired
     private IRepositorioImagenesHotel repositorioImagenesHotel;
+	
+	private final String directorioImagenes = "src/main/resources/static/imagenes/imagenesHoteles/";
 
 	public GestorHotel() {
 		super();
@@ -83,7 +85,7 @@ public class GestorHotel {
 	
 
 	
-	 private final String directorioImagenes = "src/main/resources/static/imagenes/imagenesHoteles/";
+	 
 	 
 	 
 	 @Transactional
