@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.tfg.imf.entidades.Destino;
-import com.tfg.imf.entidades.Hotel;
+import com.tfg.imf.entidades.*;
 
 import com.tfg.imf.modelo.GestorHotel;
-import com.tfg.imf.entidades.ImagenesHotel;
+import com.tfg.imf.modelo.GestorRestaurante;
 import com.tfg.imf.persistencia.IRepositorioDestino;
 import com.tfg.imf.persistencia.IRepositorioHotel;
 import com.tfg.imf.persistencia.IRepositorioImagenesHotel;
+import com.tfg.imf.persistencia.IRepositorioRestaurante;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,15 +44,33 @@ public class FormularioHotelControlador {
 
 	// private List<MultipartFile> multipartFiles = new ArrayList<>();
 
+	// ESTE METODO CONTROLA TODOS LOS MAPEOS DE ESTA VISTA
+
 	@GetMapping("/insertarOfertasAdmin")
-	public ModelAndView mostrarFormularioInsertarHotel() {
+	public ModelAndView mostrarFormularioInsertarOfertas() {
 		ModelAndView mav = new ModelAndView("insertarOfertasAdmin");
+
 		Hotel hotel = new Hotel();
 		mav.addObject("hotel", hotel);
+
+		Restaurante restaurante = new Restaurante();
+		mav.addObject("restaurante", restaurante);
+
+		Actividad actividad = new Actividad();
+		mav.addObject("actividad", actividad);
 
 		// Obtener la lista de destinos y agregarla al modelo
 		List<Destino> destinos = repositorioDestino.verTodosLosDestinos();
 		mav.addObject("destinos", destinos);
+
+		SalaHotel salaHotel = new SalaHotel(); // Asegúrate de agregar esta línea
+		mav.addObject("salaHotel", salaHotel);
+
+		Transporte transporte = new Transporte();
+		mav.addObject("transporte", transporte);
+		
+		 List<Hotel> hoteles = obtenerHoteles();
+		    mav.addObject("hoteles", hoteles);
 
 		return mav;
 	}
@@ -61,7 +79,7 @@ public class FormularioHotelControlador {
 	public ModelAndView insertarHotel(@ModelAttribute Hotel hotel,
 			@RequestParam("multipartFiles") List<MultipartFile> files) {
 
-		System.out.println("FormularioOfertaCrontrolador.insertarHotel: " + hotel);
+		System.out.println("FormularioHotelCrontrolador.insertarHotel: " + hotel);
 
 		try {
 			// Crear una instancia de Hotel
@@ -120,6 +138,24 @@ public class FormularioHotelControlador {
 
 			ModelAndView mav = new ModelAndView("insertarOfertasAdmin");
 			mav.addObject("exitoRegistro", true);
+
+			// Agregar objetos necesarios para el formulario, incluso si no se están
+			// utilizando en esta solicitud
+			Restaurante restaurante = new Restaurante();
+			mav.addObject("hotel", restaurante);
+
+			Actividad actividad = new Actividad();
+			mav.addObject("actividad", actividad);
+
+			List<Destino> destinos = repositorioDestino.verTodosLosDestinos();
+			mav.addObject("destinos", destinos);
+
+			Transporte transporte = new Transporte();
+			mav.addObject("transporte", transporte);
+
+			SalaHotel salaHotel = new SalaHotel();
+			mav.addObject("salaHotel", salaHotel);
+
 			return mav;
 
 		} catch (Exception e) {
@@ -127,17 +163,35 @@ public class FormularioHotelControlador {
 			ModelAndView mav = new ModelAndView("error");
 			mav.addObject("mensaje", "Error al insertar el hotel en la base de datos");
 			mav.addObject("excepcion", e);
+
+			// Agregar objetos necesarios para el formulario, incluso si no se están
+			// utilizando en esta solicitud
+			Restaurante restaurante = new Restaurante();
+			mav.addObject("hotel", restaurante);
+
+			Actividad actividad = new Actividad();
+			mav.addObject("actividad", actividad);
+
+			List<Destino> destinos = repositorioDestino.verTodosLosDestinos();
+			mav.addObject("destinos", destinos);
+
+			Transporte transporte = new Transporte();
+			mav.addObject("transporte", transporte);
+
+			SalaHotel salaHotel = new SalaHotel();
+			mav.addObject("salaHotel", salaHotel);
+
 			return mav;
 		}
 	}
-	
+
+	// PARA MOSTRAR LOS HOTELES
 	@GetMapping("/obtenerHoteles")
 	@ResponseBody
 	public List<Hotel> obtenerHoteles() {
-	    List<Hotel> hoteles = repositorioHotel.verTodosLosHoteles();
-	    System.out.println("Hoteles devueltos: " + hoteles);
-	    return hoteles;
+		List<Hotel> hoteles = repositorioHotel.verTodosLosHoteles();
+		System.out.println("Hoteles devueltos: " + hoteles);
+		return hoteles;
 	}
-
 
 }

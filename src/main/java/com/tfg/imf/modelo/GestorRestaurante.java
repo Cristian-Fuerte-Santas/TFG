@@ -1,12 +1,18 @@
 package com.tfg.imf.modelo;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.tfg.imf.entidades.Restaurante;
-
+import com.tfg.imf.persistencia.IRepositorioImagenesRestaurante;
 import com.tfg.imf.persistencia.IRepositorioRestaurante;
 
 @Service
@@ -14,6 +20,14 @@ public class GestorRestaurante {
 
 	@Autowired
 	private IRepositorioRestaurante repositorioRestaurante;
+	
+	
+	
+	@Autowired
+	private IRepositorioImagenesRestaurante repositorioImagenesRestaurante;
+	
+	
+	private final String directorioImagenesRestaurantes = "src/main/resources/static/imagenes/imagenesRestaurantes/";
 
 	public GestorRestaurante() {
 		super();
@@ -44,6 +58,26 @@ public class GestorRestaurante {
 	}
 	
 	
+	
+	@Transactional
+	public String guardarImagenRestaurante(MultipartFile file) throws IOException {
+
+		// Crear el directorio si no existe
+		Path directorioPath = Paths.get(directorioImagenesRestaurantes);
+
+		if (!Files.exists(directorioPath)) {
+
+			Files.createDirectories(directorioPath);
+		}
+
+		// Guardar el archivo en el directorio
+		Path imagePath = directorioPath.resolve(file.getOriginalFilename());
+
+		Files.copy(file.getInputStream(), imagePath);
+
+		// Devolver la URL donde se guarda la imagen
+		return "/imagenes/imagenesRestaurantes/" + file.getOriginalFilename();
+	}
 	
 	
 }

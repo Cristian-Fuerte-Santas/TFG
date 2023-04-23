@@ -1,19 +1,31 @@
 package com.tfg.imf.entidades;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 
 
 @Entity
 @Table(name = "salaHotel")
+@JsonIdentityInfo(
+		  generator = ObjectIdGenerators.PropertyGenerator.class,
+		  property = "idSalaHotel")
 public class SalaHotel {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idSalaHotel;
@@ -23,10 +35,16 @@ public class SalaHotel {
 	private boolean equipoSonidoSala;
 	private boolean proyectorSala;
 	private float precioSala;
-	
+
 	@ManyToOne
-	@JoinColumn(name="id_hotel")
+	@JoinColumn(name = "id_hotel")
 	private Hotel hotel;
+
+	
+	
+	@OneToMany(mappedBy = "salaHotel", cascade = CascadeType.ALL)
+	private Set<ImagenesSalaHotel> listadoImagenesSalaHotel = new HashSet<>();
+
 
 	public SalaHotel() {
 		super();
@@ -97,16 +115,20 @@ public class SalaHotel {
 		this.hotel = hotel;
 	}
 
+	public Set<ImagenesSalaHotel> getListadoImagenesSalaHotel() {
+		return listadoImagenesSalaHotel;
+	}
+
+	public void setListadoImagenesSalaHotel(Set<ImagenesSalaHotel> listadoImagenesSalaHotel) {
+		this.listadoImagenesSalaHotel = listadoImagenesSalaHotel;
+	}
+
+	/*
 	@Override
 	public String toString() {
 		return "SalaHotel [idSalaHotel=" + idSalaHotel + ", nombreSala=" + nombreSala + ", aforoSala=" + aforoSala
 				+ ", metrosSala=" + metrosSala + ", equipoSonidoSala=" + equipoSonidoSala + ", proyectorSala="
 				+ proyectorSala + ", precioSala=" + precioSala + ", hotel=" + hotel + "]";
 	}
-
-	
-	
-	
-	
-	
+*/
 }

@@ -145,24 +145,24 @@ body {
 				<div class="mb-3">
 					<h5>Servicios Hotel</h5>
 					<div class="form-check">
-						<input class="form-check-input filtro" type="checkbox"
-							value="piscina" id="filtroPiscina"> <label
+						<input class="form-check-input filtro servicios-hotel-checkbox"
+							type="checkbox" value="piscina" id="filtroPiscina"> <label
 							class="form-check-label" for="filtroPiscina">Piscina</label>
 					</div>
 					<div class="form-check">
-						<input class="form-check-input filtro" type="checkbox"
-							value="gimnasio" id="filtroGimnasio"> <label
+						<input class="form-check-input filtro servicios-hotel-checkbox"
+							type="checkbox" value="gimnasio" id="filtroGimnasio"> <label
 							class="form-check-label" for="filtroGimnasio">Gimnasio</label>
 					</div>
 					<div class="form-check">
-						<input class="form-check-input filtro" type="checkbox"
-							value="terraza" id="filtroTerraza"> <label
+						<input class="form-check-input filtro servicios-hotel-checkbox"
+							type="checkbox" value="terraza" id="filtroTerraza"> <label
 							class="form-check-label" for="filtroTerraza">Terraza</label>
 					</div>
 					<div class="form-check">
-						<input class="form-check-input filtro" type="checkbox" value="spa"
-							id="filtroSpa"> <label class="form-check-label"
-							for="filtroSpa">Spa</label>
+						<input class="form-check-input filtro servicios-hotel-checkbox"
+							type="checkbox" value="spa" id="filtroSpa"> <label
+							class="form-check-label" for="filtroSpa">Spa</label>
 					</div>
 				</div>
 
@@ -209,22 +209,30 @@ body {
 		
 
 		function aplanarHoteles(hoteles) {
+			
 			  var hotelesAplanados = [];
 
 			  function procesarHotel(hotel) {
+				  
 			    if (typeof hotel === "object" && hotel !== null) {
 			      hotelesAplanados.push(hotel);
 			      
 			      if (hotel.destino && hotel.destino.hoteles) {
+			    	  
 			        for (var i = 0; i < hotel.destino.hoteles.length; i++) {
+			        	
 			          procesarHotel(hotel.destino.hoteles[i]);
+			          
 			        }
 			      }
 			    }
 			  }
 
 			  for (var i = 0; i < hoteles.length; i++) {
+				  
 			    procesarHotel(hoteles[i]);
+			    
+			   
 			  }
 
 			  return hotelesAplanados;
@@ -237,11 +245,13 @@ body {
 		        method: "GET",
 		        dataType: "json", 
 		        success: function(hoteles) {
-		           
-
-		            // Aplanar hoteles y luego mostrarlos
+		            // Aplanar hoteles y luego aplicar filtros
 		            const hotelesAplanados = aplanarHoteles(hoteles);
-		            mostrarHoteles(hotelesAplanados);
+
+		            // Guardar hotelesAplanados en una variable global para que esté disponible para otras funciones
+		            window.hotelesAplanados = hotelesAplanados;
+		            
+		            aplicarFiltros();
 		        },
 		        error: function(error) {
 		            console.error("Error al obtener los hoteles:", error);
@@ -272,9 +282,13 @@ body {
 		        const cardBody = $("<div>").addClass("card-body");
 		        const cardTitle = $("<h5>").addClass("card-title").text(hotel.nombreHotel).css({"text-align" : "center"});
 
-		        const cardText = $("<p>").addClass("card-text").css({"text-align" : "center"});;
-		        const cardTextContent =  hotel.categoriaHotel + " estrellas";
-		        cardText.text(cardTextContent);
+		        const cardText = $("<p>").addClass("card-text").css({"text-align" : "center"});
+
+		        // Añadir ícono de estrella tantas veces como la cantidad de estrellas del hotel
+		        for (let i = 0; i < hotel.categoriaHotel; i++) {
+		            const starIcon = $("<img>").attr("src", "recursos/Bootstrap/bootstrap-icons-1.10.4/star-fill.svg").css({"width": "16px", "height": "16px"});
+		            cardText.append(starIcon);
+		        }
 
 		        const cardButton = $("<a>").attr("href", "#").addClass("btn btn-primary").text("Ver más");
 		        const buttonContainer = $("<div>").addClass("text-center").append(cardButton);
@@ -289,10 +303,29 @@ body {
 
 
 		}
+		function aplicarFiltros() {
+		    const hotelesFiltrados = hotelesAplanados.filter((hotel) => {
+		        // Para cada checkbox de servicio, verifica si está seleccionado y si el hotel ofrece el servicio correspondiente
+		        const cumpleFiltro = $(".servicios-hotel-checkbox").toArray().every((checkbox) => {
+		            const servicio = checkbox.value; // Modifica esta línea para usar el valor del checkbox
+		            return !checkbox.checked || hotel[servicio] === true;
+		        });
+
+		        return cumpleFiltro;
+		    });
+
+		    mostrarHoteles(hotelesFiltrados);
+		}
+
+		
+		$(".servicios-hotel-checkbox").on("change", function() {
+		    aplicarFiltros();
+		});
+
 
 		
 		obtenerHoteles();
-
+	
 	</script>
 
 </body>

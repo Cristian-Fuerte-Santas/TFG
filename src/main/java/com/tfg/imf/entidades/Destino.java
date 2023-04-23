@@ -100,11 +100,13 @@ public class Destino {
 	}
 
 	// fuente chat gpt
+	
+	/*
 	@Override
 	public String toString() {
 		return "Destino [idDestino=" + idDestino + ", ciudad=" + ciudad + ", hoteles="
 				+ hoteles.stream().map(Hotel::getIdHotel).collect(Collectors.toList()) + ", restaurantes="
 				+ restaurantes + ", actividades=" + actividades + ", transportes=" + transportes + "]";
 	}
-
+*/
 }
