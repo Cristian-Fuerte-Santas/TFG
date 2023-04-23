@@ -172,36 +172,38 @@ body {
 
 
 		<!-- LOGIN -->
-		<form:form  id="formularioLogin" class="form-signin mt-5" modelAttribute="usuario" 
-		method="GET" action="loginUsuario" >
+		<form:form id="formularioLogin" class="form-signin mt-5"
+			modelAttribute="usuario" method="GET" action="loginUsuario">
 
 
-			<label for="inputEmail" class="sr-only">Email address</label> 
-			<form:input path="emailUsuario" type="email" id="inputEmail" class="form-control"
-				placeholder="Correo electrónico" required="true" autofocus="true"/> 
-				
-			<label for="inputPassword" class="sr-only">Password</label> 
-			<form:input path="contraseniaUsuario" type="password" id="inputPassword" class="form-control"
-				placeholder="Contraseña" required="true" autofocus="true" />
-				
+			<label for="inputEmail" class="sr-only">Email address</label>
+			<form:input path="emailUsuario" type="email" id="inputEmail"
+				class="form-control" placeholder="Correo electrónico"
+				required="true" autofocus="true" />
+
+			<label for="inputPassword" class="sr-only">Password</label>
+			<form:input path="contraseniaUsuario" type="password"
+				id="inputPassword" class="form-control" placeholder="Contraseña"
+				required="true" autofocus="true" />
+
 			<div class="checkbox mb-3">
-			
-				<label> 
-				<input type="checkbox" value="remember-me">
+
+				<label> <input type="checkbox" value="remember-me">
 					Recuérdame
 				</label>
-				
+
 			</div>
 
-			
-			
-			<button id="botonEnviarForlumarioLogin" class="btn btn-lg btn-primary btn-block mb-4" type="submit">Iniciar
-			
-			
+
+
+			<button id="botonEnviarForlumarioLogin"
+				class="btn btn-lg btn-primary btn-block mb-4" type="submit">Iniciar
+
+
 				Sesión</button>
 
 			<a href="contraseniaOlvidada"> 
-			<span>He olvidado la contraseña</span>
+			<span>He olvidado lacontraseña</span>
 			</a>
 
 
@@ -211,17 +213,19 @@ body {
 
 
 
-<!-- Mensaje el Registro se ha completado correctamente -->
-<c:if test="${exitoRegistro}">
-    <div id="mensajeExitoRegistro" class="alert alert-success mt-5" role="alert">
-        EL REGISTRO SE HA COMPLETADO CORRECTAMENTE
-        <br>
-        <a href="http://localhost:8080/loginYregistro">Volver al area de Inicio de Sesión</a>
-        
-    </div>
-    
-</c:if>
+		<!-- Mensaje el Registro se ha completado correctamente -->
+		<c:if test="${exitoRegistro}">
+			<div id="mensajeExitoRegistro" class="alert alert-success mt-5"
+				role="alert">
+				EL REGISTRO SE HA COMPLETADO CORRECTAMENTE <br> <a
+					href="http://localhost:8080/loginYregistro">Volver al area de
+					Inicio de Sesión</a>
 
+			</div>
+
+		</c:if>
+
+		
 
 
 		<!-- MENSAJE DE REGISTRARSE Y FLECHA ABAJO-->
@@ -258,37 +262,67 @@ body {
 
 		<!-- REGISTRARSE -->
 		<form:form id="formularioRegistrarse" class="form-signin mt-5"
-			modelAttribute="usuario" hidden="true" method="POST" action="insertarUsuario">
+			modelAttribute="usuario" hidden="true" method="POST"
+			action="insertarUsuario">
 
 			<form:hidden path="idUsuario" id="idUsuario"></form:hidden>
+
 
 			<label for="inputNombreDeEmpresa">Nombre de su empresa</label>
 			<form:input path="nombreEmpresa" type="text"
 				id="inputNombreDeEmpresa" class="form-control"
 				placeholder="AGUAS BUENAS S.L. ..." required="true"></form:input>
+			<c:if test="${errorFormulario}">
+				<!-- mostrar mensajes de error -->
+				<form:errors path="nombreEmpresa" cssClass="error-message" />
+			</c:if>
+
+
 
 			<label for="inputNifEmpresa">NIF EMPRESA</label>
 			<form:input path="nifEmpresa" type="text" id="inputNifEmpresa"
 				class="form-control" placeholder="A12345678" required="true"></form:input>
+
+			<c:if test="${errorFormulario}">
+				<form:errors path="nifEmpresa" cssClass="error-message" />
+			</c:if>     
+
+
 
 			<label for="inputNombreDeUsuario">Nombre</label>
 			<form:input path="nombreUsuario" type="text"
 				id="inputNombreDeUsuario" class="form-control" placeholder="Manuel"
 				required="true"></form:input>
 
+			<c:if test="${errorFormulario}">
+				<form:errors path="nombreUsuario" cssClass="error-message" />
+			</c:if>
+
 			<label for="inputTelefonoUsuario">Teléfono Móvil</label>
 			<form:input path="telefonoUsuario" type="tel"
-				id="inputTelefonoUsuario" 
-				class="form-control" placeholder="666555444" required="true"></form:input>
+				id="inputTelefonoUsuario" class="form-control"
+				placeholder="666555444" required="true"></form:input>
+
+			<c:if test="${errorFormulario}">
+				<form:errors path="telefonoUsuario" cssClass="error-message" />
+			</c:if>
 
 			<label for="inputEmailUsuario">Correo Electrónico</label>
 			<form:input path="emailUsuario" type="email" id="inputEmailUsuario"
 				class="form-control" placeholder="manuel@gmail.com" required="true"></form:input>
 
+			<c:if test="${errorFormulario}">
+				<form:errors path="emailUsuario" cssClass="error-message" />
+			</c:if>
+
 			<label for="inputContrasenia">Contraseña</label>
 			<form:input path="contraseniaUsuario" type="password"
 				id="inputContrasenia" class="form-control" placeholder="Contraseña"
 				required="true"></form:input>
+
+			<c:if test="${errorFormulario}">
+				<form:errors path="contraseniaUsuario" cssClass="error-message" />
+			</c:if>
 
 			<label for="inputVerificarContrasenia">Vuelva a introducir su
 				contraseña</label>
@@ -299,8 +333,6 @@ body {
 			<button id="botonEnviarFormularioRegistrarse"
 				class="btn btn-lg btn-primary btn-block" type="submit">REGISTRARSE</button>
 		</form:form>
-
-
 
 
 	</div>
@@ -320,10 +352,7 @@ body {
 
 	<script>
 		$(document).ready(function() {
-		
-	
 
-			
 			//cuando le damos a la flecha hacia abajo
 			$("#flechaAbajo").click(function() {
 
@@ -355,20 +384,26 @@ body {
 				//oculta el formulario de login
 				$("#formularioLogin").removeAttr("hidden");
 			});
-			
-			//cuando se envia el formulario de registrarse
-			
-			  //si existe el mensaje de éxito, quitar el atributo hidden
-        if ($("#mensajeExitoRegistro").length) {
-        	
-            $("#mensajeRegistrase").attr("hidden", true);
-            $("#formularioLogin").attr("hidden", true);
-            $("#mensajeExitoRegistro").removeAttr("hidden");
-        }
-			
-			
-	
-			
+
+			if ($("#mensajeErrorRegistro").lenght) {
+
+				console.log("TENGO ERRORES")
+
+				$("#formularioLogin").attr("hidden", true);
+				$("#mensajeRegistrase").attr("hidden", true);
+				$("#mensajeRegistrase").attr("hidden", false);
+
+			}
+
+			//si existe el mensaje de éxito, quitar el atributo hidden
+
+			if ($("#mensajeExitoRegistro").length) {
+
+				$("#mensajeRegistrase").attr("hidden", true);
+				$("#formularioLogin").attr("hidden", true);
+				$("#mensajeExitoRegistro").removeAttr("hidden");
+			}
+
 			
 
 		});
