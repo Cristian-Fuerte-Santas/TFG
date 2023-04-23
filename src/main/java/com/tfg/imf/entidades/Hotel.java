@@ -13,20 +13,24 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "hotel")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idHotel")
 public class Hotel {
-	
-	
-	//1. CREO ATRIBUTOS
-	
+
+	// 1. CREO ATRIBUTOS
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer idHotel;	
+	private Integer idHotel;
 	private String nombreHotel;
-	private int categoriaHotel;	
+	private int categoriaHotel;
 	private boolean piscinaHotel;
 	private boolean gimnasioHotel;
 	private boolean terrazaHotel;
@@ -34,20 +38,17 @@ public class Hotel {
 	private int aforoHotel;
 	private String direccionHotel;
 	private float precioHotel;
-	
-	
-	
+
 	@OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
-    private List<ImagenesHotel> listadoImagenesHotel = new ArrayList<>();
-	
-	
-	//2. CREO RELACIONES
+	private Set<ImagenesHotel> listadoImagenesHotel = new HashSet<>();
+
+	// 2. CREO RELACIONES
 	@ManyToOne
-    @JoinColumn(name = "id_destino")
-    private Destino destino;
-	
+	@JoinColumn(name = "id_destino")
+	private Destino destino;
+
 	@OneToMany(mappedBy = "hotel")
-    private List<SalaHotel> salasHotel = new ArrayList<>();
+	private List<SalaHotel> salasHotel = new ArrayList<>();
 
 	public Hotel() {
 		super();
@@ -134,6 +135,14 @@ public class Hotel {
 		this.precioHotel = precioHotel;
 	}
 
+	public Set<ImagenesHotel> getListadoImagenesHotel() {
+		return listadoImagenesHotel;
+	}
+
+	public void setListadoImagenesHotel(Set<ImagenesHotel> listadoImagenesHotel) {
+		this.listadoImagenesHotel = listadoImagenesHotel;
+	}
+
 	public Destino getDestino() {
 		return destino;
 	}
@@ -150,24 +159,13 @@ public class Hotel {
 		this.salasHotel = salasHotel;
 	}
 
-	public List<ImagenesHotel> getListadoImagenesHotel() {
-		return listadoImagenesHotel;
-	}
-
-	public void setListadoImagenesHotel(List<ImagenesHotel> listadoImagenesHotel) {
-		this.listadoImagenesHotel = listadoImagenesHotel;
-	}
-
 	@Override
 	public String toString() {
 		return "Hotel [idHotel=" + idHotel + ", nombreHotel=" + nombreHotel + ", categoriaHotel=" + categoriaHotel
 				+ ", piscinaHotel=" + piscinaHotel + ", gimnasioHotel=" + gimnasioHotel + ", terrazaHotel="
 				+ terrazaHotel + ", spaHotel=" + spaHotel + ", aforoHotel=" + aforoHotel + ", direccionHotel="
-				+ direccionHotel + ", precioHotel=" + precioHotel + ", listadoImagenesHotel=" + listadoImagenesHotel
-				+ ", destino=" + destino + ", salasHotel=" + salasHotel + "]";
+				+ direccionHotel + ", precioHotel=" + precioHotel + ", destino=" + destino + ", salasHotel="
+				+ salasHotel + "]";
 	}
-	
-	
-
 
 }

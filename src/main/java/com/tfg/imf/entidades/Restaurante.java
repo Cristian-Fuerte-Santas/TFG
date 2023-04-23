@@ -1,8 +1,11 @@
 package com.tfg.imf.entidades;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,32 +16,40 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "restaurante")
+@JsonIdentityInfo(
+		  generator = ObjectIdGenerators.PropertyGenerator.class, 
+		  property = "idRestaurante")
 public class Restaurante {
-	
-	//1. CREO ATRIBUTOS
-	
+
+	// 1. CREO ATRIBUTOS
+
 	@Id
-	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idRestaurante;
-	
+
 	private String nombreRestaurante;
 	private String tipoRestaurante;
 	private int categoriaRestaurante;
 	private int aforoRestaurante;
 	private String direccionRestaurante;
-	
-	//2. CREO RELACIONES
+
+	@OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL)
+	private Set<ImagenesRestaurante> listadoImagenesRestaurante = new HashSet<>();
+
+	// 2. CREO RELACIONES
 	@ManyToOne
-    @JoinColumn(name = "id_destino")
-    private Destino destino;
-	
+	@JoinColumn(name = "id_destino")
+	private Destino destino;
+
 	@OneToMany(mappedBy = "restaurante")
-    private List<MenuRestaurante> menusRestaurante = new ArrayList<>();	
-	
-	//Relacion ManyToMany: https://www.youtube.com/watch?v=T_cWyhhy0yw
+	private List<MenuRestaurante> menusRestaurante = new ArrayList<>();
+
+	// Relacion ManyToMany: https://www.youtube.com/watch?v=T_cWyhhy0yw
 	@ManyToMany(mappedBy = "restaurantesGuardados")
 	private List<Usuario> usuariosGuardados = new ArrayList<>();
 
@@ -95,6 +106,14 @@ public class Restaurante {
 		this.direccionRestaurante = direccionRestaurante;
 	}
 
+	public Set<ImagenesRestaurante> getListadoImagenesRestaurante() {
+		return listadoImagenesRestaurante;
+	}
+
+	public void setListadoImagenesRestaurante(Set<ImagenesRestaurante> listadoImagenesRestaurante) {
+		this.listadoImagenesRestaurante = listadoImagenesRestaurante;
+	}
+
 	public Destino getDestino() {
 		return destino;
 	}
@@ -118,7 +137,11 @@ public class Restaurante {
 	public void setUsuariosGuardados(List<Usuario> usuariosGuardados) {
 		this.usuariosGuardados = usuariosGuardados;
 	}
+	
+	
 
+
+/*
 	@Override
 	public String toString() {
 		return "Restaurante [idRestaurante=" + idRestaurante + ", nombreRestaurante=" + nombreRestaurante
@@ -127,9 +150,6 @@ public class Restaurante {
 				+ ", destino=" + destino + ", menusRestaurante=" + menusRestaurante + ", usuariosGuardados="
 				+ usuariosGuardados + "]";
 	}
-	
-	
-	
-	
+	*/
 
 }

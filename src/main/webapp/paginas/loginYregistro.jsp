@@ -202,8 +202,8 @@ body {
 
 				Sesión</button>
 
-			<a href="contraseniaOlvidada"> <span>He olvidado
-					lacontraseña</span>
+			<a href="contraseniaOlvidada"> 
+			<span>He olvidado lacontraseña</span>
 			</a>
 
 

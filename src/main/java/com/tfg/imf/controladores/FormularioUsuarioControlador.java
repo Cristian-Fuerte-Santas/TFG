@@ -91,6 +91,17 @@ public class FormularioUsuarioControlador {
 		return mav;
 	}
 	
+	@GetMapping("/busquedaPersonalizada")
+	public ModelAndView verBusquedaPersonalizada() {
+
+		System.out.println("FormularioUsuarioControlador.verBusquedaPersonalizada");
+
+		// como el header de php, redirige a donde queramos
+		ModelAndView mav = new ModelAndView("busquedaPersonalizada");
+
+		return mav;
+	}
+	
 	/*
 	
 	@GetMapping("/insertarOfertasAdmin")

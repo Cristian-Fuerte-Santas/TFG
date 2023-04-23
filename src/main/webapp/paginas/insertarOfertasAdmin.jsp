@@ -147,8 +147,29 @@ body {
 	</div>
 
 
-	<h2>INSERTAR HOTEL ADMIN</h2>
-	<div id="insertarHotelAdmin" class="container-fluid w-100">
+	<!--  SUBMENU DE INSERTAR -->
+
+	<div id="subMenuInsertarOfertas">
+		<div class="row justify-content-around w-100 mt-5">
+			<button id="botonSubMenuInsertarHotel" class="btn btn-primary">Insertar
+				Hotel</button>
+			<button id="botonSubMenuInsertarRestaurante" class="btn btn-primary">Insertar
+				Restaurante</button>
+			<button id="botonSubMenuInsertarActividad" class="btn btn-primary">Insertar
+				Actividad</button>
+			<button id="botonSubMenuInsertarSalaHotel" class="btn btn-primary">Insertar
+				Sala Hotel</button>
+		</div>
+	</div>
+
+
+
+
+
+
+
+
+	<div id="insertarHotelAdmin" class="container-fluid w-100 d-none">
 
 
 		<div class="row mt-5">
@@ -159,6 +180,9 @@ body {
 					align="center" modelAttribute="hotel" method="POST"
 					action="insertarHotel" enctype="multipart/form-data">
 
+
+
+
 					<h2 align="center">INSERTAR HOTEL</h2>
 
 					<form:hidden path="idHotel" id="idHotel"></form:hidden>
@@ -166,6 +190,17 @@ body {
 					<label for="inputNombreHotel">Nombre del Hotel</label>
 					<form:input path="nombreHotel" type="text" id="inputNombreHotel"
 						class="form-control" placeholder="Hotel Example" required="true"></form:input>
+
+					<label for="inputDestino">Destino del Hotel</label>
+					<form:select path="destino.idDestino" id="inputDestino"
+						class="form-control" required="true">
+						<form:option value="" label="Selecciona un destino"
+							disabled="true" />
+						<form:options items="${destinos}" itemValue="idDestino"
+							itemLabel="ciudad" />
+					</form:select>
+
+
 
 					<label for="inputCategoriaHotel">Categoría del Hotel</label>
 					<form:input path="categoriaHotel" type="number"
@@ -187,8 +222,9 @@ body {
 						required="true"></form:input>
 
 
-				<label for="inputImagenesHotel">Imágenes del Hotel</label>
-				<input type="file" name="multipartFiles" id="inputImagenesHotel" class="form-control" multiple="true" />
+					<label for="inputImagenesHotel">Imágenes del Hotel</label>
+					<input type="file" name="multipartFiles" id="inputImagenesHotel"
+						class="form-control" multiple="true" />
 
 
 					<div class="form-check">
@@ -196,6 +232,7 @@ body {
 								path="piscinaHotel" class="form-check-input" /> Piscina
 						</label>
 					</div>
+					
 
 					<div class="form-check">
 						<label class="form-check-label"> <form:checkbox
@@ -220,12 +257,156 @@ body {
 				</form:form>
 
 
+			</div>
+		</div>
+	</div>
 
 
+
+
+
+
+
+
+
+	<div id="insertarRestauranteAdmin" class="container-fluid w-100 d-none">
+		<div class="row mt-5">
+			<div class="col-sm-12 offset-sm-0 col-md-8 offset-md-2">
+
+
+				<form:form id="formularioInsertarRestaurante"
+					class="form-signin mt-5" align="center"
+					modelAttribute="restaurante" method="POST"
+					action="insertarRestaurante" enctype="multipart/form-data">
+
+
+
+
+					<h2 align="center">INSERTAR RESTAURANTE</h2>
+
+					<form:hidden path="idRestaurante" id="idRestaurante"></form:hidden>
+
+					<label for="inputNombreRestaurante">Nombre del Restaurante</label>
+					<form:input path="nombreRestaurante" type="text"
+						id="inputNombreRestaurante" class="form-control"
+						placeholder="Restaurante Example" required="true"></form:input>
+
+					<label for="inputDestino">Destino del Restaurante</label>
+					<form:select path="destino.idDestino" id="inputDestino"
+						class="form-control" required="true">
+						<form:option value="" label="Selecciona un destino"
+							disabled="true" />
+						<form:options items="${destinos}" itemValue="idDestino"
+							itemLabel="ciudad" />
+					</form:select>
+
+
+					<label for="inputTipoRestaurante">Tipo de Restaurante</label>
+					<form:input path="tipoRestaurante" type="text"
+						id="inputTipoRestaurante" class="form-control"
+						placeholder="Italiano" required="true"></form:input>
+
+					<label for="inputCategoriaRestaurante">Categoría del
+						Restaurante</label>
+					<form:input path="categoriaRestaurante" type="number"
+						id="inputCategoriaRestaurante" class="form-control"
+						placeholder="4" required="true"></form:input>
+
+					<label for="inputAforoRestaurante">Aforo del Restaurante</label>
+					<form:input path="aforoRestaurante" type="number"
+						id="inputAforoRestaurante" class="form-control" placeholder="200"
+						required="true"></form:input>
+
+					<label for="inputDireccionRestaurante">Dirección del
+						Restaurante</label>
+					<form:input path="direccionRestaurante" type="text"
+						id="inputDireccionRestaurante" class="form-control"
+						placeholder="Calle Ejemplo 123" required="true"></form:input>
+
+
+
+					<label for="inputImagenesRestaurante">Imágenes del Hotel</label>
+					<input type="file" name="multipartFiles"
+						id="inputImagenesRestaurante" class="form-control" multiple="true" />
+
+
+					<button class="btn btn-lg btn-primary btn-block mt-2" type="submit">INSERTAR
+						NUEVO RESTAURANTE</button>
+
+				</form:form>
 
 			</div>
 		</div>
 	</div>
+
+
+
+
+
+
+
+
+	<div id="insertarSalaHotelAdmin" class="container-fluid w-100 d-none">
+		<form:form id="formularioInsertarSalaHotel" class="form-signin mt-5"
+			align="center" modelAttribute="salaHotel" method="POST"
+			action="insertarSalaHotel" enctype="multipart/form-data">
+
+			<h2 align="center">INSERTAR SALA DE HOTEL</h2>
+
+			<form:hidden path="idSalaHotel" id="idSalaHotel"></form:hidden>
+
+			<label for="inputNombreSala">Nombre de la Sala</label>
+			<form:input path="nombreSala" type="text" id="inputNombreSala"
+				class="form-control" placeholder="Sala Ejemplo" required="true"></form:input>
+
+			<label for="inputHotel">Hotel al que pertenece la Sala</label>
+			<form:select path="hotel.idHotel" id="inputHotel"
+				class="form-control" required="true">
+				<form:option value="" label="Selecciona un hotel" disabled="true" />
+				<form:options items="${hoteles}" itemValue="idHotel"
+					itemLabel="nombreHotel" />
+			</form:select>
+
+			<label for="inputAforoSala">Aforo de la Sala</label>
+			<form:input path="aforoSala" type="number" id="inputAforoSala"
+				class="form-control" placeholder="100" required="true"></form:input>
+
+			<label for="inputMetrosSala">Metros de la Sala</label>
+			<form:input path="metrosSala" type="text" id="inputMetrosSala"
+				class="form-control" placeholder="50 m²" required="true"></form:input>
+
+			<label for="inputEquipoSonidoSala">Equipo de Sonido</label>
+			<form:checkbox path="equipoSonidoSala" id="inputEquipoSonidoSala"
+				class="form-control"></form:checkbox>
+
+			<label for="inputProyectorSala">Proyector</label>
+			<form:checkbox path="proyectorSala" id="inputProyectorSala"
+				class="form-control"></form:checkbox>
+
+			<label for="inputPrecioSala">Precio de la Sala</label>
+			<form:input path="precioSala" type="number" id="inputPrecioSala"
+				class="form-control" placeholder="150" step="0.01" required="true"></form:input>
+
+
+
+			<label for="inputImagenesSalaHotel">Imágenes de la Sala</label>
+			<input type="file" name="multipartFiles" id="inputImagenesSalaHotel"
+				class="form-control" multiple="true" />
+
+			<button class="btn btn-lg btn-primary btn-block mt-2" type="submit">INSERTAR
+				SALA DE HOTEL</button>
+
+		</form:form>
+
+	</div>
+
+
+
+	<div id="insertarActividadAdmin" class="container-fluid w-100 d-none">
+		<!-- Aquí va el formulario de inserción de actividades -->
+	</div>
+
+
 
 
 
@@ -237,7 +418,61 @@ body {
 		</div>
 	</footer>
 
+	<script>
+		$(document).ready(
+				function() {
 
+					function mostrarDiv(element) {
+
+						$(element).removeClass("d-none");
+
+					}
+
+					function esconderDivs(elements) {
+
+						elements.forEach(function(element) {
+
+							$(element).addClass("d-none");
+
+						});
+					}
+
+					$("#botonSubMenuInsertarHotel").click(
+							function() {
+
+								esconderDivs([ "#insertarRestauranteAdmin",
+										"#insertarActividadAdmin",
+										"#insertarSalaHotelAdmin" ]);
+								mostrarDiv("#insertarHotelAdmin");
+
+							});
+
+					$("#botonSubMenuInsertarRestaurante").click(
+							function() {
+								esconderDivs([ "#insertarHotelAdmin",
+										"#insertarActividadAdmin",
+										"#insertarSalaHotelAdmin" ]);
+								mostrarDiv("#insertarRestauranteAdmin");
+							});
+
+					$("#botonSubMenuInsertarActividad").click(
+							function() {
+								esconderDivs([ "#insertarHotelAdmin",
+										"#insertarRestauranteAdmin",
+										"#insertarSalaHotelAdmin" ]);
+								mostrarDiv("#insertarActividadAdmin");
+							});
+
+					$("#botonSubMenuInsertarSalaHotel").click(
+							function() {
+								esconderDivs([ "#insertarHotelAdmin",
+										"#insertarRestauranteAdmin",
+										"#insertarActividadAdmin" ]);
+								mostrarDiv("#insertarSalaHotelAdmin");
+							});
+
+				});
+	</script>
 
 
 </body>
