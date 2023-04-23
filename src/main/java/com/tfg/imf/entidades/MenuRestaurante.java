@@ -1,15 +1,25 @@
 package com.tfg.imf.entidades;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
-@Table(name = "menuHotel")
+@Table(name = "menu_restaurante")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idMenuRestaurante")
 public class MenuRestaurante {
 
 	// 1. CREO ATRIBUTOS
@@ -25,7 +35,11 @@ public class MenuRestaurante {
 	// 2. CREO RELACIONES
 	@ManyToOne
 	@JoinColumn(name = "id_restaurante")
+	@JsonIdentityReference(alwaysAsId = true)
 	private Restaurante restaurante;
+
+	@OneToMany(mappedBy = "menuRestaurante", cascade = CascadeType.ALL)
+	private Set<ImagenesMenuRestaurante> listadoImagenesMenuRestaurante = new HashSet<>();
 
 	public MenuRestaurante() {
 		super();
@@ -78,6 +92,14 @@ public class MenuRestaurante {
 
 	public void setRestaurante(Restaurante restaurante) {
 		this.restaurante = restaurante;
+	}
+
+	public Set<ImagenesMenuRestaurante> getListadoImagenesMenuRestaurante() {
+		return listadoImagenesMenuRestaurante;
+	}
+
+	public void setListadoImagenesMenuRestaurante(Set<ImagenesMenuRestaurante> listadoImagenesMenuRestaurante) {
+		this.listadoImagenesMenuRestaurante = listadoImagenesMenuRestaurante;
 	}
 
 	@Override

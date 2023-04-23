@@ -20,45 +20,39 @@ public class GestorRestaurante {
 
 	@Autowired
 	private IRepositorioRestaurante repositorioRestaurante;
-	
-	
-	
+
 	@Autowired
 	private IRepositorioImagenesRestaurante repositorioImagenesRestaurante;
-	
-	
+
 	private final String directorioImagenesRestaurantes = "src/main/resources/static/imagenes/imagenesRestaurantes/";
 
 	public GestorRestaurante() {
 		super();
 		System.out.println("Creando instancia de GestorRestaurante");
 	}
-	
-	
-	@Transactional(propagation=Propagation.REQUIRED) //@Transactional: para cuando queramos modificar la BD 	
+
+	@Transactional(propagation = Propagation.REQUIRED) // @Transactional: para cuando queramos modificar la BD
 	public void insertar(Restaurante restaurante) {
 		repositorioRestaurante.save(restaurante);
 		repositorioRestaurante.flush();
-		
+
 		// Mostrar un mensaje de éxito
 		System.out.println("El registro se ha realizado correctamente");
 
 	}
-	
+
 	@Transactional
 	public void modificar(Restaurante restaurante) {
-		//para modificar tambien es save
+		// para modificar tambien es save
 		repositorioRestaurante.save(restaurante);
 	}
-	
+
 	@Transactional
 	public void borrar(Restaurante restaurante) {
-		//para modificar tambien es save
+		// para modificar tambien es save
 		repositorioRestaurante.delete(restaurante);
 	}
-	
-	
-	
+
 	@Transactional
 	public String guardarImagenRestaurante(MultipartFile file) throws IOException {
 
@@ -78,6 +72,5 @@ public class GestorRestaurante {
 		// Devolver la URL donde se guarda la imagen
 		return "/imagenes/imagenesRestaurantes/" + file.getOriginalFilename();
 	}
-	
-	
+
 }

@@ -131,7 +131,7 @@ body {
 						class="nav-link" href="borrarOfertasAdmin">Borrar Ofertas</a></li>
 						
 					<li id="menuAdminInsertarDestino" class="nav-item"><a
-						class="nav-link" href="insertarDestinoAdmin">Insertar Destino</a></li>
+						class="nav-link" href="insertarDestinoAdmin">Gestionar Destinos</a></li>
 
 
 				</ul>

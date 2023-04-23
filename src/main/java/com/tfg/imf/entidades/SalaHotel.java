@@ -13,17 +13,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-
-
 @Entity
 @Table(name = "salaHotel")
-@JsonIdentityInfo(
-		  generator = ObjectIdGenerators.PropertyGenerator.class,
-		  property = "idSalaHotel")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idSalaHotel")
 public class SalaHotel {
 
 	@Id
@@ -40,11 +35,8 @@ public class SalaHotel {
 	@JoinColumn(name = "id_hotel")
 	private Hotel hotel;
 
-	
-	
 	@OneToMany(mappedBy = "salaHotel", cascade = CascadeType.ALL)
 	private Set<ImagenesSalaHotel> listadoImagenesSalaHotel = new HashSet<>();
-
 
 	public SalaHotel() {
 		super();
@@ -124,11 +116,10 @@ public class SalaHotel {
 	}
 
 	/*
-	@Override
-	public String toString() {
-		return "SalaHotel [idSalaHotel=" + idSalaHotel + ", nombreSala=" + nombreSala + ", aforoSala=" + aforoSala
-				+ ", metrosSala=" + metrosSala + ", equipoSonidoSala=" + equipoSonidoSala + ", proyectorSala="
-				+ proyectorSala + ", precioSala=" + precioSala + ", hotel=" + hotel + "]";
-	}
-*/
+	 * @Override public String toString() { return "SalaHotel [idSalaHotel=" +
+	 * idSalaHotel + ", nombreSala=" + nombreSala + ", aforoSala=" + aforoSala +
+	 * ", metrosSala=" + metrosSala + ", equipoSonidoSala=" + equipoSonidoSala +
+	 * ", proyectorSala=" + proyectorSala + ", precioSala=" + precioSala +
+	 * ", hotel=" + hotel + "]"; }
+	 */
 }

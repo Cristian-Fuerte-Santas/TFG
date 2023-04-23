@@ -42,6 +42,9 @@ public class FormularioHotelControlador {
 	@Autowired
 	IRepositorioDestino repositorioDestino;
 
+	@Autowired
+	IRepositorioRestaurante repositorioRestaurante;
+
 	// private List<MultipartFile> multipartFiles = new ArrayList<>();
 
 	// ESTE METODO CONTROLA TODOS LOS MAPEOS DE ESTA VISTA
@@ -56,6 +59,12 @@ public class FormularioHotelControlador {
 		Restaurante restaurante = new Restaurante();
 		mav.addObject("restaurante", restaurante);
 
+		List<Restaurante> restaurantes = repositorioRestaurante.verTodosLosRestaurantes();
+		mav.addObject("restaurantes", restaurantes);
+
+		MenuRestaurante menuRestaurante = new MenuRestaurante();
+		mav.addObject("menuRestaurante", menuRestaurante);
+
 		Actividad actividad = new Actividad();
 		mav.addObject("actividad", actividad);
 
@@ -68,9 +77,9 @@ public class FormularioHotelControlador {
 
 		Transporte transporte = new Transporte();
 		mav.addObject("transporte", transporte);
-		
-		 List<Hotel> hoteles = obtenerHoteles();
-		    mav.addObject("hoteles", hoteles);
+
+		List<Hotel> hoteles = obtenerHoteles();
+		mav.addObject("hoteles", hoteles);
 
 		return mav;
 	}
@@ -125,7 +134,7 @@ public class FormularioHotelControlador {
 						imagen.setHotel(nuevoHotel);
 						imagenes.add(imagen);
 					} catch (IOException e) {
-						// Manejar excepción al guardar la imagen
+						System.out.println("Error al guardar la imgen en FormularioHotelControlador");
 					}
 				}
 			}
@@ -139,10 +148,13 @@ public class FormularioHotelControlador {
 			ModelAndView mav = new ModelAndView("insertarOfertasAdmin");
 			mav.addObject("exitoRegistro", true);
 
+			Destino destinoParaLaVista = new Destino();
+			mav.addObject("destino", destinoParaLaVista);
+
 			// Agregar objetos necesarios para el formulario, incluso si no se están
 			// utilizando en esta solicitud
 			Restaurante restaurante = new Restaurante();
-			mav.addObject("hotel", restaurante);
+			mav.addObject("restaurante", restaurante);
 
 			Actividad actividad = new Actividad();
 			mav.addObject("actividad", actividad);
@@ -155,6 +167,9 @@ public class FormularioHotelControlador {
 
 			SalaHotel salaHotel = new SalaHotel();
 			mav.addObject("salaHotel", salaHotel);
+
+			MenuRestaurante menuRestaurante = new MenuRestaurante();
+			mav.addObject("menuRestaurante", menuRestaurante);
 
 			return mav;
 
@@ -167,7 +182,10 @@ public class FormularioHotelControlador {
 			// Agregar objetos necesarios para el formulario, incluso si no se están
 			// utilizando en esta solicitud
 			Restaurante restaurante = new Restaurante();
-			mav.addObject("hotel", restaurante);
+			mav.addObject("restaurante", restaurante);
+
+			Destino destinoParaLaVista = new Destino();
+			mav.addObject("destino", destinoParaLaVista);
 
 			Actividad actividad = new Actividad();
 			mav.addObject("actividad", actividad);
@@ -180,6 +198,9 @@ public class FormularioHotelControlador {
 
 			SalaHotel salaHotel = new SalaHotel();
 			mav.addObject("salaHotel", salaHotel);
+
+			MenuRestaurante menuRestaurante = new MenuRestaurante();
+			mav.addObject("menuRestaurante", menuRestaurante);
 
 			return mav;
 		}

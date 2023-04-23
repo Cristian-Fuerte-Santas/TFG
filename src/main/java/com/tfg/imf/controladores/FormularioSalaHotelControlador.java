@@ -126,6 +126,9 @@ public class FormularioSalaHotelControlador {
 
 	        Transporte transporte = new Transporte();
 	        mav.addObject("transporte", transporte);
+	        
+	        MenuRestaurante menuRestaurante = new MenuRestaurante();
+	        mav.addObject("menuRestaurante", menuRestaurante);
 
 	      
 
@@ -153,6 +156,9 @@ public class FormularioSalaHotelControlador {
 
 	        Transporte transporte = new Transporte();
 	        mav.addObject("transporte", transporte);
+	        
+	        MenuRestaurante menuRestaurante = new MenuRestaurante();
+	        mav.addObject("menuRestaurante", menuRestaurante);
 	        
 	        return mav;
 	        

@@ -14,7 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.tfg.imf.entidades.*;
 
-
 import com.tfg.imf.modelo.GestorRestaurante;
 
 import com.tfg.imf.persistencia.IRepositorioDestino;
@@ -30,12 +29,13 @@ public class FormularioRestauranteControlador {
 
 	@Autowired
 	private GestorRestaurante gestorRestaurante;
-	
+
 	@Autowired
 	private IRepositorioRestaurante repositorioRestaurante;
-	
-	@Autowired IRepositorioImagenesRestaurante repositorioImagenesRestaurante;
-	
+
+	@Autowired
+	IRepositorioImagenesRestaurante repositorioImagenesRestaurante;
+
 	@Autowired
 	private IRepositorioDestino repositorioDestino;
 
@@ -43,131 +43,122 @@ public class FormularioRestauranteControlador {
 		super();
 		System.out.println("Creando una instancia de FormularioRestauranteControlador");
 	}
-	
 
 	@PostMapping("/insertarRestaurante")
 	public ModelAndView insertarRestaurante(@ModelAttribute Restaurante restaurante,
-	        @RequestParam("multipartFiles") List<MultipartFile> files) {
+			@RequestParam("multipartFiles") List<MultipartFile> files) {
 
-	    System.out.println("FormularioRestauranteControlador.insertarRestaurante: " + restaurante);
+		System.out.println("FormularioRestauranteControlador.insertarRestaurante: " + restaurante);
 
-	    try {
-	        // Crear una instancia de Restaurante
-	        Restaurante nuevoRestaurante = new Restaurante();
+		try {
+			// Crear una instancia de Restaurante
+			Restaurante nuevoRestaurante = new Restaurante();
 
-	        // Buscar el objeto Destino usando el destinoId y asignarlo al Restaurante
-	        Destino destino = repositorioDestino.findById(restaurante.getDestino().getIdDestino()).orElse(null);
-	        if (destino != null) {
-	            restaurante.setDestino(destino);
-	        } else {
-	            System.out.println("No hay ese destino");
-	        }
+			// Buscar el objeto Destino usando el destinoId y asignarlo al Restaurante
+			Destino destino = repositorioDestino.findById(restaurante.getDestino().getIdDestino()).orElse(null);
+			if (destino != null) {
+				restaurante.setDestino(destino);
+			} else {
+				System.out.println("No hay ese destino");
+			}
 
-	        // Establecer los atributos del Restaurante
-	        nuevoRestaurante.setNombreRestaurante(restaurante.getNombreRestaurante());
-	        nuevoRestaurante.setTipoRestaurante(restaurante.getTipoRestaurante());
-	        nuevoRestaurante.setDestino(restaurante.getDestino());
-	        nuevoRestaurante.setCategoriaRestaurante(restaurante.getCategoriaRestaurante());
-	        nuevoRestaurante.setAforoRestaurante(restaurante.getAforoRestaurante());
-	        nuevoRestaurante.setDireccionRestaurante(restaurante.getDireccionRestaurante());
-	        
-	        
-	        
-	        // Guardar imágenes en el sistema de archivos y asociarlas al restaurante
-	        Set<ImagenesRestaurante> imagenes = new HashSet<>();
+			// Establecer los atributos del Restaurante
+			nuevoRestaurante.setNombreRestaurante(restaurante.getNombreRestaurante());
+			nuevoRestaurante.setTipoRestaurante(restaurante.getTipoRestaurante());
+			nuevoRestaurante.setDestino(restaurante.getDestino());
+			nuevoRestaurante.setCategoriaRestaurante(restaurante.getCategoriaRestaurante());
+			nuevoRestaurante.setAforoRestaurante(restaurante.getAforoRestaurante());
+			nuevoRestaurante.setDireccionRestaurante(restaurante.getDireccionRestaurante());
 
-	        for (MultipartFile file : files) {
-	            if (!file.isEmpty()) {
+			// Guardar imágenes en el sistema de archivos y asociarlas al restaurante
+			Set<ImagenesRestaurante> imagenes = new HashSet<>();
 
-	                try {
-	                    // Aquí guardarías la imagen en el sistema de archivos y obtendrías la URL donde
-	                    // se guarda
-	                    String imageUrl = gestorRestaurante.guardarImagenRestaurante(file);
+			for (MultipartFile file : files) {
+				if (!file.isEmpty()) {
 
-	                    ImagenesRestaurante imagen = new ImagenesRestaurante();
-	                    imagen.setUrlImagenRestaurante(imageUrl);
-	                    imagen.setRestaurante(nuevoRestaurante);
-	                    imagenes.add(imagen);
-	                } catch (IOException e) {
-	                    // Manejar excepción al guardar la imagen
-	                }
-	            }
-	        }
+					try {
+						// Aquí guardarías la imagen en el sistema de archivos y obtendrías la URL donde
+						// se guarda
+						String imageUrl = gestorRestaurante.guardarImagenRestaurante(file);
 
-	        // Asociar las imágenes al restaurante
-	        nuevoRestaurante.setListadoImagenesRestaurante(imagenes);
+						ImagenesRestaurante imagen = new ImagenesRestaurante();
+						imagen.setUrlImagenRestaurante(imageUrl);
+						imagen.setRestaurante(nuevoRestaurante);
+						imagenes.add(imagen);
+					} catch (IOException e) {
+						// Manejar excepción al guardar la imagen
+					}
+				}
+			}
 
-	        // Llamar al método save del GestorRestaurante
-	        gestorRestaurante.insertar(nuevoRestaurante);
+			// Asociar las imágenes al restaurante
+			nuevoRestaurante.setListadoImagenesRestaurante(imagenes);
 
-	        ModelAndView mav = new ModelAndView("insertarOfertasAdmin");
-	        mav.addObject("exitoRegistro", true);
-	        
-	        
-	        
-	        // Agregar objetos necesarios para el formulario, incluso si no se están utilizando en esta solicitud
-	        Hotel hotel = new Hotel();
-	        mav.addObject("hotel", hotel);
+			// Llamar al método save del GestorRestaurante
+			gestorRestaurante.insertar(nuevoRestaurante);
 
-	        Actividad actividad = new Actividad();
-	        mav.addObject("actividad", actividad);
+			ModelAndView mav = new ModelAndView("insertarOfertasAdmin");
+			mav.addObject("exitoRegistro", true);
 
-	        List<Destino> destinos = repositorioDestino.verTodosLosDestinos();
-	        mav.addObject("destinos", destinos);
-	        
-	        
-	        
-	        Transporte transporte = new Transporte();
-	        mav.addObject("transporte", transporte);
-	        
-	        SalaHotel salaHotel = new SalaHotel();
-	        mav.addObject("salaHotel",salaHotel);
-	        
-	        
-	        
-	        
-	        
-	        
-	        
-	        return mav;
+			// Agregar objetos necesarios para el formulario, incluso si no se están
+			// utilizando en esta solicitud
+			Hotel hotel = new Hotel();
+			mav.addObject("hotel", hotel);
 
-	    } catch (Exception e) {
-	        // Si algo falla, que muestre el error
-	        ModelAndView mav = new ModelAndView("error");
-	        mav.addObject("mensaje", "Error al insertar el restaurante en la base de datos");
-	        mav.addObject("excepcion", e);
-	        
-	        
-	        
-	        
-	        
-	        // Agregar objetos necesarios para el formulario, incluso si no se están utilizando en esta solicitud
-	        Hotel hotel = new Hotel();
-	        mav.addObject("hotel", hotel);
+			Actividad actividad = new Actividad();
+			mav.addObject("actividad", actividad);
 
-	        Actividad actividad = new Actividad();
-	        mav.addObject("actividad", actividad);
+			List<Destino> destinos = repositorioDestino.verTodosLosDestinos();
+			mav.addObject("destinos", destinos);
 
-	        List<Destino> destinos = repositorioDestino.verTodosLosDestinos();
-	        mav.addObject("destinos", destinos);
-	        
-	        Transporte transporte = new Transporte();
-	        mav.addObject("transporte", transporte);
-	        
-	        SalaHotel salaHotel = new SalaHotel();
-	        mav.addObject("salaHotel",salaHotel);
-	        
-	        
-	        
-	        
-	        
-	        
-	        return mav;
-	    }
+			Restaurante restauranteParaVista = new Restaurante();
+			mav.addObject("restauranteParaVista", restauranteParaVista);
+
+			Transporte transporte = new Transporte();
+			mav.addObject("transporte", transporte);
+
+			SalaHotel salaHotel = new SalaHotel();
+			mav.addObject("salaHotel", salaHotel);
+
+			MenuRestaurante menuRestaurante = new MenuRestaurante();
+			mav.addObject("menuRestaurante", menuRestaurante);
+
+			return mav;
+
+		} catch (Exception e) {
+			// Si algo falla, que muestre el error
+			ModelAndView mav = new ModelAndView("error");
+			mav.addObject("mensaje", "Error al insertar el restaurante en la base de datos");
+			mav.addObject("excepcion", e);
+
+			// Agregar objetos necesarios para el formulario, incluso si no se están
+			// utilizando en esta solicitud
+			Hotel hotel = new Hotel();
+			mav.addObject("hotel", hotel);
+
+			Actividad actividad = new Actividad();
+			mav.addObject("actividad", actividad);
+
+			List<Destino> destinos = repositorioDestino.verTodosLosDestinos();
+			mav.addObject("destinos", destinos);
+
+			Transporte transporte = new Transporte();
+			mav.addObject("transporte", transporte);
+
+			SalaHotel salaHotel = new SalaHotel();
+			mav.addObject("salaHotel", salaHotel);
+
+			MenuRestaurante menuRestaurante = new MenuRestaurante();
+			mav.addObject("menuRestaurante", menuRestaurante);
+
+			Restaurante restauranteParaVista = new Restaurante();
+			mav.addObject("restauranteParaVista", restauranteParaVista);
+
+			return mav;
+		}
 	}
 
-	
-	//PARA MOSTRAR LOS RESTAURANTES
+	// PARA MOSTRAR LOS RESTAURANTES
 	@GetMapping("/obtenerRestaurantes")
 	@ResponseBody
 	public List<Restaurante> obtenerRestaurantes() {
@@ -175,7 +166,5 @@ public class FormularioRestauranteControlador {
 		System.out.println("Restaurantes devueltos: " + restaurantes);
 		return restaurantes;
 	}
-	
-	
-	
+
 }

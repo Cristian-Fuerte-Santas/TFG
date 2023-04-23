@@ -2,10 +2,10 @@ package com.tfg.imf.persistencia;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.tfg.imf.entidades.ImagenesSalaHotel;
 
-import com.tfg.imf.entidades.SalaHotel;
 
-public interface IRepositorioImagenesSalaHotel extends JpaRepository<SalaHotel, Integer>  {
+public interface IRepositorioImagenesSalaHotel extends JpaRepository<ImagenesSalaHotel, Integer>  {
 
 }
 

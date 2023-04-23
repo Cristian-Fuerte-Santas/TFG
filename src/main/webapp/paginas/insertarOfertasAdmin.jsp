@@ -155,8 +155,8 @@ body {
 				Hotel</button>
 			<button id="botonSubMenuInsertarRestaurante" class="btn btn-primary">Insertar
 				Restaurante</button>
-			<button id="botonSubMenuInsertarActividad" class="btn btn-primary">Insertar
-				Actividad</button>
+			<button id="botonSubMenuInsertarMenuRestaurante"
+				class="btn btn-primary">Insertar Menu Restaurante</button>
 			<button id="botonSubMenuInsertarSalaHotel" class="btn btn-primary">Insertar
 				Sala Hotel</button>
 		</div>
@@ -165,27 +165,18 @@ body {
 
 
 
-
-
-
-
 	<div id="insertarHotelAdmin" class="container-fluid w-100 d-none">
-
-
-		<div class="row mt-5">
+		<div class="row">
 			<div class="col-sm-12 offset-sm-0 col-md-8 offset-md-2">
-
 
 				<form:form id="formularioInsertarHotel" class="form-signin mt-5"
 					align="center" modelAttribute="hotel" method="POST"
 					action="insertarHotel" enctype="multipart/form-data">
 
 
-
-
 					<h2 align="center">INSERTAR HOTEL</h2>
 
-					<form:hidden path="idHotel" id="idHotel"></form:hidden>
+				
 
 					<label for="inputNombreHotel">Nombre del Hotel</label>
 					<form:input path="nombreHotel" type="text" id="inputNombreHotel"
@@ -232,7 +223,7 @@ body {
 								path="piscinaHotel" class="form-check-input" /> Piscina
 						</label>
 					</div>
-					
+
 
 					<div class="form-check">
 						<label class="form-check-label"> <form:checkbox
@@ -265,12 +256,8 @@ body {
 
 
 
-
-
-
-
 	<div id="insertarRestauranteAdmin" class="container-fluid w-100 d-none">
-		<div class="row mt-5">
+		<div class="row">
 			<div class="col-sm-12 offset-sm-0 col-md-8 offset-md-2">
 
 
@@ -280,11 +267,9 @@ body {
 					action="insertarRestaurante" enctype="multipart/form-data">
 
 
-
-
 					<h2 align="center">INSERTAR RESTAURANTE</h2>
 
-					<form:hidden path="idRestaurante" id="idRestaurante"></form:hidden>
+			
 
 					<label for="inputNombreRestaurante">Nombre del Restaurante</label>
 					<form:input path="nombreRestaurante" type="text"
@@ -343,70 +328,130 @@ body {
 
 
 
-
-
-
 	<div id="insertarSalaHotelAdmin" class="container-fluid w-100 d-none">
-		<form:form id="formularioInsertarSalaHotel" class="form-signin mt-5"
-			align="center" modelAttribute="salaHotel" method="POST"
-			action="insertarSalaHotel" enctype="multipart/form-data">
 
-			<h2 align="center">INSERTAR SALA DE HOTEL</h2>
+		<div class="row">
+			<div class="col-sm-12 offset-sm-0 col-md-8 offset-md-2">
 
-			<form:hidden path="idSalaHotel" id="idSalaHotel"></form:hidden>
+				<form:form id="formularioInsertarSalaHotel" class="form-signin mt-5"
+					align="center" modelAttribute="salaHotel" method="POST"
+					action="insertarSalaHotel" enctype="multipart/form-data">
 
-			<label for="inputNombreSala">Nombre de la Sala</label>
-			<form:input path="nombreSala" type="text" id="inputNombreSala"
-				class="form-control" placeholder="Sala Ejemplo" required="true"></form:input>
+					<h2 align="center">INSERTAR SALA DE HOTEL</h2>
 
-			<label for="inputHotel">Hotel al que pertenece la Sala</label>
-			<form:select path="hotel.idHotel" id="inputHotel"
-				class="form-control" required="true">
-				<form:option value="" label="Selecciona un hotel" disabled="true" />
-				<form:options items="${hoteles}" itemValue="idHotel"
-					itemLabel="nombreHotel" />
-			</form:select>
+			
 
-			<label for="inputAforoSala">Aforo de la Sala</label>
-			<form:input path="aforoSala" type="number" id="inputAforoSala"
-				class="form-control" placeholder="100" required="true"></form:input>
+					<label for="inputNombreSala">Nombre de la Sala</label>
+					<form:input path="nombreSala" type="text" id="inputNombreSala"
+						class="form-control" placeholder="Sala Ejemplo" required="true"></form:input>
 
-			<label for="inputMetrosSala">Metros de la Sala</label>
-			<form:input path="metrosSala" type="text" id="inputMetrosSala"
-				class="form-control" placeholder="50 m²" required="true"></form:input>
+					<label for="inputHotel">Hotel al que pertenece la Sala</label>
+					<form:select path="hotel.idHotel" id="inputHotel"
+						class="form-control" required="true">
+						<form:option value="" label="Selecciona un hotel" disabled="true" />
+						<form:options items="${hoteles}" itemValue="idHotel"
+							itemLabel="nombreHotel" />
+					</form:select>
 
-			<label for="inputEquipoSonidoSala">Equipo de Sonido</label>
-			<form:checkbox path="equipoSonidoSala" id="inputEquipoSonidoSala"
-				class="form-control"></form:checkbox>
+					<label for="inputAforoSala">Aforo de la Sala</label>
+					<form:input path="aforoSala" type="number" id="inputAforoSala"
+						class="form-control" placeholder="100" required="true"></form:input>
 
-			<label for="inputProyectorSala">Proyector</label>
-			<form:checkbox path="proyectorSala" id="inputProyectorSala"
-				class="form-control"></form:checkbox>
+					<label for="inputMetrosSala">Metros de la Sala</label>
+					<form:input path="metrosSala" type="text" id="inputMetrosSala"
+						class="form-control" placeholder="50 m²" required="true"></form:input>
 
-			<label for="inputPrecioSala">Precio de la Sala</label>
-			<form:input path="precioSala" type="number" id="inputPrecioSala"
-				class="form-control" placeholder="150" step="0.01" required="true"></form:input>
+					<label for="inputEquipoSonidoSala">Equipo de Sonido</label>
+					<form:checkbox path="equipoSonidoSala" id="inputEquipoSonidoSala"
+						class="form-control"></form:checkbox>
+
+					<label for="inputProyectorSala">Proyector</label>
+					<form:checkbox path="proyectorSala" id="inputProyectorSala"
+						class="form-control"></form:checkbox>
+
+					<label for="inputPrecioSala">Precio de la Sala</label>
+					<form:input path="precioSala" type="number" id="inputPrecioSala"
+						class="form-control" placeholder="150" step="0.01" required="true"></form:input>
 
 
 
-			<label for="inputImagenesSalaHotel">Imágenes de la Sala</label>
-			<input type="file" name="multipartFiles" id="inputImagenesSalaHotel"
-				class="form-control" multiple="true" />
+					<label for="inputImagenesSalaHotel">Imágenes de la Sala</label>
+					<input type="file" name="multipartFiles"
+						id="inputImagenesSalaHotel" class="form-control" multiple="true" />
 
-			<button class="btn btn-lg btn-primary btn-block mt-2" type="submit">INSERTAR
-				SALA DE HOTEL</button>
+					<button class="btn btn-lg btn-primary btn-block mt-2" type="submit">INSERTAR
+						SALA DE HOTEL</button>
 
-		</form:form>
+				</form:form>
 
+			</div>
+		</div>
 	</div>
 
 
 
-	<div id="insertarActividadAdmin" class="container-fluid w-100 d-none">
-		<!-- Aquí va el formulario de inserción de actividades -->
+	<div id="insertarMenuRestauranteAdmin"
+		class="container-fluid w-100 d-none">
+
+		<div class="row">
+			<div class="col-sm-12 offset-sm-0 col-md-8 offset-md-2">
+
+
+				<form:form id="formularioInsertarMenuRestaurante"
+					class="form-signin mt-5" align="center"
+					modelAttribute="menuRestaurante" method="POST"
+					action="insertarMenuRestaurante" enctype="multipart/form-data">
+
+					<h2 align="center">INSERTAR MENÚ DE RESTAURANTE</h2>
+
+			
+
+					<label for="inputRestaurante">Restaurante al que pertenece
+						el Menú</label>
+					<form:select path="restaurante.idRestaurante" id="inputRestaurante"
+						class="form-control" required="true">
+						<form:option value="" label="Selecciona un restaurante"
+							disabled="true" />
+						<form:options items="${restaurantes}" itemValue="idRestaurante"
+							itemLabel="nombreRestaurante" />
+					</form:select>
+
+					<label for="inputPrecioMenuNormal">Precio Menú Normal</label>
+					<form:input path="precioMenuNormal" type="number"
+						id="inputPrecioMenuNormal" class="form-control"
+						placeholder="10.00" step="0.01" required="true"></form:input>
+
+					<label for="inputPrecioMenuVegetariano">Precio Menú
+						Vegetariano</label>
+					<form:input path="precioMenuVegetariano" type="number"
+						id="inputPrecioMenuVegetariano" class="form-control"
+						placeholder="12.00" step="0.01" required="true"></form:input>
+
+					<label for="inputPrecioMenuVegano">Precio Menú Vegano</label>
+					<form:input path="precioMenuVegano" type="number"
+						id="inputPrecioMenuVegano" class="form-control"
+						placeholder="14.00" step="0.01" required="true"></form:input>
+
+					<label for="inputPrecioMenuCeliaco">Precio Menú Celíaco</label>
+					<form:input path="precioMenuCeliaco" type="number"
+						id="inputPrecioMenuCeliaco" class="form-control"
+						placeholder="16.00" step="0.01" required="true"></form:input>
+
+
+
+					<label for="inputImagenesMenuRestaurante">Imágenes del Menú</label>
+					<input type="file" name="multipartFiles"
+						id="inputImagenesMenuRestaurante" class="form-control"
+						multiple="true" />
+
+					<button class="btn btn-lg btn-primary btn-block mt-2" type="submit">INSERTAR
+						MENÚ DE RESTAURANTE</button>
+
+				</form:form>
+			</div>
+
+		</div>
 	</div>
-
-
 
 
 
@@ -441,7 +486,7 @@ body {
 							function() {
 
 								esconderDivs([ "#insertarRestauranteAdmin",
-										"#insertarActividadAdmin",
+										"#insertarMenuRestauranteAdmin",
 										"#insertarSalaHotelAdmin" ]);
 								mostrarDiv("#insertarHotelAdmin");
 
@@ -450,24 +495,24 @@ body {
 					$("#botonSubMenuInsertarRestaurante").click(
 							function() {
 								esconderDivs([ "#insertarHotelAdmin",
-										"#insertarActividadAdmin",
+										"#insertarMenuRestauranteAdmin",
 										"#insertarSalaHotelAdmin" ]);
 								mostrarDiv("#insertarRestauranteAdmin");
 							});
 
-					$("#botonSubMenuInsertarActividad").click(
+					$("#botonSubMenuInsertarMenuRestaurante").click(
 							function() {
 								esconderDivs([ "#insertarHotelAdmin",
 										"#insertarRestauranteAdmin",
 										"#insertarSalaHotelAdmin" ]);
-								mostrarDiv("#insertarActividadAdmin");
+								mostrarDiv("#insertarMenuRestauranteAdmin");
 							});
 
 					$("#botonSubMenuInsertarSalaHotel").click(
 							function() {
 								esconderDivs([ "#insertarHotelAdmin",
 										"#insertarRestauranteAdmin",
-										"#insertarActividadAdmin" ]);
+										"#insertarMenuRestauranteAdmin" ]);
 								mostrarDiv("#insertarSalaHotelAdmin");
 							});
 

@@ -17,13 +17,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "restaurante")
-@JsonIdentityInfo(
-		  generator = ObjectIdGenerators.PropertyGenerator.class, 
-		  property = "idRestaurante")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idRestaurante")
 public class Restaurante {
 
 	// 1. CREO ATRIBUTOS
@@ -47,6 +46,7 @@ public class Restaurante {
 	private Destino destino;
 
 	@OneToMany(mappedBy = "restaurante")
+	@JsonIdentityReference(alwaysAsId = true)
 	private List<MenuRestaurante> menusRestaurante = new ArrayList<>();
 
 	// Relacion ManyToMany: https://www.youtube.com/watch?v=T_cWyhhy0yw
@@ -137,19 +137,15 @@ public class Restaurante {
 	public void setUsuariosGuardados(List<Usuario> usuariosGuardados) {
 		this.usuariosGuardados = usuariosGuardados;
 	}
-	
-	
 
-
-/*
-	@Override
-	public String toString() {
-		return "Restaurante [idRestaurante=" + idRestaurante + ", nombreRestaurante=" + nombreRestaurante
-				+ ", tipoRestaurante=" + tipoRestaurante + ", categoriaRestaurante=" + categoriaRestaurante
-				+ ", aforoRestaurante=" + aforoRestaurante + ", direccionRestaurante=" + direccionRestaurante
-				+ ", destino=" + destino + ", menusRestaurante=" + menusRestaurante + ", usuariosGuardados="
-				+ usuariosGuardados + "]";
-	}
-	*/
+	/*
+	 * @Override public String toString() { return "Restaurante [idRestaurante=" +
+	 * idRestaurante + ", nombreRestaurante=" + nombreRestaurante +
+	 * ", tipoRestaurante=" + tipoRestaurante + ", categoriaRestaurante=" +
+	 * categoriaRestaurante + ", aforoRestaurante=" + aforoRestaurante +
+	 * ", direccionRestaurante=" + direccionRestaurante + ", destino=" + destino +
+	 * ", menusRestaurante=" + menusRestaurante + ", usuariosGuardados=" +
+	 * usuariosGuardados + "]"; }
+	 */
 
 }
