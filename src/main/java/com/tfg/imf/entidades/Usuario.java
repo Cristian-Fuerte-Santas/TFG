@@ -32,27 +32,28 @@ public class Usuario {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idUsuario;
 
-	@NotEmpty
+	@NotEmpty(message="El campo no puede estar vacio")
 	@Size(min = 2, max=40, message = "El nombre de Empresa debe ser entre 2 y 40 caracteres")
 	private String nombreEmpresa;
 	
 	@Column(name = "nifEmpresa", length = 9)	
-	@NotEmpty
+	@NotEmpty(message="El campo no puede estar vacio")
 	@Pattern(regexp = "^[A-Z]\\d{8}$", message = "La primera letra debe ser mayúscula y debe seguirle 8 digitos") //(^[A-Z])que empiece por letra + (\\d{8}) y el resto de digitos + ($)final de cadena
 	private String nifEmpresa;
 	
-	@NotEmpty	
+	@NotEmpty(message="El campo no puede estar vacio")	
 	@Size(min = 2, max=40, message = "El nombre de Empresa debe ser entre 2 y 40 caracteres")
 	private String nombreUsuario;
 	
-	@NotEmpty
-	@Email(regexp = "^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\\\.[a-zA-Z]{2,}$", message = "Antes y después de la @ los símbolos válidos son '.', '_','-'. El dominio debe ser mínimo de dos letras")
+	//https://es.stackoverflow.com/questions/453176/como-validar-correctamente-un-email-con-expresiones-regulares
+	@NotEmpty(message="El campo no puede estar vacio")
+	@Email(regexp = "[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,5}", message = "Antes y después de la @ los símbolos válidos son '.', '_','-'. El dominio debe ser mínimo de dos letras")
 	private String emailUsuario;
 	
-	@NotEmpty
+	@NotEmpty(message="El campo no puede estar vacio")
 	private String telefonoUsuario;
 	
-	@NotEmpty
+	@NotEmpty(message="El campo no puede estar vacio")
 	@Size(min = 8, max = 12, message = "La contraseña debe tener entre 8 y 12 digitos")
 	private String contraseniaUsuario;
 

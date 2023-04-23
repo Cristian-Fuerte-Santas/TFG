@@ -3,6 +3,7 @@ package com.tfg.imf.controladores;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +16,10 @@ import com.tfg.imf.entidades.Usuario;
 import com.tfg.imf.modelo.GestorUsuario;
 import com.tfg.imf.persistencia.IRepositorioUsuario;
 
+
 import java.util.List;
+
+import javax.validation.Valid;
 
 @Controller
 public class FormularioUsuarioControlador {
@@ -103,46 +107,69 @@ public class FormularioUsuarioControlador {
 	
 	
 	
-	// PARA EL CRUD
-
+	// PARA EL CRUD	
+	
+		
 	@PostMapping("/insertarUsuario")
-	public ModelAndView insertarUsuario(@ModelAttribute Usuario usuario) {
-
-		System.out.println("FormularioOfertaCrontrolador.insertarUsuario: " + usuario);
-
-		try {
-			// Crear una instancia de Usuario
-			Usuario nuevoUsuario = new Usuario();
-
-			nuevoUsuario.setNombreEmpresa(usuario.getNombreEmpresa());
-			nuevoUsuario.setNifEmpresa(usuario.getNifEmpresa());
-			nuevoUsuario.setNombreUsuario(usuario.getNombreUsuario());
-			nuevoUsuario.setEmailUsuario(usuario.getEmailUsuario());
-			nuevoUsuario.setTelefonoUsuario(usuario.getTelefonoUsuario());
-			nuevoUsuario.setContraseniaUsuario(usuario.getContraseniaUsuario());
-
-			// Llamar al método insertar del GestorUsuario
-			gestorUsuario.insertar(nuevoUsuario);
-
-			ModelAndView mav = new ModelAndView("loginYregistro");
-
-			// Agregar atributo al ModelAndView
-			mav.addObject("exitoRegistro", true);
-
-			return mav;
-
-		} catch (Exception e) {
-
-			// Si algo falla, que muestre el error
-			ModelAndView mav = new ModelAndView("error");
-
-			mav.addObject("mensaje", "Error al insertar el usuario en la base de datos");
-
-			mav.addObject("excepcion", e);
-
-			return mav;
-		}
+	public ModelAndView insertarUsuario(@Valid @ModelAttribute Usuario usuario, BindingResult result) {
+		
+	    //ModelAndView mav = new ModelAndView();
+	   //mav.setViewName("loginYregistro");
+	   ModelAndView mav = new ModelAndView("loginYregistro");
+	    
+	    
+	    // Si no hay errores, intentamos insertar el usuario en la base de datos
+	    if (!result.hasErrors()) { 
+	    	
+	    	Usuario nuevoUsuario = new Usuario();
+	        
+	        nuevoUsuario.setNombreEmpresa(usuario.getNombreEmpresa());
+	        nuevoUsuario.setNifEmpresa(usuario.getNifEmpresa());
+	        nuevoUsuario.setNombreUsuario(usuario.getNombreUsuario());
+	        nuevoUsuario.setEmailUsuario(usuario.getEmailUsuario());
+	        nuevoUsuario.setTelefonoUsuario(usuario.getTelefonoUsuario());
+	        nuevoUsuario.setContraseniaUsuario(usuario.getContraseniaUsuario());
+	        
+	        try {
+	        	
+	            gestorUsuario.insertar(nuevoUsuario);
+	            
+	            
+	            
+	            // Si se inserta correctamente, agregamos un mensaje de éxito al ModelAndView	            
+	            mav.addObject("exitoRegistro", true);
+	            
+	        } catch (Exception e) {
+	            // Si algo falla, agregamos un mensaje de error al ModelAndView
+	            mav.addObject("errorInsertar", "Error al insertar el usuario en la base de datos");
+	        }
+	    	
+	       
+	        
+	    } else { 
+	    	
+	    	// Si se inserta correctamente, agregamos un mensaje de éxito al ModelAndView	            
+            mav.addObject("errorFormulario", true);
+	    	
+	    	// Agregamos los mensajes de error al ModelAndView, esto analiza primero si es true o false, y en los true guarda el mensaje de error de la entidad 
+	        mav.addObject("errorNombreEmpresa", result.getFieldError("nombreEmpresa"));
+	        mav.addObject("errorNifEmpresa", result.getFieldError("nifEmpresa"));
+	        mav.addObject("errorNombreUsuario", result.getFieldError("nombreUsuario"));
+	        mav.addObject("errorEmailUsuario", result.getFieldError("emailUsuario"));
+	        mav.addObject("errorTelefonoUsuario", result.getFieldError("telefonoUsuario"));
+	        mav.addObject("errorContraseniaUsuario", result.getFieldError("contraseniaUsuario"));
+	        
+	        System.out.println("Valor de errorFormulario: " + mav.getModel().get("errorFormulario"));
+	        
+	    }
+	    
+	
+	    return mav;
 	}
+
+
+	
+	
 
 	@GetMapping("/seleccionarUsuario")
 	public ModelAndView seleccionarUsuario(@RequestParam("idUsuario") Integer idUsuario) {
