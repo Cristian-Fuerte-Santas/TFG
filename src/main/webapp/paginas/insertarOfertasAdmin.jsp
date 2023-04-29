@@ -310,7 +310,7 @@ body {
 
 
 
-					<label for="inputImagenesRestaurante">Imágenes del Hotel</label>
+					<label for="inputImagenesRestaurante">Imágenes del Restaurante</label>
 					<input type="file" name="multipartFiles"
 						id="inputImagenesRestaurante" class="form-control" multiple="true" />
 

@@ -57,7 +57,7 @@
 
 </head>
 
-<body class="d-flex flex-column h-100 w-100">
+<body class="d-flex flex-column min-vh-100 m-0 p-0">
 
 
     <!-- CABECERA-->
@@ -121,7 +121,7 @@
     <!-- Principal -->
 
     <!-- Fuente: https://www.bootdey.com/snippets/view/paq-page#html -->
-    <div class="container-fluid mt-5">
+    <div class="container-fluid flex-grow-1 mt-5">
     
         <div class="row">
             <div class="container mt-sm-60 mt-30">

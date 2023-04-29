@@ -202,18 +202,18 @@ public class FormularioMenuRestauranteControlador {
 			return mav;
 		}
 	}
-	/*
-	 * 
-	 * // PARA MOSTRAR LOS MENUS RESTAURANTES
-	 * 
-	 * @GetMapping("/obtenerMenuRestaurantes")
-	 * 
-	 * @ResponseBody public List<MenuRestaurante> obtenerHoteles() {
-	 * List<MenuRestaurante> menuRestaurantes =
-	 * repositorioMenuRestaurante.verTodosLosMenusRestaurantes();
-	 * System.out.println("Menu Restaurantes devueltos: " + menuRestaurantes);
-	 * return menuRestaurantes; }
-	 * 
-	 */
+	
+	 
+	  // PARA MOSTRAR LOS MENUS RESTAURANTES
+	  
+	  @GetMapping("/obtenerMenuRestaurantes")
+	  
+	  @ResponseBody public List<MenuRestaurante> obtenerMenuRestaurantes() {
+	  List<MenuRestaurante> menuRestaurantes =
+	  repositorioMenuRestaurante.verTodosLosMenusRestaurantes();
+	  System.out.println("Menu Restaurantes devueltos: " + menuRestaurantes);
+	  return menuRestaurantes; }
+	 
+	 
 
 }
