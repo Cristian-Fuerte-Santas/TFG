@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.tfg.imf.entidades.ImagenesHotel;
+import com.tfg.imf.entidades.ImagenesRestaurante;
 import com.tfg.imf.entidades.Restaurante;
 import com.tfg.imf.persistencia.IRepositorioImagenesRestaurante;
 import com.tfg.imf.persistencia.IRepositorioRestaurante;
@@ -25,7 +27,11 @@ public class GestorRestaurante {
 	@Autowired
 	private IRepositorioImagenesRestaurante repositorioImagenesRestaurante;
 
-	private final String directorioImagenesRestaurantes = "src/main/resources/static/imagenes/imagenesRestaurantes/";
+	@Autowired
+	private GestorImagenes gestorImagenes;
+
+	// private final String directorioImagenesRestaurantes =
+	// "src/main/resources/static/imagenes/imagenesRestaurantes/";
 
 	public GestorRestaurante() {
 		super();
@@ -50,37 +56,35 @@ public class GestorRestaurante {
 
 	@Transactional
 	public void borrar(Restaurante restaurante) {
-		// para modificar tambien es save
+
+		// Antes de eliminar el restaurante, primero elimina sus imágenes
+		for (ImagenesRestaurante imagen : restaurante.getListadoImagenesRestaurante()) {
+			String nombreArchivo = Paths.get(imagen.getUrlImagenRestaurante()).getFileName().toString();
+			gestorImagenes.eliminarImagen(nombreArchivo);
+		}
+
 		repositorioRestaurante.delete(restaurante);
 	}
 
+	// Para insertarlas en la base de datos
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void insertarImagenHotel(ImagenesRestaurante imagenesRestaurante) {
+		repositorioImagenesRestaurante.save(imagenesRestaurante);
+		repositorioImagenesRestaurante.flush();
+
+		System.out.println("Se ha insertado la imagen del hotel correctamente");
+	}
+
+	// Para insertarlas en el ordenador localmente, en el sistema de archivos
 	@Transactional
 	public String guardarImagenRestaurante(MultipartFile file) throws IOException {
 
-		// Crear el directorio si no existe
-		Path directorioPath = Paths.get(directorioImagenesRestaurantes);
-
-		if (!Files.exists(directorioPath)) {
-
-			Files.createDirectories(directorioPath);
-		}
-
-		// Guardar el archivo en el directorio
-		Path imagePath = directorioPath.resolve(file.getOriginalFilename());
-
-		Files.copy(file.getInputStream(), imagePath);
-
-		// Devolver la URL donde se guarda la imagen
-		return "/imagenes/imagenesRestaurantes/" + file.getOriginalFilename();
+		return gestorImagenes.guardarImagen(file);
 	}
-	
-	
+
 	@Transactional(readOnly = true) // Especifica que esta transacción es solo de lectura
 	public List<Restaurante> verTodosLosRestaurantes() {
-	    return repositorioRestaurante.verTodosLosRestaurantes();
+		return repositorioRestaurante.verTodosLosRestaurantes();
 	}
-
-	
-	
 
 }

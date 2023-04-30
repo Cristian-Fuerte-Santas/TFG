@@ -191,7 +191,10 @@
     </footer>
 
     <script>
+    $(document).ready(function(){
 
+
+    	
 
         //Resetear todos los filtros
         $("#resetearFiltros").on("click", function () {
@@ -358,7 +361,13 @@
            
             hoteles.forEach((hotel) => {
 
-                const imagenUrl = hotel.listadoImagenesHotel && hotel.listadoImagenesHotel.length > 0 ? hotel.listadoImagenesHotel[0].urlImagenHotel : "ruta_de_la_imagen_predeterminada";
+            	//ESTE ERA EL ORIGINAL
+            //	const imagenUrl = hotel.listadoImagenesHotel && hotel.listadoImagenesHotel.length > 0 ? "imagenesHoteles/" + hotel.listadoImagenesHotel[0].urlImagenHotel : "ruta_de_la_imagen_predeterminada";
+            	
+            	const imagenUrl = hotel.listadoImagenesHotel && hotel.listadoImagenesHotel.length > 0 ? hotel.listadoImagenesHotel[0].urlImagenHotel : "ruta_de_la_imagen_predeterminada";
+
+
+
                 // Crear elementos DOM para la tarjeta
                 const cardDiv = $("<div>").addClass("col-md-4 mb-4");
                 const cardContent = $("<div>").addClass("card");
@@ -483,7 +492,7 @@
         obtenerRestaurantes();
         obtenerSalasHotel();
 
-
+    });
 
     </script>
 

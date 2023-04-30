@@ -290,6 +290,49 @@ body {
 
 
 
+<!-- Menu restaurante-->
+<div id="verMenusRestauranteAdmin" class="container-fluid w-75">
+	<div class="row mt-5">
+		<div class="col-sm-12 offset-sm-0 col-md-8 offset-md-2">
+			<h2 >LISTADO DE MENÚS DE RESTAURANTE</h2>
+			<table id="tablaMenusRestaurante" class="table table-hover table-striped">
+				<thead>
+					<tr>
+						
+						<th>Precio del Menú Normal</th>
+						<th>Precio del Menú Vegetariano</th>
+						<th>Precio del Menú Vegano</th>
+						<th>Precio del Menú Celíaco</th>
+						<th>Restaurante al que pertenece</th>
+						<th>Imagenes del Menú</th>
+						<th>Acción</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach items="${menusRestaurantes}" var="menu">
+						<tr>
+							
+							<td>${menu.precioMenuNormal}</td>
+							<td>${menu.precioMenuVegetariano}</td>
+							<td>${menu.precioMenuVegano}</td>
+							<td>${menu.precioMenuCeliaco}</td>
+							<td>${menu.restaurante.nombreRestaurante}</td>
+							<td>${menu.listadoImagenesMenuRestaurante}</td>
+							
+							<td>
+								<form action="borrarMenuRestaurante" method="post">
+									<input type="hidden" name="idMenu" value="${menu.idMenuRestaurante}" />
+									<button type="submit" class="btn btn-danger">Borrar
+										Menú</button>
+								</form>
+							</td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
 
 
 

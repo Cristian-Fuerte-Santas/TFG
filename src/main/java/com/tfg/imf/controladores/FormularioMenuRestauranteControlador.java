@@ -213,6 +213,30 @@ public class FormularioMenuRestauranteControlador {
 	  repositorioMenuRestaurante.verTodosLosMenusRestaurantes();
 	  System.out.println("Menu Restaurantes devueltos: " + menuRestaurantes);
 	  return menuRestaurantes; }
+	  
+	  
+	  @PostMapping("/borrarMenuRestaurante")
+	  public ModelAndView borrarMenuRestaurante(@RequestParam("idMenu") Integer idMenu) {
+	      System.out.println("FormularioOfertasControlador.borrarMenuRestaurante");
+
+	      MenuRestaurante menu = repositorioMenuRestaurante.findById(idMenu).orElse(null);
+
+	      if (menu != null) {
+	          gestorMenuRestaurante.borrar(menu);
+
+	          ModelAndView mav = new ModelAndView("redirect:gestionarOfertasAdmin");
+	          return mav;
+	      } else {
+	          // Si el menu no se encuentra, redirigir a una página de error o manejarlo de
+	          // otra manera
+	          ModelAndView mav = new ModelAndView("error");
+	          mav.addObject("mensaje", "Error al borrar el menú: no se encontró el menú con el ID especificado");
+	          return mav;
+	      }
+	  }
+
+	  
+	  
 	 
 	 
 

@@ -119,6 +119,9 @@ public class FormularioHotelControlador {
 
 			// Guardar imágenes en el sistema de archivos y asociarlas al hotel
 			// fuente chat gpt
+			
+
+			
 			Set<ImagenesHotel> imagenes = new HashSet<>();
 
 			for (MultipartFile file : files) {
@@ -127,21 +130,31 @@ public class FormularioHotelControlador {
 					try {
 						// Aquí guardarías la imagen en el sistema de archivos y obtendrías la URL donde
 						// se guarda
-						String imageUrl = gestorHotel.guardarImagen(file);
+						
+						
+						
+						String imageUrl = gestorHotel.guardarImagenHotel(file);
 
 						ImagenesHotel imagen = new ImagenesHotel();
 						imagen.setUrlImagenHotel(imageUrl);
 						imagen.setHotel(nuevoHotel);
 						imagenes.add(imagen);
+						
+						
+						
 					} catch (IOException e) {
 						System.out.println("Error al guardar la imgen en FormularioHotelControlador");
 					}
 				}
 			}
+			
+			
+			
 
 			// Asociar las imágenes al hotel
 			nuevoHotel.setListadoImagenesHotel(imagenes);
 
+			
 			// Llamar al método insertar del GestorHotel
 			gestorHotel.insertar(nuevoHotel);
 

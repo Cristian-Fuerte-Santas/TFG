@@ -14,10 +14,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.tfg.imf.entidades.*;
 import com.tfg.imf.modelo.GestorHotel;
+import com.tfg.imf.modelo.GestorMenuRestaurante;
 import com.tfg.imf.modelo.GestorRestaurante;
 import com.tfg.imf.modelo.GestorSalaHotel;
 import com.tfg.imf.modelo.GestorUsuario;
 import com.tfg.imf.persistencia.IRepositorioUsuario;
+import com.tfg.imf.validaciones.*;
 
 import java.util.List;
 
@@ -41,9 +43,12 @@ public class FormularioUsuarioControlador {
 
 	@Autowired
 	private GestorSalaHotel gestorSalaHotel;
+	
+	@Autowired
+	private GestorMenuRestaurante gestorMenuRestaurante;
 
 	@Autowired
-	private IRepositorioUsuario respositorioUsuario;
+	private IRepositorioUsuario repositorioUsuario;
 
 	public FormularioUsuarioControlador() {
 		super();
@@ -109,8 +114,6 @@ public class FormularioUsuarioControlador {
 		return mav;
 	}
 
-	
-
 	@GetMapping("/gestionarUsuariosAdmin")
 	public ModelAndView gestionarUsuarios() {
 
@@ -125,80 +128,232 @@ public class FormularioUsuarioControlador {
 		return mav;
 	}
 
-	
 	@GetMapping("/gestionarOfertasAdmin")
 	public ModelAndView verGestionarOfertasAdmin() {
 
 		System.out.println("FormularioUsuarioControlador.verGestiornarOfertaAdmin");
 
 		List<Hotel> hoteles = gestorHotel.verTodosLosHoteles();
-		
-		List<Restaurante> restaurantes = gestorRestaurante.verTodosLosRestaurantes();
-		
-		List<SalaHotel> salashoteles = gestorSalaHotel.verTodasLasSalasHotel();
 
+		List<Restaurante> restaurantes = gestorRestaurante.verTodosLosRestaurantes();
+
+		List<SalaHotel> salashoteles = gestorSalaHotel.verTodasLasSalasHotel();
+		
+		List<MenuRestaurante> menusRestaurantes = gestorMenuRestaurante.verTodosLosMenusRestaurantes();
 		// como el header de php, redirige a donde queramos
 		ModelAndView mav = new ModelAndView("gestionarOfertasAdmin");
 		mav.addObject("hoteles", hoteles);
 		mav.addObject("restaurantes", restaurantes);
 		mav.addObject("salashoteles", salashoteles);
+		mav.addObject("menusRestaurantes", menusRestaurantes);
 
 		return mav;
 	}
-	
 
 	// PARA EL CRUD
 
 	@PostMapping("/insertarUsuario")
-	public ModelAndView insertarUsuario(@Valid @ModelAttribute Usuario usuario, BindingResult result) {
+	public ModelAndView insertarUsuario(@ModelAttribute Usuario usuario,
 
-		// ModelAndView mav = new ModelAndView();
-		// mav.setViewName("loginYregistro");
+			@RequestParam("verificarContrasenia") String verificarContrasenia) {
+
+		UsuarioValidaciones validaciones = new UsuarioValidaciones();
+
 		ModelAndView mav = new ModelAndView("loginYregistro");
 
 		// Si no hay errores, intentamos insertar el usuario en la base de datos
-		if (!result.hasErrors()) {
 
-			Usuario nuevoUsuario = new Usuario();
+		Usuario nuevoUsuario = new Usuario();
 
-			nuevoUsuario.setNombreEmpresa(usuario.getNombreEmpresa());
-			nuevoUsuario.setNifEmpresa(usuario.getNifEmpresa());
-			nuevoUsuario.setNombreUsuario(usuario.getNombreUsuario());
-			nuevoUsuario.setEmailUsuario(usuario.getEmailUsuario());
-			nuevoUsuario.setTelefonoUsuario(usuario.getTelefonoUsuario());
-			nuevoUsuario.setContraseniaUsuario(usuario.getContraseniaUsuario());
+		// OJO que no ha validado el telefono
 
-			try {
+		if (!validaciones.isValidNombreEmpresa(usuario.getNombreEmpresa())) {
+			mav.addObject("errorNombreEmpresaInvalido", true);
 
-				gestorUsuario.insertar(nuevoUsuario);
+			System.out.println(usuario.getNombreEmpresa());
 
-				// Si se inserta correctamente, agregamos un mensaje de éxito al ModelAndView
-				mav.addObject("exitoRegistro", true);
+			System.out.println(!validaciones.isValidNombreEmpresa(usuario.getNombreEmpresa()));
 
-			} catch (Exception e) {
-				// Si algo falla, agregamos un mensaje de error al ModelAndView
-				mav.addObject("errorInsertar", "Error al insertar el usuario en la base de datos");
-			}
+		} else if (!validaciones.isValidNifEmpresa(usuario.getNifEmpresa())) {
+			mav.addObject("errorNifEmpresaInvalido", true);
+
+		} else if (!validaciones.isValidNombreUsuario(usuario.getNombreUsuario())) {
+
+			mav.addObject("errorNombreUsuarioInvalido", true);
+
+		} else if (!validaciones.isValidEmail(usuario.getEmailUsuario())) {
+			mav.addObject("errorEmailInvalido", true);
+
+		} else if (!validaciones.isValidPassword(usuario.getContraseniaUsuario())) {
+
+			mav.addObject("errorPasswordInvalido", true);
+
+		} else if (!usuario.getContraseniaUsuario().equals(verificarContrasenia)) {
+
+			mav.addObject("errorPasswordNoCoincide", true);
 
 		} else {
 
-			// Si se inserta correctamente, agregamos un mensaje de éxito al ModelAndView
-			mav.addObject("errorFormulario", true);
+			nuevoUsuario.setNombreEmpresa(usuario.getNombreEmpresa());
 
-			// Agregamos los mensajes de error al ModelAndView, esto analiza primero si es
-			// true o false, y en los true guarda el mensaje de error de la entidad
-			mav.addObject("errorNombreEmpresa", result.getFieldError("nombreEmpresa"));
-			mav.addObject("errorNifEmpresa", result.getFieldError("nifEmpresa"));
-			mav.addObject("errorNombreUsuario", result.getFieldError("nombreUsuario"));
-			mav.addObject("errorEmailUsuario", result.getFieldError("emailUsuario"));
-			mav.addObject("errorTelefonoUsuario", result.getFieldError("telefonoUsuario"));
-			mav.addObject("errorContraseniaUsuario", result.getFieldError("contraseniaUsuario"));
+			nuevoUsuario.setNifEmpresa(usuario.getNifEmpresa());
 
-			System.out.println("Valor de errorFormulario: " + mav.getModel().get("errorFormulario"));
+			nuevoUsuario.setNombreUsuario(usuario.getNombreUsuario());
+
+			nuevoUsuario.setEmailUsuario(usuario.getEmailUsuario());
+
+			nuevoUsuario.setTelefonoUsuario(usuario.getTelefonoUsuario());
+
+			nuevoUsuario.setContraseniaUsuario(usuario.getContraseniaUsuario());
+
+			System.out.println("Datos recogidos son correctos " + nuevoUsuario);
+			
+			
+
+
+			try {
+
+				System.out.println("Ha entrado dentro del try");
+				
+				System.out.println("Objeto Usuario antes de insertar: " + nuevoUsuario.toString());
+				gestorUsuario.insertar(nuevoUsuario);
+
+				// Si se inserta correctamente, agregamos un mensaje de éxito al ModelAndView
+
+				mav.addObject("exitoRegistro", true);
+
+			} catch (Exception e) {
+System.out.println("Ha entrado dentro del catch");
+				// Si algo falla, agregamos un mensaje de error al ModelAndView
+				mav.addObject("errorInsertar", "Error al insertar el usuario en la base de datos");
+				
+				e.printStackTrace();
+
+			}
+
+		}
+
+		
+
+		return mav;
+
+	}
+
+	@PostMapping("/formularioLogin")
+
+	public ModelAndView formularioLogin(@ModelAttribute Usuario usuario) {
+
+		boolean emailEncontrado;
+
+		boolean contraseniaEncontrada;
+
+		Integer idUsuario;
+
+		String buscandoEmail;
+
+		boolean admin = false;
+
+		boolean valido = false;
+
+		boolean usuarioValido = false;
+
+		UsuarioValidaciones validaciones = new UsuarioValidaciones();
+
+		ModelAndView mav = new ModelAndView("loginYregistro");
+
+		// aqui guardo los datos recibidos de la vista
+
+		String emailRecibido = usuario.getEmailUsuario();
+
+		String contraseniaRecibido = usuario.getContraseniaUsuario();
+
+		// los imprimo
+
+		System.out.println("Datos de login son: " + emailRecibido + " y " + contraseniaRecibido);
+
+		if (!validaciones.isValidEmail(emailRecibido)) {
+
+			mav.addObject("errorEmailInvalido", true);
+
+		} else if (!validaciones.isValidPassword(contraseniaRecibido)) {
+
+			mav.addObject("errorContraseniaInvalida", true);
+
+		} else {
+
+			// Si no hay errores, intentamos buscar el usuario en la base de datos
+
+			// 1. Confirmo que no me devuelva un Null o bien por recibirlo o bien por no
+			// encontrarlo y lo guardo en string
+
+			buscandoEmail = repositorioUsuario.findEmail(emailRecibido);
+
+//2. Luego confirmo que el string recibido NO sea null y que se haya encontrado con un boolean
+
+			emailEncontrado = buscandoEmail != null && buscandoEmail.equals(emailRecibido);
+
+//emailEncontrado = repositorioUsuario.findEmail(emailRecibido).equals(emailRecibido);    
+
+			System.out.println("email encontrado: " + emailEncontrado);
+
+			if (!emailEncontrado) {
+
+				System.out.println("Hay que sacarle: el email no se ha localizado");
+
+				mav.addObject("errorEmailNoEncontrado", true);
+
+			} else {
+
+				// como he encontrado el email, ahora me quedo con la ID del email
+
+				idUsuario = repositorioUsuario.findIdByEmail(emailRecibido);
+
+				System.out.println("El id del usuario es: " + idUsuario);
+
+//busco que la id del email corresponda con la contraseña con un boolean
+
+				contraseniaEncontrada = repositorioUsuario.findContraseniaById(idUsuario).equals(contraseniaRecibido);
+
+				System.out
+						.println("Tiene id de la contraseña tiene la misma contraseña en la BD que la que dice tener? "
+								+ contraseniaEncontrada);
+
+				if (!contraseniaEncontrada) {
+
+					System.out.println("Hay que sacarle: datos introducidos no son correcto");
+
+					mav.addObject("errorContraseniaNoEncontrada", true);
+
+				} else if (repositorioUsuario.findContraseniaById(idUsuario).equals(contraseniaRecibido)
+						&& idUsuario <= 4 && contraseniaEncontrada) {
+
+					System.out.println("Eres ADMIN");
+
+					mav.addObject("exitoRegistro", true);
+
+					return new ModelAndView("redirect:/areaPersonaAdmin");
+
+				}
+
+				else {
+
+					System.out.println("Eres USUARIO");
+
+					mav.addObject("exitoRegistro", true);
+
+					return new ModelAndView("redirect:/areaPersonaUsuario");
+
+				}
+
+			}
+
+			// mav.addObject("usuarioValido", usuarioValido);        
 
 		}
 
 		return mav;
+		
+
 	}
 
 	@GetMapping("/seleccionarUsuario")
@@ -207,7 +362,7 @@ public class FormularioUsuarioControlador {
 		System.out.println("Seleccionar usuario: " + idUsuario);
 
 		// buscar usuario por id, si no lo encuentra, crea un objeto de usuario vacio
-		Usuario usuario = respositorioUsuario.findById(idUsuario).orElse(new Usuario());
+		Usuario usuario = repositorioUsuario.findById(idUsuario).orElse(new Usuario());
 
 		ModelAndView mav = new ModelAndView("formularioUsuario");
 
@@ -235,7 +390,7 @@ public class FormularioUsuarioControlador {
 
 		System.out.println("FormularioClientesControlador.borrarUsuario");
 
-		Usuario usuario = respositorioUsuario.findById(idUsuario).orElse(null);
+		Usuario usuario = repositorioUsuario.findById(idUsuario).orElse(null);
 
 		if (usuario != null) {
 			gestorUsuario.borrar(usuario);

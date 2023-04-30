@@ -14,38 +14,34 @@ import org.springframework.util.StringUtils;
 @Service
 public class GestorImagenes {
 	// Agrega una variable String para cada ruta de directorio
-	private final String directorioImagenesSalaHotel = "C:/Users/cristianfuertesantas/Pictures/ImagenesInsertadasDesdeBD/imagenesSalaHotel/";
-	private final String directorioImagenesRestaurantes = "C:/Users/cristianfuertesantas/Pictures/ImagenesInsertadasDesdeBD/imagenesRestaurantes/";
-	private final String directorioImagenesMenuRestaurante = "C:/Users/cristianfuertesantas/Pictures/ImagenesInsertadasDesdeBD/imagenesMenuRestaurante/";
-	private final String directorioImagenesHoteles = "C:/Users/cristianfuertesantas/Pictures/ImagenesInsertadasDesdeBD/imagenesHoteles/";
+	private final String directorioImagenes = "C:/Users/cristianfuertesantas/Pictures/ImagenesInsertadasDesdeBD/";
+
 
 	@Transactional
-	public String guardarImagen(MultipartFile file, String tipoImagen) throws IOException {
-	    // Seleccione el directorio en función del tipo de imagen
-	    String directorioImagenes;
-	    switch (tipoImagen) {
-	        case "SalaHotel":
-	            directorioImagenes = directorioImagenesSalaHotel;
-	            break;
-	        case "Restaurantes":
-	            directorioImagenes = directorioImagenesRestaurantes;
-	            break;
-	        case "MenuRestaurante":
-	            directorioImagenes = directorioImagenesMenuRestaurante;
-	            break;
-	        case "Hoteles":
-	            directorioImagenes = directorioImagenesHoteles;
-	            break;
-	        default:
-	            throw new IllegalArgumentException("Tipo de imagen desconocido: " + tipoImagen);
-	    }
-	    
-	    // Aquí continúa tu método guardarImagen existente
-        String nombreArchivo = StringUtils.cleanPath(file.getOriginalFilename());
-        Path rutaArchivo = Paths.get(directorioImagenes + nombreArchivo);
-        Files.copy(file.getInputStream(), rutaArchivo, StandardCopyOption.REPLACE_EXISTING);
-    
-        // Devuelve la ruta a la imagen para que puedas guardarla en la base de datos
-        return directorioImagenes + nombreArchivo;
+	public String guardarImagen(MultipartFile file) throws IOException {
+	    String nombreArchivo = StringUtils.cleanPath(file.getOriginalFilename());
+	    Path rutaArchivo = Paths.get(directorioImagenes + nombreArchivo);
+	    Files.copy(file.getInputStream(), rutaArchivo, StandardCopyOption.REPLACE_EXISTING);
+
+	    // Devuelve sólo el nombre del archivo
+	    return nombreArchivo;
 	}
+
+	
+	
+	
+	@Transactional
+	public void eliminarImagen(String nombreArchivo) {
+	    try {
+	        // Eliminando el archivo de imagen
+	        Path rutaArchivo = Paths.get(directorioImagenes + nombreArchivo);
+	        Files.deleteIfExists(rutaArchivo);
+	    } catch (IOException e) {
+	        // Aquí puedes manejar el error como mejor te parezca. Podrías lanzar la excepción,
+	        // registrarla, o simplemente ignorarla, dependiendo de las necesidades de tu aplicación.
+	        System.out.println("Error al eliminar el archivo de imagen: " + nombreArchivo);
+	    }
+	}
+
+
 }

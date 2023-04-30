@@ -33,28 +33,28 @@ public class Usuario {
 	private Integer idUsuario;
 
 	@NotEmpty(message="El campo no puede estar vacio")
-	@Size(min = 2, max=40, message = "El nombre de Empresa debe ser entre 2 y 40 caracteres")
+	//@Size(min = 2, max=40, message = "El nombre de Empresa debe ser entre 2 y 40 caracteres")
 	private String nombreEmpresa;
 	
 	@Column(name = "nifEmpresa", length = 9)	
-	@NotEmpty(message="El campo no puede estar vacio")
-	@Pattern(regexp = "^[A-Z]\\d{8}$", message = "La primera letra debe ser mayúscula y debe seguirle 8 digitos") //(^[A-Z])que empiece por letra + (\\d{8}) y el resto de digitos + ($)final de cadena
+	//@NotEmpty(message="El campo no puede estar vacio")
+	//@Pattern(regexp = "^[A-Z]\\d{8}$", message = "La primera letra debe ser mayúscula y debe seguirle 8 digitos") //(^[A-Z])que empiece por letra + (\\d{8}) y el resto de digitos + ($)final de cadena
 	private String nifEmpresa;
 	
-	@NotEmpty(message="El campo no puede estar vacio")	
-	@Size(min = 2, max=40, message = "El nombre de Empresa debe ser entre 2 y 40 caracteres")
+	//@NotEmpty(message="El campo no puede estar vacio")	
+	//@Size(min = 2, max=40, message = "El nombre de Empresa debe ser entre 2 y 40 caracteres")
 	private String nombreUsuario;
 	
 	//https://es.stackoverflow.com/questions/453176/como-validar-correctamente-un-email-con-expresiones-regulares
-	@NotEmpty(message="El campo no puede estar vacio")
-	@Email(regexp = "[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,5}", message = "Antes y después de la @ los símbolos válidos son '.', '_','-'. El dominio debe ser mínimo de dos letras")
+	//@NotEmpty(message="El campo no puede estar vacio")
+	//@Email(regexp = "[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,5}", message = "Antes y después de la @ los símbolos válidos son '.', '_','-'. El dominio debe ser mínimo de dos letras")
 	private String emailUsuario;
 	
-	@NotEmpty(message="El campo no puede estar vacio")
+	//@NotEmpty(message="El campo no puede estar vacio")
 	private String telefonoUsuario;
 	
-	@NotEmpty(message="El campo no puede estar vacio")
-	@Size(min = 8, max = 12, message = "La contraseña debe tener entre 8 y 12 digitos")
+	//@NotEmpty(message="El campo no puede estar vacio")
+	//@Size(min = 8, max = 12, message = "La contraseña debe tener entre 8 y 12 digitos")
 	private String contraseniaUsuario;
 
 	

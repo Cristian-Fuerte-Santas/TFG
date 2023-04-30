@@ -55,9 +55,6 @@ public class ImagenesHotel {
 		return "ImagenesHotel [idImagenHotel=" + idImagenHotel + ", urlImagenHotel=" + urlImagenHotel + "]";
 	}
 
-
-    
-    
     
 }
 

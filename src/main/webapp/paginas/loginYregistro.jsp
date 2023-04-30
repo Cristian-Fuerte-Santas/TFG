@@ -165,26 +165,47 @@ body {
 	<div id="principal" class="flex-grow-1 bg-light">
 
 
-
-
-
-
-
-
 		<!-- LOGIN -->
 		<form:form id="formularioLogin" class="form-signin mt-5"
-			modelAttribute="usuario" method="GET" action="loginUsuario">
+			modelAttribute="usuario" method="POST" action="formularioLogin">
+
 
 
 			<label for="inputEmail" class="sr-only">Email address</label>
 			<form:input path="emailUsuario" type="email" id="inputEmail"
 				class="form-control" placeholder="Correo electrónico"
 				required="true" autofocus="true" />
+			<c:if test="${errorEmailInvalido}">
+				<div class="alert alert-danger">Antes y después de la @ los
+					símbolos válidos son '.', '_', '-'. El dominio debe ser mínimo de
+					dos letras.</div>
+			</c:if>
+			<c:if test="${errorEmailNoEncontrado}">
+				<div class="alert alert-danger">Email o la contraseña
+					ingresados no se encuentra registrado. Por favor, verifica e
+					inténtalo de nuevo.</div>
+			</c:if>
+
+
+
 
 			<label for="inputPassword" class="sr-only">Password</label>
 			<form:input path="contraseniaUsuario" type="password"
 				id="inputPassword" class="form-control" placeholder="Contraseña"
 				required="true" autofocus="true" />
+			<c:if test="${errorContraseniaInvalida}">
+				<div class="alert alert-danger">La contraseña debe tener entre
+					5 y 8 dígitos.</div>
+			</c:if>
+			<c:if test="${errorContraseniaNoEncontrada}">
+				<div class="alert alert-danger">Email o la contraseña
+					ingresados no se encuentra registrado. Por favor, verifica e
+					inténtalo de nuevo.</div>
+			</c:if>
+
+
+
+
 
 			<div class="checkbox mb-3">
 
@@ -202,8 +223,8 @@ body {
 
 				Sesión</button>
 
-			<a href="contraseniaOlvidada"> 
-			<span>He olvidado lacontraseña</span>
+			<a href="contraseniaOlvidada"> <span>He olvidado la
+					contraseña</span>
 			</a>
 
 
@@ -219,13 +240,13 @@ body {
 				role="alert">
 				EL REGISTRO SE HA COMPLETADO CORRECTAMENTE <br> <a
 					href="http://localhost:8080/loginYregistro">Volver al area de
-					Inicio de Sesión</a>
+					Login</a>
 
 			</div>
 
 		</c:if>
 
-		
+
 
 
 		<!-- MENSAJE DE REGISTRARSE Y FLECHA ABAJO-->
@@ -260,10 +281,15 @@ body {
 
 
 
-		<!-- REGISTRARSE -->
+
+
 		<form:form id="formularioRegistrarse" class="form-signin mt-5"
 			modelAttribute="usuario" hidden="true" method="POST"
 			action="insertarUsuario">
+
+			<input type="hidden" id="registroAbierto" name="registroAbierto"
+				value="${registroAbierto}">
+
 
 			<form:hidden path="idUsuario" id="idUsuario"></form:hidden>
 
@@ -272,9 +298,8 @@ body {
 			<form:input path="nombreEmpresa" type="text"
 				id="inputNombreDeEmpresa" class="form-control"
 				placeholder="AGUAS BUENAS S.L. ..." required="true"></form:input>
-			<c:if test="${errorFormulario}">
-				<!-- mostrar mensajes de error -->
-				<form:errors path="nombreEmpresa" cssClass="error-message" />
+			<c:if test="${errorNombreEmpresaInvalido}">
+				<div class="alert alert-danger">Nombre de empresa inválido.</div>
 			</c:if>
 
 
@@ -283,9 +308,9 @@ body {
 			<form:input path="nifEmpresa" type="text" id="inputNifEmpresa"
 				class="form-control" placeholder="A12345678" required="true"></form:input>
 
-			<c:if test="${errorFormulario}">
-				<form:errors path="nifEmpresa" cssClass="error-message" />
-			</c:if>     
+			<c:if test="${errorNifEmpresaInvalido}">
+				<div class="alert alert-danger">NIF Empresa inválido.</div>
+			</c:if>
 
 
 
@@ -293,51 +318,54 @@ body {
 			<form:input path="nombreUsuario" type="text"
 				id="inputNombreDeUsuario" class="form-control" placeholder="Manuel"
 				required="true"></form:input>
-
-			<c:if test="${errorFormulario}">
-				<form:errors path="nombreUsuario" cssClass="error-message" />
+			<c:if test="${errorNombreUsuarioInvalido}">
+				<div class="alert alert-danger">Nombre de usuario inválido.</div>
 			</c:if>
+
+
 
 			<label for="inputTelefonoUsuario">Teléfono Móvil</label>
 			<form:input path="telefonoUsuario" type="tel"
 				id="inputTelefonoUsuario" class="form-control"
 				placeholder="666555444" required="true"></form:input>
+			<!-- Pendiente TELF -->
 
-			<c:if test="${errorFormulario}">
-				<form:errors path="telefonoUsuario" cssClass="error-message" />
-			</c:if>
+
 
 			<label for="inputEmailUsuario">Correo Electrónico</label>
 			<form:input path="emailUsuario" type="email" id="inputEmailUsuario"
 				class="form-control" placeholder="manuel@gmail.com" required="true"></form:input>
-
-			<c:if test="${errorFormulario}">
-				<form:errors path="emailUsuario" cssClass="error-message" />
+			<c:if test="${errorEmailInvalido}">
+				<div class="alert alert-danger"">Correo electrónico inválido.</div>
 			</c:if>
+
+
 
 			<label for="inputContrasenia">Contraseña</label>
 			<form:input path="contraseniaUsuario" type="password"
 				id="inputContrasenia" class="form-control" placeholder="Contraseña"
 				required="true"></form:input>
-
-			<c:if test="${errorFormulario}">
-				<form:errors path="contraseniaUsuario" cssClass="error-message" />
+			<c:if test="${errorPasswordInvalido}">
+				<div class="alert alert-danger"">Contraseña inválida.</div>
 			</c:if>
+
+
 
 			<label for="inputVerificarContrasenia">Vuelva a introducir su
 				contraseña</label>
 			<input name="verificarContrasenia" type="password"
 				id="inputVerificarContrasenia" class="form-control"
 				placeholder="Vuelva a introducir la contraseña" />
+			<c:if test="${errorPasswordNoCoincide}">
+				<div class="alert alert-danger"">Las contraseñas no coinciden.</div>
+			</c:if>
+
+
 
 			<button id="botonEnviarFormularioRegistrarse"
 				class="btn btn-lg btn-primary btn-block" type="submit">REGISTRARSE</button>
 		</form:form>
-
-
 	</div>
-
-
 
 	<!-- Footer-->
 	<footer class="footer mt-auto py-3 mb-0">
@@ -367,6 +395,7 @@ body {
 
 				//muestra el mensaje de ocultar registrase
 				$("#mensajeOcultarRegistrarse").removeAttr("hidden");
+
 			});
 
 			//cuando le damos a la flecha hacia arriba
@@ -383,19 +412,10 @@ body {
 
 				//oculta el formulario de login
 				$("#formularioLogin").removeAttr("hidden");
+
 			});
 
-			if ($("#mensajeErrorRegistro").lenght) {
-
-				console.log("TENGO ERRORES")
-
-				$("#formularioLogin").attr("hidden", true);
-				$("#mensajeRegistrase").attr("hidden", true);
-				$("#mensajeRegistrase").attr("hidden", false);
-
-			}
-
-			//si existe el mensaje de éxito, quitar el atributo hidden
+			//REGISTRO - EXITO; si existe el mensaje de éxito, quitar el atributo hidden
 
 			if ($("#mensajeExitoRegistro").length) {
 
@@ -404,8 +424,16 @@ body {
 				$("#mensajeExitoRegistro").removeAttr("hidden");
 			}
 
-			
+			//REGISTRO - ERRORES; ocultar formulario Login y flecha si hay errores en validacion Registro
+			if ($("#formularioRegistrarse .alert-danger").length) {
 
+				console.log("TENGO ERRORES")
+
+				$("#formularioLogin").attr("hidden", true);
+				$("#mensajeRegistrase").attr("hidden", true);
+				$("#mensajeOcultarRegistrarse").removeAttr("hidden");
+				$("#formularioRegistrarse").removeAttr("hidden");
+			}
 		});
 	</script>
 

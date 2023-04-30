@@ -27,7 +27,8 @@ public class GestorSalaHotel {
 	@Autowired
 	private IRepositorioImagenesSalaHotel repositorioImagenesSalaHotel;
 
-	private final String directorioImagenesSalasHotel = "src/main/resources/static/imagenes/imagenesSalasHotel/";
+	@Autowired
+	private GestorImagenes gestorImagenes;
 
 	public GestorSalaHotel() {
 		super();
@@ -52,52 +53,36 @@ public class GestorSalaHotel {
 
 	@Transactional
 	public void borrar(SalaHotel salaHotel) {
-		// para modificar tambien es save
+
+		for (ImagenesSalaHotel imagen : salaHotel.getListadoImagenesSalaHotel()) {
+			String nombreArchivo = Paths.get(imagen.getUrlImagenSalaHotel()).getFileName().toString();
+			gestorImagenes.eliminarImagen(nombreArchivo);
+		}
+
 		repositorioSalaHotel.delete(salaHotel);
 	}
 
 	// PARA LAS IMAGENES DE SALA HOTEL
-
+	
+	// Para insertarlas en la base de datos
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void insertarImagenHotel(ImagenesSalaHotel imagenSalaHotel) {
 		repositorioImagenesSalaHotel.save(imagenSalaHotel);
 		repositorioImagenesSalaHotel.flush();
 
-		System.out.println("Se ha insertado la imagen del hotel correctamente");
+		System.out.println("Se ha insertado la imagen de la sala hotel correctamente");
 	}
-
-	@Transactional
-	public void borrarImagenHotel(ImagenesSalaHotel imagenSalaHotel) {
-		// para modificar tambien es save
-		repositorioImagenesSalaHotel.delete(imagenSalaHotel);
-	}
-
+	
+	// Para insertarlas en el ordenador localmente, en el sistema de archivos
 	@Transactional
 	public String guardarImagenSalaHotel(MultipartFile file) throws IOException {
 
-		// Crear el directorio si no existe
-		Path directorioPath = Paths.get(directorioImagenesSalasHotel);
-
-		if (!Files.exists(directorioPath)) {
-
-			Files.createDirectories(directorioPath);
-		}
-
-		// Guardar el archivo en el directorio
-		Path imagePath = directorioPath.resolve(file.getOriginalFilename());
-
-		Files.copy(file.getInputStream(), imagePath);
-
-		// Devolver la URL donde se guarda la imagen
-		return "/imagenes/imagenesSalasHotel/" + file.getOriginalFilename();
+		return gestorImagenes.guardarImagen(file);
 	}
-	
-	
-	
+
 	@Transactional(readOnly = true) // Especifica que esta transacción es solo de lectura
 	public List<SalaHotel> verTodasLasSalasHotel() {
-	    return repositorioSalaHotel.verTodasLasSalasHotel();
+		return repositorioSalaHotel.verTodasLasSalasHotel();
 	}
-
 
 }

@@ -11,8 +11,6 @@ import com.tfg.imf.persistencia.IRepositorioHotel;
 import com.tfg.imf.persistencia.IRepositorioImagenesHotel;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
@@ -26,11 +24,11 @@ public class GestorHotel {
 
 	@Autowired
 	private IRepositorioImagenesHotel repositorioImagenesHotel;
-	
+
 	@Autowired
 	private GestorImagenes gestorImagenes;
 
-	//private final String directorioImagenes = "src/main/resources/static/imagenes/imagenesHoteles/";
+
 
 	public GestorHotel() {
 		super();
@@ -54,12 +52,20 @@ public class GestorHotel {
 
 	@Transactional
 	public void borrar(Hotel hotel) {
-		// para modificar tambien es save
+		
+		// Antes de eliminar el hotel, primero elimina sus imágenes
+		for (ImagenesHotel imagen : hotel.getListadoImagenesHotel()) {
+			String nombreArchivo = Paths.get(imagen.getUrlImagenHotel()).getFileName().toString();
+			gestorImagenes.eliminarImagen(nombreArchivo);
+		}
+
+		
 		repositorioHotel.delete(hotel);
 	}
 
 	// PARA LAS IMAGENES DEL HOTEL
 
+	// Para insertarlas en la base de datos
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void insertarImagenHotel(ImagenesHotel imagenHotel) {
 		repositorioImagenesHotel.save(imagenHotel);
@@ -68,30 +74,10 @@ public class GestorHotel {
 		System.out.println("Se ha insertado la imagen del hotel correctamente");
 	}
 
-	@Transactional
-	public void borrarImagenHotel(ImagenesHotel imagenHotel) {
-		// para modificar tambien es save
-		repositorioImagenesHotel.delete(imagenHotel);
-	}
-
+	// Para insertarlas en el ordenador localmente, en el sistema de archivos
 	@Transactional
 	public String guardarImagenHotel(MultipartFile file) throws IOException {
-
-		// Crear el directorio si no existe
-		Path directorioPath = Paths.get(gestorImagenes.guardarImagen(file, null));
-
-		if (!Files.exists(directorioPath)) {
-
-			Files.createDirectories(directorioPath);
-		}
-
-		// Guardar el archivo en el directorio
-		Path imagePath = directorioPath.resolve(file.getOriginalFilename());
-
-		Files.copy(file.getInputStream(), imagePath);
-
-		// Devolver la URL donde se guarda la imagen
-		return "/imagenes/imagenesHoteles/" + file.getOriginalFilename();
+		return gestorImagenes.guardarImagen(file);
 	}
 
 	@Transactional(readOnly = true) // Especifica que esta transacción es solo de lectura
