@@ -1,12 +1,22 @@
 package com.tfg.imf.modelo;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.tfg.imf.entidades.Hotel;
+import com.tfg.imf.entidades.ImagenesHotel;
+import com.tfg.imf.entidades.ImagenesMenuRestaurante;
 import com.tfg.imf.entidades.MenuRestaurante;
-
+import com.tfg.imf.persistencia.IRepositorioImagenesMenuRestaurante;
 import com.tfg.imf.persistencia.IRepositorioMenuRestaurante;
 
 @Service
@@ -14,6 +24,14 @@ public class GestorMenuRestaurante {
 	
 	@Autowired
 	private IRepositorioMenuRestaurante repositorioMenuRestaurante;
+	
+	@Autowired
+	private IRepositorioImagenesMenuRestaurante repositorioImagenesMenuRestaurante;
+	
+	@Autowired
+	private GestorImagenes gestorImagenes;
+	
+
 
 	public GestorMenuRestaurante() {
 		super();
@@ -38,8 +56,36 @@ public class GestorMenuRestaurante {
 	
 	@Transactional
 	public void borrar(MenuRestaurante menuRestaurante) {
-		//para modificar tambien es save
+		
+		for (ImagenesMenuRestaurante imagen : menuRestaurante.getListadoImagenesMenuRestaurante() ) {
+			String nombreArchivo = Paths.get(imagen.getUrlImagenMenuRestaurante()).getFileName().toString();
+			gestorImagenes.eliminarImagen(nombreArchivo);
+		}
+	
 		repositorioMenuRestaurante.delete(menuRestaurante);
+	}
+	
+	//PARA LAS IMAGGENES DEL MENU RESTAURANTE
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void insertarImagenHotel(ImagenesMenuRestaurante imagenMenuRestaurante) {
+		repositorioImagenesMenuRestaurante.save(imagenMenuRestaurante);
+		repositorioImagenesMenuRestaurante.flush();
+
+		System.out.println("Se ha insertado la imagen del hotel correctamente");
+	}
+
+
+	
+	@Transactional
+	public String guardarImagen(MultipartFile file) throws IOException {
+
+		return gestorImagenes.guardarImagen(file);
+	}
+	
+	
+	@Transactional(readOnly = true) // Especifica que esta transacción es solo de lectura
+	public List<MenuRestaurante> verTodosLosMenusRestaurantes() {
+		return repositorioMenuRestaurante.verTodosLosMenusRestaurantes();
 	}
 
 }

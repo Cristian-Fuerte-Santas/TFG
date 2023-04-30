@@ -52,13 +52,9 @@ public class ImagenesHotel {
 
 	@Override
 	public String toString() {
-		return "ImagenesHotel [idImagenHotel=" + idImagenHotel + ", urlImagenHotel=" + urlImagenHotel + ", hotel="
-				+ hotel + "]";
+		return "ImagenesHotel [idImagenHotel=" + idImagenHotel + ", urlImagenHotel=" + urlImagenHotel + "]";
 	}
 
-    // Getters y setters
-    
-    
     
 }
 

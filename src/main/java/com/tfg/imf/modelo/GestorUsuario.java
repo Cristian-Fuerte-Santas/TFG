@@ -30,6 +30,10 @@ public class GestorUsuario {
 	
 	@Transactional(propagation=Propagation.REQUIRED) //@Transactional: para cuando queramos modificar la BD 	
 	public void insertar(Usuario usuario) {
+		
+		System.out.println("Ha entrado detro de insertar de Gestor Usuario");
+		
+		System.out.println(usuario.toString());
 		repositorioUsuario.save(usuario);
 		repositorioUsuario.flush();
 		

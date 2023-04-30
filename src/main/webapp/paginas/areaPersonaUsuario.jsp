@@ -1,11 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-
 <!--  Directivas  -->
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-
 
 
 <!DOCTYPE html>
@@ -69,7 +67,6 @@ body {
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
 
-
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 			data-target="#navbarNav" aria-controls="navbarNav"
 			aria-expanded="false" aria-label="Toggle navigation">
@@ -107,20 +104,15 @@ body {
 	</nav>
 
 
-
-
 	<div class="container-fluid mt-5">
 		<div class="row ">
-
 
 			<!-- Menú lateral -->
 			<div class="col-md-3 col-lg-3 ">
 				<div class="d-flex flex-column flex-shrink-0 p-3 bg-light mt-0"
 					style="width: 280px;">
-					
-					  <h6 class="nav-header" align="center">
-                                MENÚ AREA PERSONAL
-                            </h6>
+
+					<h6 class="nav-header" align="center">MENÚ AREA PERSONAL</h6>
 
 					<ul class="nav nav-pills flex-column mb-auto">
 
@@ -138,26 +130,13 @@ body {
 								alt="Bootstrap" width="20" height="20"> Mis Reservas
 						</a></li>
 
-						<li id="menuMisFavoritos" class="nav-item nav-pills-item"><a
-							href="#" class="nav-link link-dark"> <img
-								src="recursos/Bootstrap/bootstrap-icons-1.10.4/heart.svg"
-								alt="Bootstrap" width="20" height="20"> Mis Favoritos
-						</a></li>
 
-						<li id="menuMisBorradores" class="nav-item nav-pills-item"><a
-							href="#" class="nav-link link-dark"> <img
-								src="recursos/Bootstrap/bootstrap-icons-1.10.4/archive.svg"
-								alt="Bootstrap" width="20" height="20"> Mis Borradores
-						</a></li>
 
-						<li id="botonCerrarSesion" align="center"><a class="btn btn-danger mt-5"> Cerrar
-								Sesión </a></li>
+						<li id="botonCerrarSesion" align="center"><a
+							class="btn btn-danger mt-5"> Cerrar Sesión </a></li>
 					</ul>
 				</div>
 			</div>
-
-
-
 
 
 
@@ -203,10 +182,8 @@ body {
 			</div>
 
 
-
 			<!-- Contenido Mis Reservas -->
 			<div id="contenidoMisReservas" class="col-md-9 col-lg-9 d-none">
-
 
 				<div class="row ">
 
@@ -232,67 +209,9 @@ body {
 
 				</div>
 
-
 			</div>
-
-
-			<!-- Contenido Mis Favoritos -->
-			<div id="contenidoMisFavoritos" class="col-md-9 col-lg-9 d-none">
-
-				<div class="row">
-					<div class="card w-75">
-						<div class="card-body">
-							<h5 class="card-title">Mis Favoritos</h5>
-							<form>
-
-								<div class="form-group">
-									<label for="nombreEmpresa">Favortios</label> <input type="text"
-										class="form-control" id="nombreEmpresa">
-								</div>
-
-								<button type="submit" class="btn btn-danger">Cancelar
-									Favoritos</button>
-							</form>
-						</div>
-					</div>
-				</div>
-
-			</div>
-
-
-
-
-			<!-- Contenido Mis Borradores -->
-			<div id="contenidoMisBorradores" class="col-md-9 col-lg-9 d-none">
-
-				<div class="row">
-					<div class="card w-75">
-						<div class="card-body">
-							<h5 class="card-title">Mis Borradores</h5>
-							<form>
-
-								<div class="form-group">
-									<label for="nombreEmpresa">Borrador</label> <input type="text"
-										class="form-control" id="nombreEmpresa">
-								</div>
-
-								<button type="submit" class="btn btn-danger">Eliminar
-									Borrador</button>
-							</form>
-						</div>
-					</div>
-				</div>
-
-			</div>
-
-
-
 
 		</div>
-
-
-
-
 
 	</div>
 
@@ -308,96 +227,61 @@ body {
 
 
 	<script>
-		$(document).ready(
-				function() {
+		$(document).ready(function() {
 
-					function subrayarCategoriaSeleccionada(element) {
+			function subrayarCategoriaSeleccionada(element) {
 
-						$(".nav-pills-item").removeClass("active");
+				$(".nav-pills-item").removeClass("active");
 
-						$(element).addClass("active");
+				$(element).addClass("active");
 
-					}
+			}
 
-					function mostrarDiv(element) {
+			function mostrarDiv(element) {
 
-						$(element).removeClass("d-none");
+				$(element).removeClass("d-none");
 
-					}
+			}
 
-					function esconderDivs(elements) {
+			function esconderDivs(elements) {
 
-						elements.forEach(function(element) {
+				elements.forEach(function(element) {
 
-							$(element).addClass("d-none");
-
-						});
-					}
-
-					//MENU MIS DATOS PERSONALES
-					$("#menuMisDatosPersonales").click(
-							function() {
-
-								subrayarCategoriaSeleccionada(this);
-
-								mostrarDiv("#contenidoMisDatosPersonales");
-
-								esconderDivs([ "#contenidoMisReservas",
-										"#contenidoMisFavoritos",
-										"#contenidoMisBorradores" ]);
-
-							});
-
-					//MENU MIS RESERVAS
-					$("#menuMisReservas").click(
-							function() {
-
-								subrayarCategoriaSeleccionada(this);
-
-								mostrarDiv("#contenidoMisReservas");
-
-								esconderDivs([ "#contenidoMisDatosPersonales",
-										"#contenidoMisFavoritos",
-										"#contenidoMisBorradores" ]);
-
-							});
-
-					//MENU MIS FAVORITOS
-					$("#menuMisFavoritos").click(
-							function() {
-
-								subrayarCategoriaSeleccionada(this);
-
-								mostrarDiv("#contenidoMisFavoritos");
-
-								esconderDivs([ "#contenidoMisDatosPersonales",
-										"#contenidoMisReservas",
-										"#contenidoMisBorradores" ]);
-
-							});
-
-					//MENU MIS BORRADORES
-					$("#menuMisBorradores").click(
-							function() {
-
-								subrayarCategoriaSeleccionada(this);
-
-								mostrarDiv("#contenidoMisBorradores");
-
-								esconderDivs([ "#contenidoMisDatosPersonales",
-										"#contenidoMisReservas",
-										"#contenidoMisFavoritos" ]);
-
-							});
-
-					//CERRAR SESIÓN
-					$("#botonCerrarSesion").click(function() {
-
-						console.log("Has dado al boton de cerrar sesion");
-
-					});
+					$(element).addClass("d-none");
 
 				});
+			}
+
+			//MENU MIS DATOS PERSONALES
+			$("#menuMisDatosPersonales").click(function() {
+
+				subrayarCategoriaSeleccionada(this);
+
+				mostrarDiv("#contenidoMisDatosPersonales");
+
+				esconderDivs([ "#contenidoMisReservas", ]);
+
+			});
+
+			//MENU MIS RESERVAS
+			$("#menuMisReservas").click(function() {
+
+				subrayarCategoriaSeleccionada(this);
+
+				mostrarDiv("#contenidoMisReservas");
+
+				esconderDivs([ "#contenidoMisDatosPersonales" ]);
+
+			});
+
+			//CERRAR SESIÓN
+			$("#botonCerrarSesion").click(function() {
+
+				console.log("Has dado al boton de cerrar sesion");
+
+			});
+
+		});
 	</script>
 </body>
 
