@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -90,5 +91,13 @@ public class GestorSalaHotel {
 		// Devolver la URL donde se guarda la imagen
 		return "/imagenes/imagenesSalasHotel/" + file.getOriginalFilename();
 	}
+	
+	
+	
+	@Transactional(readOnly = true) // Especifica que esta transacción es solo de lectura
+	public List<SalaHotel> verTodasLasSalasHotel() {
+	    return repositorioSalaHotel.verTodasLasSalasHotel();
+	}
+
 
 }

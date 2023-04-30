@@ -45,7 +45,7 @@ public class Restaurante {
 	@JoinColumn(name = "id_destino")
 	private Destino destino;
 
-	@OneToMany(mappedBy = "restaurante")
+	@OneToMany(mappedBy = "restaurante",cascade = CascadeType.ALL )
 	@JsonIdentityReference(alwaysAsId = true)
 	private List<MenuRestaurante> menusRestaurante = new ArrayList<>();
 

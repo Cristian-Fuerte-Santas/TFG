@@ -166,5 +166,27 @@ public class FormularioRestauranteControlador {
 		System.out.println("Restaurantes devueltos: " + restaurantes);
 		return restaurantes;
 	}
+	
+	
+	@PostMapping("/borrarRestaurante")
+	public ModelAndView borrarRestaurante(@RequestParam("idRestaurante") Integer idRestaurante) {
+	    System.out.println("FormularioOfertasControlador.borrarRestaurante");
+
+	    Restaurante restaurante = repositorioRestaurante.findById(idRestaurante).orElse(null);
+
+	    if (restaurante != null) {
+	        gestorRestaurante.borrar(restaurante);
+
+	        ModelAndView mav = new ModelAndView("redirect:gestionarOfertasAdmin");
+	        return mav;
+	    } else {
+	        // Si el restaurante no se encuentra, redirigir a una página de error o manejarlo de
+	        // otra manera
+	        ModelAndView mav = new ModelAndView("error");
+	        mav.addObject("mensaje", "Error al borrar el restaurante: no se encontró el restaurante con el ID especificado");
+	        return mav;
+	    }
+	}
+	
 
 }

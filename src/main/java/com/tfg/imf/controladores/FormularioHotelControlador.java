@@ -214,5 +214,56 @@ public class FormularioHotelControlador {
 		System.out.println("Hoteles devueltos: " + hoteles);
 		return hoteles;
 	}
+	
+	@GetMapping("/verHoteles")
+	public ModelAndView verHoteles() {
+	    System.out.println("FormularioHotelControlador.verHoteles");
+
+	    List<Hotel> hoteles = gestorHotel.verTodosLosHoteles();
+
+	    ModelAndView mav = new ModelAndView("verHoteles");
+	    mav.addObject("hoteles", hoteles);
+
+	    return mav;
+	}
+	
+	
+	
+	@PostMapping("/borrarHotel")
+	public ModelAndView borrarHotel(@RequestParam("idHotel") Integer idHotel) {
+	    System.out.println("FormularioOfertasControlador.borrarHotel");
+
+	    Hotel hotel = repositorioHotel.findById(idHotel).orElse(null);
+
+	    if (hotel != null) {
+	        gestorHotel.borrar(hotel);
+
+	        ModelAndView mav = new ModelAndView("redirect:gestionarOfertasAdmin");
+	        return mav;
+	    } else {
+	        // Si el hotel no se encuentra, redirigir a una página de error o manejarlo de
+	        // otra manera
+	        ModelAndView mav = new ModelAndView("error");
+	        mav.addObject("mensaje", "Error al borrar el hotel: no se encontró el hotel con el ID especificado");
+	        return mav;
+	    }
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
 
 }

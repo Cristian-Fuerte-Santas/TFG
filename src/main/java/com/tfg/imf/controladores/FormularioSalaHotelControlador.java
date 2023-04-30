@@ -177,5 +177,26 @@ public class FormularioSalaHotelControlador {
 		}
 		
 		
+		@PostMapping("/borrarSalaHotel")
+		public ModelAndView borrarSalaHotel(@RequestParam("idSala") Integer idSala) {
+		    System.out.println("FormularioOfertasControlador.borrarSalaHotel");
+
+		    SalaHotel sala = repositorioSalaHotel.findById(idSala).orElse(null);
+
+		    if (sala != null) {
+		        gestorSalaHotel.borrar(sala);
+
+		        ModelAndView mav = new ModelAndView("redirect:gestionarOfertasAdmin");
+		        return mav;
+		    } else {
+		        // Si la sala no se encuentra, redirigir a una página de error o manejarlo de
+		        // otra manera
+		        ModelAndView mav = new ModelAndView("error");
+		        mav.addObject("mensaje", "Error al borrar la sala: no se encontró la sala con el ID especificado");
+		        return mav;
+		    }
+		}
+
+		
 		
 }

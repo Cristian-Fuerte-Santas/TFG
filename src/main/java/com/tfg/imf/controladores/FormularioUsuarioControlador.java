@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.tfg.imf.entidades.Usuario;
+import com.tfg.imf.entidades.*;
+import com.tfg.imf.modelo.GestorHotel;
+import com.tfg.imf.modelo.GestorRestaurante;
+import com.tfg.imf.modelo.GestorSalaHotel;
 import com.tfg.imf.modelo.GestorUsuario;
 import com.tfg.imf.persistencia.IRepositorioUsuario;
-
 
 import java.util.List;
 
@@ -30,6 +32,15 @@ public class FormularioUsuarioControlador {
 
 	@Autowired
 	private GestorUsuario gestorUsuario;
+
+	@Autowired
+	private GestorHotel gestorHotel;
+
+	@Autowired
+	private GestorRestaurante gestorRestaurante;
+
+	@Autowired
+	private GestorSalaHotel gestorSalaHotel;
 
 	@Autowired
 	private IRepositorioUsuario respositorioUsuario;
@@ -63,7 +74,6 @@ public class FormularioUsuarioControlador {
 
 		System.out.println("FormularioUsuarioControlador.verAreaPersonaUsuario");
 
-		// como el header de php, redirige a donde queramos
 		ModelAndView mav = new ModelAndView("areaPersonaUsuario");
 
 		return mav;
@@ -74,7 +84,6 @@ public class FormularioUsuarioControlador {
 
 		System.out.println("FormularioUsuarioControlador.verAreaPersonaAdmin");
 
-		// como el header de php, redirige a donde queramos
 		ModelAndView mav = new ModelAndView("areaPersonaAdmin");
 
 		return mav;
@@ -85,102 +94,112 @@ public class FormularioUsuarioControlador {
 
 		System.out.println("FormularioUsuarioControlador.verFaq");
 
-		// como el header de php, redirige a donde queramos
 		ModelAndView mav = new ModelAndView("faq");
 
 		return mav;
 	}
-	
+
 	@GetMapping("/busquedaPersonalizada")
 	public ModelAndView verBusquedaPersonalizada() {
 
 		System.out.println("FormularioUsuarioControlador.verBusquedaPersonalizada");
 
-		// como el header de php, redirige a donde queramos
 		ModelAndView mav = new ModelAndView("busquedaPersonalizada");
 
 		return mav;
 	}
-	
-	/*
-	
-	@GetMapping("/insertarOfertasAdmin")
-	public ModelAndView verInsertarOfertasAdmin() {
 
-		System.out.println("FormularioUsuarioControlador.verInsertarOfertasAdmin");
+	
 
-		// como el header de php, redirige a donde queramos
-		ModelAndView mav = new ModelAndView("insertarOfertasAdmin");
+	@GetMapping("/gestionarUsuariosAdmin")
+	public ModelAndView gestionarUsuarios() {
+
+		System.out.println("FormularioClientesControlador.gestionarUsuarios");
+
+		List<Usuario> usuarios = gestorUsuario.verTodosLosUsuarios();
+
+		ModelAndView mav = new ModelAndView("gestionarUsuariosAdmin");
+
+		mav.addObject("usuarios", usuarios);
 
 		return mav;
 	}
-*/
+
 	
-	
-	
-	// PARA EL CRUD	
-	
+	@GetMapping("/gestionarOfertasAdmin")
+	public ModelAndView verGestionarOfertasAdmin() {
+
+		System.out.println("FormularioUsuarioControlador.verGestiornarOfertaAdmin");
+
+		List<Hotel> hoteles = gestorHotel.verTodosLosHoteles();
 		
+		List<Restaurante> restaurantes = gestorRestaurante.verTodosLosRestaurantes();
+		
+		List<SalaHotel> salashoteles = gestorSalaHotel.verTodasLasSalasHotel();
+
+		// como el header de php, redirige a donde queramos
+		ModelAndView mav = new ModelAndView("gestionarOfertasAdmin");
+		mav.addObject("hoteles", hoteles);
+		mav.addObject("restaurantes", restaurantes);
+		mav.addObject("salashoteles", salashoteles);
+
+		return mav;
+	}
+	
+
+	// PARA EL CRUD
+
 	@PostMapping("/insertarUsuario")
 	public ModelAndView insertarUsuario(@Valid @ModelAttribute Usuario usuario, BindingResult result) {
-		
-	    //ModelAndView mav = new ModelAndView();
-	   //mav.setViewName("loginYregistro");
-	   ModelAndView mav = new ModelAndView("loginYregistro");
-	    
-	    
-	    // Si no hay errores, intentamos insertar el usuario en la base de datos
-	    if (!result.hasErrors()) { 
-	    	
-	    	Usuario nuevoUsuario = new Usuario();
-	        
-	        nuevoUsuario.setNombreEmpresa(usuario.getNombreEmpresa());
-	        nuevoUsuario.setNifEmpresa(usuario.getNifEmpresa());
-	        nuevoUsuario.setNombreUsuario(usuario.getNombreUsuario());
-	        nuevoUsuario.setEmailUsuario(usuario.getEmailUsuario());
-	        nuevoUsuario.setTelefonoUsuario(usuario.getTelefonoUsuario());
-	        nuevoUsuario.setContraseniaUsuario(usuario.getContraseniaUsuario());
-	        
-	        try {
-	        	
-	            gestorUsuario.insertar(nuevoUsuario);
-	            
-	            
-	            
-	            // Si se inserta correctamente, agregamos un mensaje de éxito al ModelAndView	            
-	            mav.addObject("exitoRegistro", true);
-	            
-	        } catch (Exception e) {
-	            // Si algo falla, agregamos un mensaje de error al ModelAndView
-	            mav.addObject("errorInsertar", "Error al insertar el usuario en la base de datos");
-	        }
-	    	
-	       
-	        
-	    } else { 
-	    	
-	    	// Si se inserta correctamente, agregamos un mensaje de éxito al ModelAndView	            
-            mav.addObject("errorFormulario", true);
-	    	
-	    	// Agregamos los mensajes de error al ModelAndView, esto analiza primero si es true o false, y en los true guarda el mensaje de error de la entidad 
-	        mav.addObject("errorNombreEmpresa", result.getFieldError("nombreEmpresa"));
-	        mav.addObject("errorNifEmpresa", result.getFieldError("nifEmpresa"));
-	        mav.addObject("errorNombreUsuario", result.getFieldError("nombreUsuario"));
-	        mav.addObject("errorEmailUsuario", result.getFieldError("emailUsuario"));
-	        mav.addObject("errorTelefonoUsuario", result.getFieldError("telefonoUsuario"));
-	        mav.addObject("errorContraseniaUsuario", result.getFieldError("contraseniaUsuario"));
-	        
-	        System.out.println("Valor de errorFormulario: " + mav.getModel().get("errorFormulario"));
-	        
-	    }
-	    
-	
-	    return mav;
+
+		// ModelAndView mav = new ModelAndView();
+		// mav.setViewName("loginYregistro");
+		ModelAndView mav = new ModelAndView("loginYregistro");
+
+		// Si no hay errores, intentamos insertar el usuario en la base de datos
+		if (!result.hasErrors()) {
+
+			Usuario nuevoUsuario = new Usuario();
+
+			nuevoUsuario.setNombreEmpresa(usuario.getNombreEmpresa());
+			nuevoUsuario.setNifEmpresa(usuario.getNifEmpresa());
+			nuevoUsuario.setNombreUsuario(usuario.getNombreUsuario());
+			nuevoUsuario.setEmailUsuario(usuario.getEmailUsuario());
+			nuevoUsuario.setTelefonoUsuario(usuario.getTelefonoUsuario());
+			nuevoUsuario.setContraseniaUsuario(usuario.getContraseniaUsuario());
+
+			try {
+
+				gestorUsuario.insertar(nuevoUsuario);
+
+				// Si se inserta correctamente, agregamos un mensaje de éxito al ModelAndView
+				mav.addObject("exitoRegistro", true);
+
+			} catch (Exception e) {
+				// Si algo falla, agregamos un mensaje de error al ModelAndView
+				mav.addObject("errorInsertar", "Error al insertar el usuario en la base de datos");
+			}
+
+		} else {
+
+			// Si se inserta correctamente, agregamos un mensaje de éxito al ModelAndView
+			mav.addObject("errorFormulario", true);
+
+			// Agregamos los mensajes de error al ModelAndView, esto analiza primero si es
+			// true o false, y en los true guarda el mensaje de error de la entidad
+			mav.addObject("errorNombreEmpresa", result.getFieldError("nombreEmpresa"));
+			mav.addObject("errorNifEmpresa", result.getFieldError("nifEmpresa"));
+			mav.addObject("errorNombreUsuario", result.getFieldError("nombreUsuario"));
+			mav.addObject("errorEmailUsuario", result.getFieldError("emailUsuario"));
+			mav.addObject("errorTelefonoUsuario", result.getFieldError("telefonoUsuario"));
+			mav.addObject("errorContraseniaUsuario", result.getFieldError("contraseniaUsuario"));
+
+			System.out.println("Valor de errorFormulario: " + mav.getModel().get("errorFormulario"));
+
+		}
+
+		return mav;
 	}
-
-
-	
-	
 
 	@GetMapping("/seleccionarUsuario")
 	public ModelAndView seleccionarUsuario(@RequestParam("idUsuario") Integer idUsuario) {
@@ -230,21 +249,6 @@ public class FormularioUsuarioControlador {
 			mav.addObject("mensaje", "Error al borrar el usuario: no se encontró el usuario con el ID especificado");
 			return mav;
 		}
-	}
-
-	
-	@GetMapping("/gestionarUsuariosAdmin")
-	public ModelAndView gestionarUsuarios() {
-
-		System.out.println("FormularioClientesControlador.gestionarUsuarios");
-
-		List<Usuario> usuarios = gestorUsuario.verTodosLosUsuarios();
-
-		ModelAndView mav = new ModelAndView("gestionarUsuariosAdmin");
-
-		mav.addObject("usuarios", usuarios);
-
-		return mav;
 	}
 
 }

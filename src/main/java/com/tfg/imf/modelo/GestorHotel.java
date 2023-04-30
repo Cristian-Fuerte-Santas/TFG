@@ -26,8 +26,11 @@ public class GestorHotel {
 
 	@Autowired
 	private IRepositorioImagenesHotel repositorioImagenesHotel;
+	
+	@Autowired
+	private GestorImagenes gestorImagenes;
 
-	private final String directorioImagenes = "src/main/resources/static/imagenes/imagenesHoteles/";
+	//private final String directorioImagenes = "src/main/resources/static/imagenes/imagenesHoteles/";
 
 	public GestorHotel() {
 		super();
@@ -72,10 +75,10 @@ public class GestorHotel {
 	}
 
 	@Transactional
-	public String guardarImagen(MultipartFile file) throws IOException {
+	public String guardarImagenHotel(MultipartFile file) throws IOException {
 
 		// Crear el directorio si no existe
-		Path directorioPath = Paths.get(directorioImagenes);
+		Path directorioPath = Paths.get(gestorImagenes.guardarImagen(file, null));
 
 		if (!Files.exists(directorioPath)) {
 
@@ -89,6 +92,11 @@ public class GestorHotel {
 
 		// Devolver la URL donde se guarda la imagen
 		return "/imagenes/imagenesHoteles/" + file.getOriginalFilename();
+	}
+
+	@Transactional(readOnly = true) // Especifica que esta transacción es solo de lectura
+	public List<Hotel> verTodosLosHoteles() {
+		return repositorioHotel.verTodosLosHoteles();
 	}
 
 }
