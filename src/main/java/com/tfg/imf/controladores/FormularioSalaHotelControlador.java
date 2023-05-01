@@ -124,8 +124,7 @@ public class FormularioSalaHotelControlador {
 	        List<Destino> destinos = repositorioDestino.verTodosLosDestinos();
 	        mav.addObject("destinos", destinos);
 
-	        Transporte transporte = new Transporte();
-	        mav.addObject("transporte", transporte);
+	        
 	        
 	        MenuRestaurante menuRestaurante = new MenuRestaurante();
 	        mav.addObject("menuRestaurante", menuRestaurante);
@@ -154,8 +153,7 @@ public class FormularioSalaHotelControlador {
 	        List<Destino> destinos = repositorioDestino.verTodosLosDestinos();
 	        mav.addObject("destinos", destinos);
 
-	        Transporte transporte = new Transporte();
-	        mav.addObject("transporte", transporte);
+	    
 	        
 	        MenuRestaurante menuRestaurante = new MenuRestaurante();
 	        mav.addObject("menuRestaurante", menuRestaurante);

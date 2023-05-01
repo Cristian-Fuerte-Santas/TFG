@@ -138,9 +138,7 @@ public class FormularioMenuRestauranteControlador {
 			List<Destino> destinos = repositorioDestino.verTodosLosDestinos();
 			mav.addObject("destinos", destinos);
 
-			// Transporte para el formulario, necesario para el formulario de Transporte
-			Transporte transporte = new Transporte();
-			mav.addObject("transporte", transporte);
+			
 
 			// SalaHotel para el formulario, necesario para el formulario de SalaHotel
 			SalaHotel salaHotel = new SalaHotel();
@@ -189,9 +187,7 @@ public class FormularioMenuRestauranteControlador {
 			List<Destino> destinos = repositorioDestino.verTodosLosDestinos();
 			mav.addObject("destinos", destinos);
 
-			// Transporte para el formulario, necesario para el formulario de Transporte
-			Transporte transporte = new Transporte();
-			mav.addObject("transporte", transporte);
+			
 
 			// SalaHotel para el formulario, necesario para el formulario de SalaHotel
 			SalaHotel salaHotel = new SalaHotel();

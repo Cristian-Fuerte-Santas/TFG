@@ -43,8 +43,7 @@ public class Destino {
 	@OneToMany(mappedBy = "destino")
 	private Set<Actividad> actividades = new HashSet<>();
 
-	@OneToMany(mappedBy = "destino")
-	private Set<Transporte> transportes = new HashSet<>();
+
 
 	public Destino() {
 		super();
@@ -91,13 +90,6 @@ public class Destino {
 		this.actividades = actividades;
 	}
 
-	public Set<Transporte> getTransportes() {
-		return transportes;
-	}
-
-	public void setTransportes(Set<Transporte> transportes) {
-		this.transportes = transportes;
-	}
 
 	// fuente chat gpt
 	

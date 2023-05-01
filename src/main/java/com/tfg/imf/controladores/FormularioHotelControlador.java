@@ -75,8 +75,7 @@ public class FormularioHotelControlador {
 		SalaHotel salaHotel = new SalaHotel(); // Asegúrate de agregar esta línea
 		mav.addObject("salaHotel", salaHotel);
 
-		Transporte transporte = new Transporte();
-		mav.addObject("transporte", transporte);
+	
 
 		List<Hotel> hoteles = obtenerHoteles();
 		mav.addObject("hoteles", hoteles);
@@ -175,8 +174,7 @@ public class FormularioHotelControlador {
 			List<Destino> destinos = repositorioDestino.verTodosLosDestinos();
 			mav.addObject("destinos", destinos);
 
-			Transporte transporte = new Transporte();
-			mav.addObject("transporte", transporte);
+			
 
 			SalaHotel salaHotel = new SalaHotel();
 			mav.addObject("salaHotel", salaHotel);
@@ -206,9 +204,7 @@ public class FormularioHotelControlador {
 			List<Destino> destinos = repositorioDestino.verTodosLosDestinos();
 			mav.addObject("destinos", destinos);
 
-			Transporte transporte = new Transporte();
-			mav.addObject("transporte", transporte);
-
+			
 			SalaHotel salaHotel = new SalaHotel();
 			mav.addObject("salaHotel", salaHotel);
 
