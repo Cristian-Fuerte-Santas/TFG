@@ -14,7 +14,7 @@ import org.springframework.util.StringUtils;
 @Service
 public class GestorImagenes {
 	// Agrega una variable String para cada ruta de directorio
-	private final String directorioImagenes = "C:/Users/cristianfuertesantas/Pictures/ImagenesInsertadasDesdeBD/";
+	private final String directorioImagenes = "C:/Users/galag/Pictures/ImagenesInsertadasDesdeBD/";
 
 
 	@Transactional

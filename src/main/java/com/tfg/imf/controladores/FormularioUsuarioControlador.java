@@ -1,5 +1,6 @@
 package com.tfg.imf.controladores;
 
+import org.hibernate.tool.schema.internal.AbstractSchemaValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +21,7 @@ import com.tfg.imf.modelo.GestorSalaHotel;
 import com.tfg.imf.modelo.GestorUsuario;
 import com.tfg.imf.persistencia.IRepositorioUsuario;
 import com.tfg.imf.validaciones.*;
+import javax.servlet.http.HttpSession;
 
 import java.util.List;
 
@@ -74,25 +76,8 @@ public class FormularioUsuarioControlador {
 		return mav;
 	}
 
-	@GetMapping("/areaPersonaUsuario")
-	public ModelAndView verAreaPersonaUsuario() {
-
-		System.out.println("FormularioUsuarioControlador.verAreaPersonaUsuario");
-
-		ModelAndView mav = new ModelAndView("areaPersonaUsuario");
-
-		return mav;
-	}
-
-	@GetMapping("/areaPersonaAdmin")
-	public ModelAndView verAreaPersonaAdmin() {
-
-		System.out.println("FormularioUsuarioControlador.verAreaPersonaAdmin");
-
-		ModelAndView mav = new ModelAndView("areaPersonaAdmin");
-
-		return mav;
-	}
+	
+	
 
 	@GetMapping("/faq")
 	public ModelAndView verFaq() {
@@ -150,7 +135,7 @@ public class FormularioUsuarioControlador {
 		return mav;
 	}
 
-	// PARA EL CRUD
+	// VISTA LOGIN Y USUARIO
 
 	@PostMapping("/insertarUsuario")
 	public ModelAndView insertarUsuario(@ModelAttribute Usuario usuario,
@@ -240,8 +225,7 @@ System.out.println("Ha entrado dentro del catch");
 	}
 
 	@PostMapping("/formularioLogin")
-
-	public ModelAndView formularioLogin(@ModelAttribute Usuario usuario) {
+	public ModelAndView formularioLogin(@ModelAttribute Usuario usuario, HttpSession session) {
 
 		boolean emailEncontrado;
 
@@ -324,37 +308,112 @@ System.out.println("Ha entrado dentro del catch");
 
 					mav.addObject("errorContraseniaNoEncontrada", true);
 
-				} else if (repositorioUsuario.findContraseniaById(idUsuario).equals(contraseniaRecibido)
-						&& idUsuario <= 4 && contraseniaEncontrada) {
+				} else {
+					
+					//guardamos la ID en SESSION
+					session.setAttribute("idUsuario", idUsuario);
+					
+					if (repositorioUsuario.findContraseniaById(idUsuario).equals(contraseniaRecibido)
+							&& idUsuario <= 4 && contraseniaEncontrada) {	
+					
+						System.out.println("Eres ADMIN");
 
-					System.out.println("Eres ADMIN");
+						mav.addObject("exitoRegistro", true);
 
-					mav.addObject("exitoRegistro", true);
+						return new ModelAndView("redirect:/areaPersonaAdmin");
 
-					return new ModelAndView("redirect:/areaPersonaAdmin");
+					}else {
+						
+						System.out.println("Eres USUARIO");
+ 
+						mav.addObject("exitoRegistro", true);
+
+						return new ModelAndView("redirect:/areaPersonaUsuario");
+
+					}
 
 				}
-
-				else {
-
-					System.out.println("Eres USUARIO");
-
-					mav.addObject("exitoRegistro", true);
-
-					return new ModelAndView("redirect:/areaPersonaUsuario");
-
-				}
-
+					
 			}
-
-			// mav.addObject("usuarioValido", usuarioValido);        
-
+			// mav.addObject("usuarioValido", usuarioValido);     
 		}
 
-		return mav;
-		
+		return mav;	
 
 	}
+	
+	//VISTA AREA PERSONA USUARIO
+	
+	@GetMapping("/areaPersonaUsuario")
+	public ModelAndView verAreaPersonaUsuario(HttpSession session) {
+
+		System.out.println("FormularioUsuarioControlador.verAreaPersonaUsuario");
+
+		Integer idUsuario = (Integer) session.getAttribute("idUsuario");
+	    System.out.println("ID de session de Usuario es: " + idUsuario);
+	    
+	    Usuario usuario = repositorioUsuario.findById(idUsuario).orElse(null);
+	    System.out.println("Los datos del usuario son: " + usuario);
+	    
+	    ModelAndView mav = new ModelAndView("areaPersonaUsuario");
+	    mav.addObject("usuario", usuario);
+
+	    return mav;
+	}
+	
+	
+	@PostMapping("/actualizarDatosPersonales")
+	public ModelAndView actualizarDatosPersonales(HttpSession session, @ModelAttribute Usuario usuarioActualizado) {
+		
+		System.out.println("Estoy dentro de ActualizarDatosPersonales de vista areaPersonaUsusario");
+		ModelAndView mav = new ModelAndView("areaPersonaUsuario");
+		 
+	    Integer idUsuario = (Integer) session.getAttribute("idUsuario");
+	    Usuario usuario = repositorioUsuario.findById(idUsuario).orElse(null);
+	    
+	    UsuarioValidaciones validaciones = new UsuarioValidaciones();
+	    
+	    if (!validaciones.isValidNombreEmpresa(usuarioActualizado.getNombreEmpresa())) {
+			mav.addObject("errorNombreEmpresaInvalido", true);
+
+			System.out.println(usuario.getNombreEmpresa());
+
+			System.out.println(!validaciones.isValidNombreEmpresa(usuarioActualizado.getNombreEmpresa()));
+
+		} else if (!validaciones.isValidNifEmpresa(usuarioActualizado.getNifEmpresa())) {
+			mav.addObject("errorNifEmpresaInvalido", true);
+
+		} else if (!validaciones.isValidNombreUsuario(usuarioActualizado.getNombreUsuario())) {
+
+			mav.addObject("errorNombreUsuarioInvalido", true);
+
+		} else {
+			
+			System.out.println("NO SE HAN ENCONTRADO ERRORES");
+
+			usuario.setNombreEmpresa(usuarioActualizado.getNombreEmpresa());
+
+			usuario.setNifEmpresa(usuarioActualizado.getNifEmpresa());
+
+			usuario.setNombreUsuario(usuarioActualizado.getNombreUsuario());
+
+			usuario.setTelefonoUsuario(usuarioActualizado.getTelefonoUsuario());
+
+			System.out.println("Datos recogidos son correctos " + usuario);
+			
+			// Guardo la información actualizada en la base de datos
+		    repositorioUsuario.save(usuario);
+
+		    // Redirijo a la misma página para mostrar los datos actualizados
+		    return new ModelAndView("redirect:/areaPersonaUsuario");
+
+		}
+	    
+	 // Si hay errores de validación, retorno el objeto ModelAndView con los mensajes de error
+	    return mav;
+	    
+	}
+
 
 	@GetMapping("/seleccionarUsuario")
 	public ModelAndView seleccionarUsuario(@RequestParam("idUsuario") Integer idUsuario) {

@@ -147,33 +147,52 @@ body {
 					<div class="card w-75">
 						<div class="card-body">
 							<h5 class="card-title">Mis Datos Personales</h5>
-							<form>
+
+							<form action="/actualizarDatosPersonales" method="POST">
 
 								<div class="form-group">
 									<label for="nombreEmpresa">Nombre de Empresa</label> <input
-										type="text" class="form-control" id="nombreEmpresa">
+										type="text" class="form-control" name="nombreEmpresa"
+										id="nombreEmpresa" value="${usuario.nombreEmpresa}" readonly
+										style="color: black;">
+
 								</div>
 								<div class="form-group">
 									<label for="nifEmpresa">NIF de Empresa</label> <input
-										type="text" class="form-control" id="nifEmpresa">
+										type="text" class="form-control" name="nifEmpresa"
+										id="nifEmpresa" value="${usuario.nifEmpresa}" readonly
+										style="color: black;">
 								</div>
 								<div class="form-group">
 									<label for="nombreUsuario">Nombre de Usuario</label> <input
-										type="text" class="form-control" id="nombreUsuario">
+										type="text" class="form-control" name="nombreUsuario"
+										id="nombreUsuario" value="${usuario.nombreUsuario}" readonly
+										style="color: black;">
 								</div>
 								<div class="form-group">
 									<label for="emailUsuario">Email de Usuario</label> <input
-										type="email" class="form-control" id="emailUsuario">
+										type="text" class="form-control" name="emailUsuario"
+										id="emailUsuario" value="${usuario.emailUsuario}" readonly
+										style="color: black;">
 								</div>
 								<div class="form-group">
 									<label for="telefonoUsuario">Teléfono de Usuario</label> <input
-										type="tel" class="form-control" id="telefonoUsuario">
+										type="text" class="form-control" name="telefonoUsuario"
+										id="telefonoUsuario" value="${usuario.telefonoUsuario}"
+										readonly style="color: black;">
 								</div>
 								<div class="form-group">
 									<label for="contraseniaUsuario">Contraseña de Usuario</label> <input
-										type="password" class="form-control" id="contraseniaUsuario">
+										type="text" class="form-control" name="contraseniaUsuario"
+										id="contraseniaUsuario" value="${usuario.contraseniaUsuario}"
+										readonly style="color: black;">
 								</div>
-								<button type="submit" class="btn btn-primary">Actualizar</button>
+								<button type="button" class="btn btn-primary"
+									id="actualizarBoton">Actualizar</button>
+								<button type="submit" class="btn btn-primary"
+									id="guardarCambiosBoton" style="display: none;">Guardar
+									cambios</button>
+
 							</form>
 						</div>
 					</div>
@@ -227,6 +246,37 @@ body {
 
 
 	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			document.getElementById('actualizarBoton').addEventListener(
+					'click', habilitarEdicion);
+		});
+
+		//ACTUALIZAR DATOS PERSONALES
+		function habilitarEdicion() {
+			document.getElementById('nombreEmpresa')
+					.removeAttribute('readonly');
+			document.getElementById('nifEmpresa').removeAttribute('readonly');
+			document.getElementById('nombreUsuario')
+					.removeAttribute('readonly');
+			document.getElementById('emailUsuario').removeAttribute('readonly');
+			document.getElementById('telefonoUsuario').removeAttribute(
+					'readonly');
+			document.getElementById('contraseniaUsuario').removeAttribute(
+					'readonly');
+
+			// Ocultar el botón "Actualizar" y mostrar el botón "Guardar cambios"
+			document.getElementById('actualizarBoton').style.display = 'none';
+			document.getElementById('guardarCambiosBoton').style.display = 'inline-block';
+
+			// Añadir el evento para resaltar los campos modificados en verde
+			var inputs = document.querySelectorAll('input[type="text"]');
+			inputs.forEach(function(input) {
+				input.addEventListener('input', function() {
+					this.style.backgroundColor = 'lightgreen';
+				});
+			});
+		}
+
 		$(document).ready(function() {
 
 			function subrayarCategoriaSeleccionada(element) {
