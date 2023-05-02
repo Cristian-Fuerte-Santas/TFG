@@ -88,6 +88,16 @@ public class FormularioUsuarioControlador {
 
 		return mav;
 	}
+	
+	@GetMapping("/contacto")
+	public ModelAndView verContacto() {
+
+		System.out.println("FormularioUsuarioControlador.verContacto");
+
+		ModelAndView mav = new ModelAndView("contacto");
+
+		return mav;
+	}
 
 	@GetMapping("/busquedaPersonalizada")
 	public ModelAndView verBusquedaPersonalizada() {
@@ -98,6 +108,18 @@ public class FormularioUsuarioControlador {
 
 		return mav;
 	}
+	
+	@GetMapping("/areaPersonaAdmin")
+	public ModelAndView verAreaPersonaAdmin() {
+
+		System.out.println("FormularioUsuarioControlador.verAreaPersonaAdmin");
+
+		ModelAndView mav = new ModelAndView("areaPersonaAdmin");
+
+		return mav;
+	}
+	
+	
 
 	@GetMapping("/gestionarUsuariosAdmin")
 	public ModelAndView gestionarUsuarios() {

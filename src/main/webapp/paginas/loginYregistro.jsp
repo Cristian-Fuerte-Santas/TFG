@@ -360,18 +360,6 @@ body {
 				<div class="alert alert-danger">Las contraseñas no coinciden.</div>
 			</c:if>
 
-
-			<label for="inputVerificarContrasenia">Vuelva a introducir su
-				contraseña</label>
-			<input name="verificarContrasenia" type="password"
-				id="inputVerificarContrasenia" class="form-control"
-				placeholder="Vuelva a introducir la contraseña" />
-			<c:if test="${errorPasswordNoCoincide}">
-				<div class="alert alert-danger">Las contraseñas no coinciden.</div>
-			</c:if>
-
-
-
 			<button id="botonEnviarFormularioRegistrarse"
 				class="btn btn-lg btn-primary btn-block" type="submit">REGISTRARSE</button>
 		</form:form>
