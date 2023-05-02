@@ -363,7 +363,9 @@ System.out.println("Ha entrado dentro del catch");
 	
 	
 	@PostMapping("/actualizarDatosPersonales")
-	public ModelAndView actualizarDatosPersonales(HttpSession session, @ModelAttribute Usuario usuarioActualizado) {
+	public ModelAndView actualizarDatosPersonales(HttpSession session, 
+			@ModelAttribute Usuario usuarioActualizado, 
+			@RequestParam("verificarContrasenia") String verificarContrasenia) {
 		
 		System.out.println("Estoy dentro de ActualizarDatosPersonales de vista areaPersonaUsusario");
 		ModelAndView mav = new ModelAndView("areaPersonaUsuario");
@@ -387,7 +389,16 @@ System.out.println("Ha entrado dentro del catch");
 
 			mav.addObject("errorNombreUsuarioInvalido", true);
 
-		} else {
+		} else if(!validaciones.isValidPassword(usuarioActualizado.getContraseniaUsuario())) {
+			
+			mav.addObject("errorContraseniaUsuarioInvalido", true);
+			
+		}else if (!usuarioActualizado.getContraseniaUsuario().equals(verificarContrasenia)) {
+		    
+			mav.addObject("errorPasswordNoCoincide", true);
+		}
+		
+		else {
 			
 			System.out.println("NO SE HAN ENCONTRADO ERRORES");
 
@@ -398,6 +409,8 @@ System.out.println("Ha entrado dentro del catch");
 			usuario.setNombreUsuario(usuarioActualizado.getNombreUsuario());
 
 			usuario.setTelefonoUsuario(usuarioActualizado.getTelefonoUsuario());
+			
+			usuario.setContraseniaUsuario(usuarioActualizado.getContraseniaUsuario());
 
 			System.out.println("Datos recogidos son correctos " + usuario);
 			

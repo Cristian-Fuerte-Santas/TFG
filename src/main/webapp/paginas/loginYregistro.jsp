@@ -336,7 +336,7 @@ body {
 			<form:input path="emailUsuario" type="email" id="inputEmailUsuario"
 				class="form-control" placeholder="manuel@gmail.com" required="true"></form:input>
 			<c:if test="${errorEmailInvalido}">
-				<div class="alert alert-danger"">Correo electrónico inválido.</div>
+				<div class="alert alert-danger">Correo electrónico inválido.</div>
 			</c:if>
 
 
@@ -346,7 +346,7 @@ body {
 				id="inputContrasenia" class="form-control" placeholder="Contraseña"
 				required="true"></form:input>
 			<c:if test="${errorPasswordInvalido}">
-				<div class="alert alert-danger"">Contraseña inválida.</div>
+				<div class="alert alert-danger">Contraseña inválida.</div>
 			</c:if>
 
 
@@ -357,7 +357,17 @@ body {
 				id="inputVerificarContrasenia" class="form-control"
 				placeholder="Vuelva a introducir la contraseña" />
 			<c:if test="${errorPasswordNoCoincide}">
-				<div class="alert alert-danger"">Las contraseñas no coinciden.</div>
+				<div class="alert alert-danger">Las contraseñas no coinciden.</div>
+			</c:if>
+
+
+			<label for="inputVerificarContrasenia">Vuelva a introducir su
+				contraseña</label>
+			<input name="verificarContrasenia" type="password"
+				id="inputVerificarContrasenia" class="form-control"
+				placeholder="Vuelva a introducir la contraseña" />
+			<c:if test="${errorPasswordNoCoincide}">
+				<div class="alert alert-danger">Las contraseñas no coinciden.</div>
 			</c:if>
 
 

@@ -155,40 +155,82 @@ body {
 										type="text" class="form-control" name="nombreEmpresa"
 										id="nombreEmpresa" value="${usuario.nombreEmpresa}" readonly
 										style="color: black;">
+										
+										 <c:if test="${errorNombreEmpresaInvalido}">
+                           						 <div class="alert alert-danger">Nombre de empresa inválido.</div>
+                        				</c:if>
 
 								</div>
+								
+								
 								<div class="form-group">
 									<label for="nifEmpresa">NIF de Empresa</label> <input
 										type="text" class="form-control" name="nifEmpresa"
 										id="nifEmpresa" value="${usuario.nifEmpresa}" readonly
 										style="color: black;">
+										
+									 <c:if test="${errorNifEmpresaInvalido}">
+                            			<div class="alert alert-danger">NIF de empresa invalido.</div>
+                        			</c:if>
 								</div>
+								
+								
 								<div class="form-group">
-									<label for="nombreUsuario">Nombre de Usuario</label> <input
+									<label for="nombreUsuario">Nombre</label> <input
 										type="text" class="form-control" name="nombreUsuario"
 										id="nombreUsuario" value="${usuario.nombreUsuario}" readonly
 										style="color: black;">
+										<c:if test="${errorNombreUsuarioInvalido}">
+                            			<div class="alert alert-danger">Nombre invalido.</div>
+                        			</c:if>
 								</div>
+								
+								
 								<div class="form-group">
-									<label for="emailUsuario">Email de Usuario</label> <input
+									<label for="emailUsuario">Email</label> <input
 										type="text" class="form-control" name="emailUsuario"
 										id="emailUsuario" value="${usuario.emailUsuario}" readonly
 										style="color: black;">
+										<span id="emailError" class="alert alert-danger" style="display: none;">Este campo no puede modificarse.</span>
 								</div>
+								
+								
 								<div class="form-group">
-									<label for="telefonoUsuario">Teléfono de Usuario</label> <input
+									<label for="telefonoUsuario">Teléfono </label> <input
 										type="text" class="form-control" name="telefonoUsuario"
 										id="telefonoUsuario" value="${usuario.telefonoUsuario}"
 										readonly style="color: black;">
+										<c:if test="${errorTelefonoUsuarioInvalido}">
+                            			<div class="alert alert-danger">Telefono invalido.</div>
+                        			</c:if>
 								</div>
+								
+								
 								<div class="form-group">
-									<label for="contraseniaUsuario">Contraseña de Usuario</label> <input
-										type="text" class="form-control" name="contraseniaUsuario"
+									<label for="contraseniaUsuario">Contraseña </label> <input
+										type="password" class="form-control" name="contraseniaUsuario"
 										id="contraseniaUsuario" value="${usuario.contraseniaUsuario}"
 										readonly style="color: black;">
+										<c:if test="${errorContraseniaUsuarioInvalido}">
+                            			<div class="alert alert-danger">NIF de empresa invalido.</div>
+                        			</c:if>
 								</div>
+								
+								
+								<div class="form-group" >
+    <label for="verificarContrasenia">Vuelva a introducir su contraseña</label>
+    <input name="verificarContrasenia" type="password" id="verificarContrasenia" 
+    class="form-control" placeholder="Vuelva a introducir la contraseña" readonly style="color: black;"/>
+</div>
+
+<c:if test="${errorPasswordNoCoincide}">
+    <div class="alert alert-danger">Las contraseñas no coinciden.</div>
+</c:if>
+								
+								
 								<button type="button" class="btn btn-primary"
 									id="actualizarBoton">Actualizar</button>
+									
 								<button type="submit" class="btn btn-primary"
 									id="guardarCambiosBoton" style="display: none;">Guardar
 									cambios</button>
@@ -246,38 +288,60 @@ body {
 
 
 	<script>
-		document.addEventListener('DOMContentLoaded', function() {
-			document.getElementById('actualizarBoton').addEventListener(
-					'click', habilitarEdicion);
-		});
-
-		//ACTUALIZAR DATOS PERSONALES
-		function habilitarEdicion() {
-			document.getElementById('nombreEmpresa')
-					.removeAttribute('readonly');
-			document.getElementById('nifEmpresa').removeAttribute('readonly');
-			document.getElementById('nombreUsuario')
-					.removeAttribute('readonly');
-			document.getElementById('emailUsuario').removeAttribute('readonly');
-			document.getElementById('telefonoUsuario').removeAttribute(
-					'readonly');
-			document.getElementById('contraseniaUsuario').removeAttribute(
-					'readonly');
-
-			// Ocultar el botón "Actualizar" y mostrar el botón "Guardar cambios"
-			document.getElementById('actualizarBoton').style.display = 'none';
-			document.getElementById('guardarCambiosBoton').style.display = 'inline-block';
-
-			// Añadir el evento para resaltar los campos modificados en verde
-			var inputs = document.querySelectorAll('input[type="text"]');
-			inputs.forEach(function(input) {
-				input.addEventListener('input', function() {
-					this.style.backgroundColor = 'lightgreen';
-				});
-			});
-		}
-
+		
 		$(document).ready(function() {
+			
+			$('#actualizarBoton').click(habilitarEdicion);
+		    console.log("Boton actualizar pulsado");
+		    
+		 
+		 
+		 
+		  //ACTUALIZAR DATOS PERSONALES
+			function habilitarEdicion() {      
+				
+				
+				document.getElementById('nombreEmpresa')
+						.removeAttribute('readonly');
+				document.getElementById('nifEmpresa').removeAttribute('readonly');
+				document.getElementById('nombreUsuario')
+						.removeAttribute('readonly');
+				//document.getElementById('emailUsuario').removeAttribute('readonly');
+				document.getElementById('telefonoUsuario').removeAttribute(
+						'readonly');
+				document.getElementById('contraseniaUsuario').removeAttribute(
+						'readonly');
+			    document.getElementById('verificarContrasenia').removeAttribute(
+				'readonly');
+				
+				// Añadir controlador de evento click en el input de email
+		        document.getElementById('emailUsuario').addEventListener('click', function() {
+		            this.style.backgroundColor = 'grey';
+		            document.getElementById('emailError').style.display = 'block';
+		        });
+
+				// Ocultar el botón "Actualizar" y mostrar el botón "Guardar cambios"
+				document.getElementById('actualizarBoton').style.display = 'none';
+				document.getElementById('guardarCambiosBoton').style.display = 'inline-block';
+				
+				
+
+				// Añadir el evento para resaltar los campos modificados en verde
+				var inputs = document.querySelectorAll('input[type="text"]');
+				inputs.forEach(function(input) {
+					input.addEventListener('input', function() {
+						this.style.backgroundColor = 'lightgreen';
+					});
+				});
+				
+				
+				
+				
+			}
+
+			
+			
+			//CODIGO DE CRISTIAN - NO TOCAR
 
 			function subrayarCategoriaSeleccionada(element) {
 
