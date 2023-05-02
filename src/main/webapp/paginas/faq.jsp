@@ -39,6 +39,8 @@
             margin-bottom: 0;
         }
 
+
+
         #tituloEmpresa {
             font-size: 80px;
             color: blue;
@@ -47,12 +49,28 @@
         #contenedorPequenio {
             overflow-y: inherit;
             overflow-x: inherit;
+            min-width: 25vw;
+        }
+
+        .contenedorGrande {
+            min-width: 50vw;
+
         }
 
         .contenedorGrande::after {
             overflow-y: inherit;
             overflow-x: inherit;
         }
+
+        @media (min-width: 1560px) {
+    .container {
+        max-width: 1560px;
+    }
+}
+
+
+
+        
     </style>
 
 </head>
@@ -103,14 +121,15 @@
 
                 <li class="nav-item">
                     <a id="iconoCarrito" href="carrito">
-                        <img id="iconoCarrito" src="recursos/Bootstrap//bootstrap-icons-1.10.4/cart-fill.svg" alt="Bootstrap" width="32"
-                            height="32">
+                        <img id="iconoCarrito" src="recursos/Bootstrap//bootstrap-icons-1.10.4/cart-fill.svg"
+                            alt="Bootstrap" width="32" height="32">
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="loginYregistro" class=" nav-link btn btn-primary"><img src="recursos/Bootstrap//bootstrap-icons-1.10.4/person-fill.svg"
-                            alt="Bootstrap" width="40" height="32"></a>
+                    <a href="loginYregistro" class=" nav-link btn btn-primary"><img
+                            src="recursos/Bootstrap//bootstrap-icons-1.10.4/person-fill.svg" alt="Bootstrap" width="40"
+                            height="32"></a>
                 </li>
 
             </ul>
@@ -121,15 +140,14 @@
     <!-- Principal -->
 
     <!-- Fuente: https://www.bootdey.com/snippets/view/paq-page#html -->
-    <div class="container-fluid flex-grow-1 mt-5">
-    
+    <div class="container-fluid mt-5">
         <div class="row">
-            <div class="container mt-sm-60 mt-30">
-                <div class="row">
-                
-                
+            <div class="container mt-sm-60 mt-30 d-flex">
+                <div class="row w-100 flex-grow-1">
+
+
                     <!-- Cuadro pequeño de la izquierda, el de Categorías -->
-                    <div id="contenedorPequenio" class="col-xl-4">
+                    <div id="contenedorPequenio" class="col-12 col-xl-4">
                         <div class="card">
 
                             <h6 class="card-header" align="center">
@@ -147,10 +165,7 @@
                                     <span>Hoteles</span>
                                     <span class="badge badge-light badge-pill">2</span>
                                 </li>
-                                <li id="transporteMenuCategoria" class="list-group-item d-flex justify-content-between">
-                                    <span>Transporte</span>
-                                    <span class="badge badge-light badge-pill">2</span>
-                                </li>
+
                                 <li id="restaurantesMenuCategoria"
                                     class="list-group-item d-flex justify-content-between">
                                     <span>Restaurantes</span>
@@ -168,7 +183,7 @@
 
 
                     <!-- Cuadro grande de la derecha , en este caso Terminos y Condiciones-->
-                    <div id="explicacionTerminosCondiciones" class="col-xl-8  contenedorGrande">
+                    <div id="explicacionTerminosCondiciones" class="col-12 col-xl-8 contenedorGrande">
                         <div class="card">
                             <h3 class="card-header border-bottom-0">
                                 Términos y Condiciones
@@ -222,6 +237,7 @@
                                     <div id="collapse_1i_2" class="collapse" data-parent="#accordion_2" role="tabpanel">
                                         <div class="card-body"> Agencia X se encarga de las reservas, pero una vez
                                             que las personas llegen al sitio para hacer la actividad (hotel,
+
                                             restaurante, actividad o transporte), serán las empresas propietarias de
                                             esos servicios los que se reservan el derecho de admisión a los mismos. Por
                                             lo general, no hay ningún problema, pero si alguien dice que es programador
@@ -229,8 +245,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-
                             </div>
 
                         </div>
@@ -238,7 +252,7 @@
 
 
                     <!-- Cuadro grande de la derecha , en este caso Hoteles-->
-                    <div id="explicacionHoteles" class="col-xl-8 d-none">
+                    <div id="explicacionHoteles" class="col-12 col-xl-8 d-none contenedorGrande">
                         <div class="card card-lg">
                             <h3 class="card-header border-bottom-0">
                                 Hoteles
@@ -283,54 +297,11 @@
                     </div>
 
 
-                    <!-- Cuadro grande de la derecha , en este caso Transporte-->
-                    <div id="explicacionTransporte" class="col-xl-8 d-none">
-                        <div class="card card-lg">
-                            <h3 class="card-header border-bottom-0">
-                                Transporte
-                            </h3>
-                            <div class="accordion accordion-type-2 accordion-flush" id="accordion_2">
-                                <div class="card">
-                                    <div class="card-header d-flex justify-content-between activestate">
-                                        <a role="button" data-toggle="collapse" href="#collapse_1i"
-                                            aria-expanded="true">Medio de Transporte</a>
-                                    </div>
-                                    <div id="collapse_1i" class="collapse show" data-parent="#accordion_2"
-                                        role="tabpanel">
-                                        <div class="card-body ">El único transporte que ofrecemos son autobuses.
-                                            Los autobuses siempre son de 80 plazas. No se pueden alquilar minibuses, o
-                                            pagar menos porque no se van a ocupar las plazas completas del autobús
-                                            alquilado.
-                                            Se puede alquilar más de 1 autobús por viaje.
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-header d-flex justify-content-between">
-                                        <a class="collapsed" role="button" data-toggle="collapse" href="#collapse_2i"
-                                            aria-expanded="false">Duración del Transporte</a>
-                                    </div>
-                                    <div id="collapse_2i" class="collapse" data-parent="#accordion_2">
-                                        <div class="card-body ">Cuando se elige añadir transporte a la oferta,
-                                            ese bus se alquila durante todo el día (8 horas, que son las permitidas
-                                            para los conductores de los mismos). No se pueden alquilar por tramos de
-                                            tiempo.
-                                            Es decir, no se puede alquilar por 1 o 5 horas, por ejemplo. A cambio, no
-                                            existe límite
-                                            de los kilómetros que se pueden hacer en él, ya que solo se tienen en cuenta
-                                            el tiempo que
-                                            legalmente puede ser conducido. </div>
-                                    </div>
-                                </div>
 
-                            </div>
-
-                        </div>
-                    </div>
 
 
                     <!-- Cuadro grande de la derecha , en este caso Restaurantes-->
-                    <div id="explicacionRestaurantes" class="col-xl-8 d-none">
+                    <div id="explicacionRestaurantes" class="col-12 col-xl-8 d-none contenedorGrande">
                         <div class="card card-lg">
                             <h3 class="card-header border-bottom-0">
                                 Restaurantes
@@ -379,7 +350,7 @@
 
 
                     <!-- Cuadro grande de la derecha , en este caso Actividades-->
-                    <div id="explicacionActividades" class="col-xl-8 d-none">
+                    <div id="explicacionActividades" class="col-12 col-xl-8 d-none contenedorGrande">
                         <div class="card card-lg">
                             <h3 class="card-header border-bottom-0">
                                 Actividades
