@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tfg.imf.entidades.*;
+import com.tfg.imf.modelo.GestorActividad;
+import com.tfg.imf.modelo.GestorDestino;
 import com.tfg.imf.modelo.GestorHotel;
 import com.tfg.imf.modelo.GestorMenuRestaurante;
 import com.tfg.imf.modelo.GestorRestaurante;
@@ -23,6 +25,7 @@ import com.tfg.imf.validaciones.*;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Controller
@@ -46,6 +49,12 @@ public class FormularioUsuarioControlador {
 	
 	@Autowired
 	private GestorMenuRestaurante gestorMenuRestaurante;
+	
+	@Autowired
+	private GestorActividad gestorActividad;
+	
+	@Autowired
+	private GestorDestino gestorDestino;
 
 	@Autowired
 	private IRepositorioUsuario repositorioUsuario;
@@ -73,7 +82,8 @@ public class FormularioUsuarioControlador {
 
 		return mav;
 	}
-
+//ORIGINAL
+	
 	@GetMapping("/areaPersonaUsuario")
 	public ModelAndView verAreaPersonaUsuario() {
 
@@ -83,6 +93,8 @@ public class FormularioUsuarioControlador {
 
 		return mav;
 	}
+	
+	
 
 	@GetMapping("/areaPersonaAdmin")
 	public ModelAndView verAreaPersonaAdmin() {
@@ -140,12 +152,22 @@ public class FormularioUsuarioControlador {
 		List<SalaHotel> salashoteles = gestorSalaHotel.verTodasLasSalasHotel();
 		
 		List<MenuRestaurante> menusRestaurantes = gestorMenuRestaurante.verTodosLosMenusRestaurantes();
-		// como el header de php, redirige a donde queramos
+		
+		List<Actividad> actividades = gestorActividad.verTodasLasActividades();
+		
+		List<Destino> listaDestinos = gestorDestino.verTodosLosDestinos();
+		
+
+		
+		
 		ModelAndView mav = new ModelAndView("gestionarOfertasAdmin");
 		mav.addObject("hoteles", hoteles);
 		mav.addObject("restaurantes", restaurantes);
 		mav.addObject("salashoteles", salashoteles);
 		mav.addObject("menusRestaurantes", menusRestaurantes);
+		mav.addObject("actividades", actividades);
+		mav.addObject("listaDestinos", listaDestinos);
+		
 
 		return mav;
 	}

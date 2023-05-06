@@ -128,11 +128,7 @@
                         <input class="form-check-input filtro" type="checkbox" value="actividad" id="filtroActividad">
                         <label class="form-check-label" for="filtroActividad">Actividades</label>
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input filtro" type="checkbox" value="salaHotel" id="filtroSalaHotel">
-                        <label class="form-check-label" for="filtroActividad">Salas
-                            Hotel</label>
-                    </div>
+                    
                 </div>
 
 
@@ -242,7 +238,7 @@
         }
 
 
-        // Método AJAX para obtener salas de hotel
+      /*
         // Método AJAX para obtener salas de hotel
         function obtenerSalasHotel() {
             return new Promise((resolve, reject) => {
@@ -264,11 +260,11 @@
         }
 
 
+*/
 
 
 
-
-        Promise.all([obtenerHoteles(), obtenerRestaurantes(), obtenerSalasHotel()]).then(aplicarFiltros).catch(function (error) {
+        Promise.all([obtenerHoteles(), obtenerRestaurantes(), /* obtenerSalasHotel()*/]).then(aplicarFiltros).catch(function (error) {
             console.error("Error al obtener los datos:", error);
         });
 
@@ -328,7 +324,7 @@
 
             return restaurantesAplanados;
         }
-
+/*
 
         // Función para aplanar las salas de hotel
         function aplanarSalasHotel(salasHotel) {
@@ -353,7 +349,7 @@
             return salasHotelAplanadas;
         }
 
-
+*/
         function mostrarHoteles(hoteles) {
 
             const resultadosContainer = $("#resultadosContainer");
@@ -424,7 +420,7 @@
                 resultadosContainer.append(cardDiv);
             });
         }
-
+/*
 
         // Función para mostrar las salas de hotel
         function mostrarSalasHotel(salasHotel) {
@@ -453,7 +449,7 @@
                 resultadosContainer.append(cardDiv);
             });
         }
-
+*/
 
 
         // Modificar la función para aplicar filtros
@@ -469,13 +465,13 @@
             if ($("#filtroHotel").prop("checked")) {
                 mostrarHoteles(window.hotelesAplanados);
             }
-
+/*
             if ($("#filtroSalaHotel").prop("checked")) {
                 mostrarSalasHotel(window.salasHotelAplanadas);
             }
-
+*/
             // Si ningún filtro está seleccionado, mostrar todo
-            if (!$("#filtroRestaurante").prop("checked") && !$("#filtroHotel").prop("checked") && !$("#filtroSalaHotel").prop("checked")) {
+            if (!$("#filtroRestaurante").prop("checked") && !$("#filtroHotel").prop("checked") /* && !$("#filtroSalaHotel").prop("checked") */) {
                 mostrarHoteles(window.hotelesAplanados);
                 mostrarRestaurantes(window.restaurantesAplanados);
                 mostrarSalasHotel(window.salasHotelAplanadas);

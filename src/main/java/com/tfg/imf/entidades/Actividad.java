@@ -1,8 +1,11 @@
 package com.tfg.imf.entidades;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
@@ -37,6 +41,11 @@ public class Actividad {
 	// Relacion ManyToMany: https://www.youtube.com/watch?v=T_cWyhhy0yw
 	@ManyToMany(mappedBy = "actividadesGuardados")
 	private List<Usuario> usuariosGuardados = new ArrayList<>();
+	
+	
+	@OneToMany(mappedBy = "actividad", cascade = CascadeType.ALL)
+	private Set<ImagenesActividad> listadoImagenesActividad = new HashSet<>();
+
 
 	public Actividad() {
 		super();
@@ -106,6 +115,15 @@ public class Actividad {
 	public void setUsuariosGuardados(List<Usuario> usuariosGuardados) {
 		this.usuariosGuardados = usuariosGuardados;
 	}
+	
+	public Set<ImagenesActividad> getListadoImagenesActividad() {
+		return listadoImagenesActividad;
+	}
+
+	public void setListadoImagenesActividad(Set<ImagenesActividad> listadoImagenesActividad) {
+		this.listadoImagenesActividad = listadoImagenesActividad;
+	}
+
 
 	@Override
 	public String toString() {

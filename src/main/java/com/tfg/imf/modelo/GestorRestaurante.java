@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -81,10 +82,33 @@ public class GestorRestaurante {
 
 		return gestorImagenes.guardarImagen(file);
 	}
-
+	
+	
 	@Transactional(readOnly = true) // Especifica que esta transacción es solo de lectura
 	public List<Restaurante> verTodosLosRestaurantes() {
 		return repositorioRestaurante.verTodosLosRestaurantes();
 	}
-
+	
+	
+	
+	// Para seleccionar el restaurante el boton de modificar correspondiente
+	@Transactional(readOnly = true)
+	public Restaurante obtenerRestaurantePorId(Integer idRestaurante) {
+	    try {
+	        return repositorioRestaurante.findById(idRestaurante).orElse(null);
+	    } catch (NoSuchElementException e) {
+	        System.out.println("No se encontró el restaurante con el id: " + idRestaurante);
+	       
+	        return null;
+	    }
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
