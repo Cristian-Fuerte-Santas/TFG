@@ -8,7 +8,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>areaPersonaAdmin</title>
+    <title>index TFG</title>
 
     <!-- jQuery 3.6.4 -->
     <script src="/recursos/jQuery3.6.4/jQuery3.6.4.js"></script>
@@ -16,8 +16,6 @@
     <!-- Bootstrap 4.6.2 -->
     <link rel="stylesheet" href="/recursos/Bootstrap/Bootstrap4.6.2/css/bootstrap.min.css">
     <script src="/recursos/Bootstrap/Bootstrap4.6.2/js/bootstrap.min.js"></script>
-
-
 
     <style>
         html {
@@ -42,6 +40,21 @@
             color: blue;
         }
 
+        #map {
+            width: 50%;
+            height: 400px;
+            background-color: grey;
+        }
+
+        .text-container {
+            margin-left: 20px;
+        }
+
+        .mapa-container {
+            display: flex;
+            justify-content: center;
+        }
+
         #imagenCabecera {
             max-height: 200px;
             margin-top: -65px;
@@ -58,18 +71,20 @@
     <h2 align="center" class="m-0"></h2>
 
     <div class="row bg-light">
+
                
         <div class="col-12 text-center mt-3 mb-2">
 
                         <img id="imagenCabecera" alt="" width=100% src="/imagenes/header.png">        
         </div>
 
-           
+              
     </div>
     <!-- MENU NAVEGAION CABECERA-->
 
     <!-- Fuente del menu: https://getbootstrap.com/docs/4.6/components/navbar/     -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
 
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
@@ -96,77 +111,82 @@
                             height="32">
                     </a></li>
 
-                <li class="nav-item"><a href="/redireccionUsuario" class="nav-link btn btn-primary"> <img
-                            src="recursos/Bootstrap/bootstrap-icons-1.10.4/person-fill.svg" alt="Bootstrap" width="40"
+                <li class="nav-item">
+                    <a href="/redireccionUsuario" class="nav-link btn btn-primary">
+                        <img src="recursos/Bootstrap/bootstrap-icons-1.10.4/person-fill.svg" alt="Bootstrap" width="40"
                             height="32">
-                    </a></li>
-
+                    </a>
+                </li>
             </ul>
         </div>
     </nav>
 
 
-
-    <h3 align="center" class="mt-4">MENÚ ADMIN</h3>
-
-    <form action="/cerrarSesion" method="post" align="center">
-        <button type="submit" class="btn btn-danger mt-2">Cerrar
-            Sesión</button>
-    </form>
-    
-    <!-- fuente Ejemplos Bootraps: https://getbootstrap.com/docs/4.6/examples/ -->
-
-    <div id="menuAdmin" class="container-fluid mt-2">
-
-        <nav class="navbar navbar-expand-lg navbar-light bg-light ">
-
-            <div class="collapse navbar-collapse" id="navbarNav">
-
-                <ul class="navbar-nav justify-content-between w-100">
-
-                    <li id="menuAdminGestionarUsuarios" class="nav-item active"><a class="nav-link"
-                            href="gestionarUsuariosAdmin">Gestionar
-                            Usuarios</a></li>
-
-                    <li id="menuAdminInsertarOfertas" class="nav-item"><a class="nav-link"
-                            href="insertarOfertasAdmin">Insertar Ofertas</a></li>
-
-                    <li id="menuAdminActualizarOfertas" class="nav-item"><a class="nav-link"
-                            href="gestionarOfertasAdmin">Gestionar
-                            Ofertas</a></li>
+ <!-- fuente Ejemplos Bootraps: https://getbootstrap.com/docs/4.6/examples/ -->
 
 
-                    <li id="menuAdminInsertarDestino" class="nav-item"><a class="nav-link"
-                            href="insertarDestinoAdmin">Gestionar
-                            Destinos</a></li>
+    <!-- PRINCIPAL -->
+    <div class="flex-grow-1 bg-light">
 
-                </ul>
+        <div class="row justify-content-center align-items-center">
+
+            <div class="col-md-6 my-auto mapa-container">
+
+                <div id="map" class="mt-5 mb-5 ml-5" style="width: 100%; height: 400px;"></div>
+
             </div>
-        </nav>
 
+
+            <div class="col-md-6 my-auto">
+                <h1 class="mt-5 mb-4" align="left">Nuestras oficinas</h1>
+                <p class="lead" align="left" style="font-style: italic;">Calle
+                    del Dr Cortezo, 11</p>
+                <p class="lead" align="left" style="font-style: italic;">28012
+                    Madrid</p>
+                <p class="lead" align="left" style="font-weight: bold;">Teléfono
+                    de Atención al Cliente</p>
+                <p class="lead" align="left" style="font-style: italic;">91 221
+                    94 05</p>
+                <p class="lead" align="left" style="font-weight: bold;">Horario
+                    de Anteción al Cliente</p>
+                <p class="lead" align="left" style="font-style: italic;">De
+                    lunes a vieres de 9 a 19h</p>
+            </div>
+        </div>
     </div>
 
 
     <!-- Footer-->
     <footer class="footer mt-auto py-3 mb-0">
-
         <div class="container" align="center">
-
-            <span class="text-muted"> Gala Gallardo García y Cristian
+            <span class="text-muted"> Gala Gallardo García Y Cristian
                 Fuerte Santas</span>
-
         </div>
     </footer>
 
-    <script>
-        $(document).ready(function () {
-
-            console.log('Id del usuario: ${sessionScope.idUsuario}');
-
-        });
-    </script>
-
 
 </body>
+
+<script>
+    function initMap() {
+        // The location of Uluru
+        const madrid = { lat: 40.4138, lng: -3.7038 };
+        // The map, centered at Uluru
+        const map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 12,
+            center: madrid,
+        });
+        // The marker, positioned at Uluru
+        const marker = new google.maps.Marker({
+            position: madrid,
+            map: map,
+        });
+    }
+
+    window.initMap = initMap;
+</script>
+
+<script defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiHsROEwzwI6zd6kUadBnvYklxfhKvalI&callback=initMap"></script>
 
 </html>

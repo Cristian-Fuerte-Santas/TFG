@@ -1,6 +1,8 @@
 package com.tfg.imf.controladores;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -13,17 +15,17 @@ import org.springframework.web.servlet.ModelAndView;
 import com.tfg.imf.entidades.*;
 
 import com.tfg.imf.modelo.GestorHotel;
-import com.tfg.imf.modelo.GestorRestaurante;
+import com.tfg.imf.modelo.GestorImagenes;
 import com.tfg.imf.persistencia.IRepositorioDestino;
 import com.tfg.imf.persistencia.IRepositorioHotel;
 import com.tfg.imf.persistencia.IRepositorioImagenesHotel;
 import com.tfg.imf.persistencia.IRepositorioRestaurante;
 
-import java.util.ArrayList;
+
 import java.util.List;
-
+import java.util.NoSuchElementException;
 import java.io.IOException;
-
+import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -31,20 +33,22 @@ import java.util.Set;
 public class FormularioHotelControlador {
 
 	@Autowired
-	GestorHotel gestorHotel;
+	private GestorHotel gestorHotel;
 
 	@Autowired
-	IRepositorioHotel repositorioHotel;
+	private IRepositorioHotel repositorioHotel;
 
 	@Autowired
-	IRepositorioImagenesHotel repositorioImagenesHotel;
+	private IRepositorioImagenesHotel repositorioImagenesHotel;
 
 	@Autowired
-	IRepositorioDestino repositorioDestino;
+	private IRepositorioDestino repositorioDestino;
 
 	@Autowired
-	IRepositorioRestaurante repositorioRestaurante;
+	private IRepositorioRestaurante repositorioRestaurante;
 
+	@Autowired
+	private GestorImagenes gestorImagenes;
 	// private List<MultipartFile> multipartFiles = new ArrayList<>();
 
 	// ESTE METODO CONTROLA TODOS LOS MAPEOS DE ESTA VISTA
@@ -68,11 +72,11 @@ public class FormularioHotelControlador {
 		Actividad actividad = new Actividad();
 		mav.addObject("actividad", actividad);
 
-		// Obtener la lista de destinos y agregarla al modelo
+		
 		List<Destino> destinos = repositorioDestino.verTodosLosDestinos();
 		mav.addObject("destinos", destinos);
 
-		SalaHotel salaHotel = new SalaHotel(); // Asegúrate de agregar esta línea
+		SalaHotel salaHotel = new SalaHotel(); 
 		mav.addObject("salaHotel", salaHotel);
 
 	
@@ -88,6 +92,9 @@ public class FormularioHotelControlador {
 			@RequestParam("multipartFiles") List<MultipartFile> files) {
 
 		System.out.println("FormularioHotelCrontrolador.insertarHotel: " + hotel);
+		
+		System.out.println("Destino id from form: " + hotel.getDestino().getIdDestino());
+
 
 		try {
 			// Crear una instancia de Hotel
@@ -96,15 +103,18 @@ public class FormularioHotelControlador {
 			// Buscar el objeto Destino usando el destinoId y asignarlo al Hotel
 			Destino destino = repositorioDestino.findById(hotel.getDestino().getIdDestino()).orElse(null);
 			if (destino != null) {
-
-				hotel.setDestino(destino);
+				
+				System.out.println("Soy destino antes: " + hotel.getDestino());
+				nuevoHotel.setDestino(destino);
+				System.out.println("Soy destino despues: " + nuevoHotel.getDestino());
 			} else {
 				System.out.println("no hay ese destino");
 			}
-
+			
+			
 			nuevoHotel.setNombreHotel(hotel.getNombreHotel());
 
-			nuevoHotel.setDestino(hotel.getDestino());
+		//	nuevoHotel.setDestino(hotel.getDestino());
 			nuevoHotel.setCategoriaHotel(hotel.getCategoriaHotel());
 			nuevoHotel.setAforoHotel(hotel.getAforoHotel());
 			nuevoHotel.setDireccionHotel(hotel.getDireccionHotel());
@@ -118,9 +128,7 @@ public class FormularioHotelControlador {
 
 			// Guardar imágenes en el sistema de archivos y asociarlas al hotel
 			// fuente chat gpt
-			
 
-			
 			Set<ImagenesHotel> imagenes = new HashSet<>();
 
 			for (MultipartFile file : files) {
@@ -259,15 +267,126 @@ public class FormularioHotelControlador {
 	}
 	
 	
+	@PostMapping("/eliminarUnaImagenHotel")
+	public @ResponseBody String eliminarUnaImagenHotel(@RequestParam("idImagen") Integer idImagen) {
+		try {
+			// Obtener la imagen de la base de datos
+			ImagenesHotel imagen = repositorioImagenesHotel.findById(idImagen).orElseThrow(null);
+
+			// Eliminar la imagen del servidor
+			String nombreArchivo = Paths.get(imagen.getUrlImagenHotel()).getFileName().toString();
+			gestorImagenes.eliminarImagen(nombreArchivo);
+
+			// Eliminar la imagen de la base de datos
+			repositorioImagenesHotel.delete(imagen);
+
+			return "ok";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "Error al eliminar la imagen";
+		}
+	}
+
+	
+	// PARA SELECCIONAR EL BOTON DE MODIFICAR CORRESPONDIENTE
+	@GetMapping("/obtenerHotelPorId")
+	public ResponseEntity<Hotel> obtenerHotel(@RequestParam("idHotel") Integer idHotel) {
+		Hotel hotel = gestorHotel.obtenerHotelPorId(idHotel);
+		return ResponseEntity.ok(hotel);
+	}
 	
 	
+	@PostMapping(value = "/modificarHotel", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+	public ModelAndView modificarHotel(@ModelAttribute Hotel hotel,
+	        @RequestParam("idDestino") Integer idDestino,
+	        @RequestParam(value = "nuevasImagenes", required = false) MultipartFile[] nuevasImagenes) {
+		
+		System.out.println("Hotel recibido" + hotel.toString());
+		try {
+			Hotel hotelParaModificar = repositorioHotel.findById(hotel.getIdHotel()).orElse(null);
+			
+			
+			
+			if (hotelParaModificar != null) {
+				Destino destino = repositorioDestino.findById(idDestino).orElseThrow(() -> {
+					System.out.println("No se encontró el destino con id " + idDestino);
+					return new NoSuchElementException();
+				});
+				
+				
+				hotelParaModificar.setNombreHotel(hotel.getNombreHotel());
+				hotelParaModificar.setCategoriaHotel(hotel.getCategoriaHotel());
+				hotelParaModificar.setPiscinaHotel(hotel.isPiscinaHotel());
+				hotelParaModificar.setGimnasioHotel(hotel.isGimnasioHotel());
+				hotelParaModificar.setTerrazaHotel(hotel.isTerrazaHotel());
+				hotelParaModificar.setSpaHotel(hotel.isSpaHotel());
+				hotelParaModificar.setAforoHotel(hotel.getAforoHotel());
+				hotelParaModificar.setDireccionHotel(hotel.getDireccionHotel());
+				hotelParaModificar.setPrecioHotel(hotel.getPrecioHotel());
+				hotelParaModificar.setDestino(destino);
+				
+				Set<ImagenesHotel> imagenes = hotelParaModificar.getListadoImagenesHotel();				
+				
+				
+				
+				// Para cada nueva imagen, guardarla y agregar una nueva entrada a las imágenes del restaurante
+				if (nuevasImagenes != null) {
+				    for (MultipartFile file : nuevasImagenes) {
+				        if (!file.isEmpty()) {
+				            try {
+				                // Guardar la nueva imagen en el sistema de archivos y obtener la URL donde se guarda
+				                String imageUrl = gestorHotel.guardarImagenHotel(file);
+
+				                // Crear una nueva instancia de ImagenesRestaurante para la nueva imagen
+				                ImagenesHotel nuevaImagen = new ImagenesHotel();
+				                nuevaImagen.setUrlImagenHotel(imageUrl);
+				                nuevaImagen.setHotel(hotelParaModificar);
+
+				                // Añadir la nueva imagen a las imágenes del restaurante
+				                imagenes.add(nuevaImagen);
+				            } catch (IOException e) {
+				                // Manejar excepción al guardar la imagen
+				            	System.out.println("No se ha podido guardar la nueva imagen");
+				                e.printStackTrace();
+				            }
+				        }
+				    }
+				}
+				
+				
+				
+
+				// Actualizar las imágenes del restaurante en la base de datos
+				hotelParaModificar.setListadoImagenesHotel(imagenes);
+				
+				gestorHotel.modificar(hotelParaModificar);
+
+				ModelAndView mav = new ModelAndView("redirect:gestionarOfertasAdmin");
+				return mav;
+			} else {
+				// Si el restaurante no se encuentra, redirigir a una página de error o
+				// manejarlo de otra manera
+				ModelAndView mav = new ModelAndView("error");
+				
+				mav.addObject("mensaje",
+						"Error al modificar el hotel: no se encontró el restaurante con el ID especificado");
+
+				return mav;
+			}
+		} catch (Exception e) {
+
+			// Si algo falla, que muestre el error
+			System.err.println("Error al modificar el hotel en la base de datos:");
+			System.err.println(e.getMessage());
+			e.printStackTrace();
+			return null;
+		}
+		
+		
+		
+	}
 	
-	
-	
-	
-	
-	
-	
+
 	
 	
 	

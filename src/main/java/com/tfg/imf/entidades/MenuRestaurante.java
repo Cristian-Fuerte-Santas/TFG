@@ -1,7 +1,10 @@
 package com.tfg.imf.entidades;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
+import java.util.ArrayList;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -14,7 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
+
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
@@ -35,11 +38,13 @@ public class MenuRestaurante {
 	// 2. CREO RELACIONES
 	@ManyToOne
 	@JoinColumn(name = "id_restaurante")
-	@JsonIdentityReference(alwaysAsId = true)
 	private Restaurante restaurante;
 
 	@OneToMany(mappedBy = "menuRestaurante", cascade = CascadeType.ALL)
 	private Set<ImagenesMenuRestaurante> listadoImagenesMenuRestaurante = new HashSet<>();
+
+	@OneToMany(mappedBy = "menuRestaurante", cascade = CascadeType.ALL, orphanRemoval = false)
+	private List<Reserva> reservas = new ArrayList<>();
 
 	public MenuRestaurante() {
 		super();

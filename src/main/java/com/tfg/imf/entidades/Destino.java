@@ -1,9 +1,5 @@
 package com.tfg.imf.entidades;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -42,8 +38,6 @@ public class Destino {
 
 	@OneToMany(mappedBy = "destino")
 	private Set<Actividad> actividades = new HashSet<>();
-
-
 
 	public Destino() {
 		super();
@@ -90,15 +84,4 @@ public class Destino {
 		this.actividades = actividades;
 	}
 
-
-	// fuente chat gpt
-	
-	/*
-	@Override
-	public String toString() {
-		return "Destino [idDestino=" + idDestino + ", ciudad=" + ciudad + ", hoteles="
-				+ hoteles.stream().map(Hotel::getIdHotel).collect(Collectors.toList()) + ", restaurantes="
-				+ restaurantes + ", actividades=" + actividades + ", transportes=" + transportes + "]";
-	}
-*/
 }

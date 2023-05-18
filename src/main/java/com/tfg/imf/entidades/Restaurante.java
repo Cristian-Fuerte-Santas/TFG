@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,7 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
+
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
@@ -45,13 +46,16 @@ public class Restaurante {
 	@JoinColumn(name = "id_destino")
 	private Destino destino;
 
-	@OneToMany(mappedBy = "restaurante",cascade = CascadeType.ALL )
-	@JsonIdentityReference(alwaysAsId = true)
+	@OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL)
+
 	private List<MenuRestaurante> menusRestaurante = new ArrayList<>();
 
 	// Relacion ManyToMany: https://www.youtube.com/watch?v=T_cWyhhy0yw
 	@ManyToMany(mappedBy = "restaurantesGuardados")
 	private List<Usuario> usuariosGuardados = new ArrayList<>();
+
+	@OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL, orphanRemoval = false)
+	private List<Reserva> reservas = new ArrayList<>();
 
 	public Restaurante() {
 		super();
@@ -137,15 +141,5 @@ public class Restaurante {
 	public void setUsuariosGuardados(List<Usuario> usuariosGuardados) {
 		this.usuariosGuardados = usuariosGuardados;
 	}
-
-	/*
-	 * @Override public String toString() { return "Restaurante [idRestaurante=" +
-	 * idRestaurante + ", nombreRestaurante=" + nombreRestaurante +
-	 * ", tipoRestaurante=" + tipoRestaurante + ", categoriaRestaurante=" +
-	 * categoriaRestaurante + ", aforoRestaurante=" + aforoRestaurante +
-	 * ", direccionRestaurante=" + direccionRestaurante + ", destino=" + destino +
-	 * ", menusRestaurante=" + menusRestaurante + ", usuariosGuardados=" +
-	 * usuariosGuardados + "]"; }
-	 */
 
 }

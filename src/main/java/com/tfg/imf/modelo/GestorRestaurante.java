@@ -1,10 +1,10 @@
 package com.tfg.imf.modelo;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.tfg.imf.entidades.ImagenesHotel;
 import com.tfg.imf.entidades.ImagenesRestaurante;
 import com.tfg.imf.entidades.Restaurante;
 import com.tfg.imf.persistencia.IRepositorioImagenesRestaurante;
@@ -29,9 +28,6 @@ public class GestorRestaurante {
 
 	@Autowired
 	private GestorImagenes gestorImagenes;
-
-	// private final String directorioImagenesRestaurantes =
-	// "src/main/resources/static/imagenes/imagenesRestaurantes/";
 
 	public GestorRestaurante() {
 		super();
@@ -68,11 +64,11 @@ public class GestorRestaurante {
 
 	// Para insertarlas en la base de datos
 	@Transactional(propagation = Propagation.REQUIRED)
-	public void insertarImagenHotel(ImagenesRestaurante imagenesRestaurante) {
+	public void insertarImagenRestaurante(ImagenesRestaurante imagenesRestaurante) {
 		repositorioImagenesRestaurante.save(imagenesRestaurante);
 		repositorioImagenesRestaurante.flush();
 
-		System.out.println("Se ha insertado la imagen del hotel correctamente");
+		System.out.println("Se ha insertado la imagen del restaurante correctamente");
 	}
 
 	// Para insertarlas en el ordenador localmente, en el sistema de archivos
@@ -85,6 +81,18 @@ public class GestorRestaurante {
 	@Transactional(readOnly = true) // Especifica que esta transacción es solo de lectura
 	public List<Restaurante> verTodosLosRestaurantes() {
 		return repositorioRestaurante.verTodosLosRestaurantes();
+	}
+
+	// Para seleccionar el restaurante el boton de modificar correspondiente
+	@Transactional(readOnly = true)
+	public Restaurante obtenerRestaurantePorId(Integer idRestaurante) {
+		try {
+			return repositorioRestaurante.findById(idRestaurante).orElse(null);
+		} catch (NoSuchElementException e) {
+			System.out.println("No se encontró el restaurante con el id: " + idRestaurante);
+
+			return null;
+		}
 	}
 
 }

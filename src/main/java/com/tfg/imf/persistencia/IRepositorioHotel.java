@@ -7,11 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.tfg.imf.entidades.Hotel;
 
+public interface IRepositorioHotel extends JpaRepository<Hotel, Integer> {
 
-public interface IRepositorioHotel extends JpaRepository<Hotel, Integer>  {
-	
 	@Query(value = "SELECT * FROM hotel", nativeQuery = true)
 	List<Hotel> verTodosLosHoteles();
-	
 
 }

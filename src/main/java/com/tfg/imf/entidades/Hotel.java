@@ -50,6 +50,9 @@ public class Hotel {
 	@OneToMany(mappedBy = "hotel")
 	private List<SalaHotel> salasHotel = new ArrayList<>();
 
+	@OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL, orphanRemoval = false)
+	private List<Reserva> reservas = new ArrayList<>();
+
 	public Hotel() {
 		super();
 		System.out.println("Accendiendo a la entidad Hotel.java");

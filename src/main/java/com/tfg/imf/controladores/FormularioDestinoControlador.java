@@ -8,19 +8,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tfg.imf.entidades.Destino;
-import com.tfg.imf.entidades.Usuario;
+
 import com.tfg.imf.modelo.GestorDestino;
 import com.tfg.imf.persistencia.IRepositorioDestino;
 
 @Controller
 public class FormularioDestinoControlador {
-	
+
 	@Autowired
 	private GestorDestino gestorDestino;
-	
+
 	@Autowired
 	private IRepositorioDestino repositorioDestino;
 
@@ -28,7 +29,6 @@ public class FormularioDestinoControlador {
 		super();
 		System.out.println("Creando una instancia de FormularioDestinoControlador");
 	}
-	
 
 	@GetMapping("/insertarDestinoAdmin")
 	public ModelAndView gestionarDestinoAdmin() {
@@ -40,12 +40,11 @@ public class FormularioDestinoControlador {
 		ModelAndView mav = new ModelAndView("insertarDestinoAdmin");
 
 		mav.addObject("destinos", destinos);
-		
-		mav.addObject("destino", new Destino()); 
+
+		mav.addObject("destino", new Destino());
 
 		return mav;
 	}
-	
 
 	@PostMapping("/insertarDestino")
 	public ModelAndView insertarDestino(@ModelAttribute Destino destino) {
@@ -55,9 +54,8 @@ public class FormularioDestinoControlador {
 		try {
 			// Crear una instancia de Usuario
 			Destino nuevoDestino = new Destino();
-			
-			nuevoDestino.setCiudad(destino.getCiudad());
 
+			nuevoDestino.setCiudad(destino.getCiudad());
 
 			// Llamar al método insertar del GestorUsuario
 			gestorDestino.insertar(nuevoDestino);
@@ -81,9 +79,7 @@ public class FormularioDestinoControlador {
 			return mav;
 		}
 	}
-	
-	
-	
+
 	@PostMapping("/borrarDestino")
 	public ModelAndView borrarDestino(@RequestParam("idDestino") Integer idDestino) {
 
@@ -104,8 +100,14 @@ public class FormularioDestinoControlador {
 			return mav;
 		}
 	}
-	
-	
-	
+
+	// PARA MOSTRAR LOS HOTELES
+	@GetMapping("/obtenerDestinos")
+	@ResponseBody
+	public List<Destino> obtenerDestinos() {
+		List<Destino> destinos = repositorioDestino.verTodosLosDestinos();
+		System.out.println("Destinos devueltos: " + destinos);
+		return destinos;
+	}
 
 }

@@ -1,11 +1,6 @@
 <%@ page isErrorPage="true"%>
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
-
-
-<!--  Directivas  -->
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
@@ -51,6 +46,12 @@ body {
 	font-size: 80px;
 	color: blue;
 }
+
+#imagenCabecera {
+	max-height: 200px;
+	margin-top: -65px;
+	margin-bottom: -60px;
+}
 </style>
 
 </head>
@@ -62,9 +63,15 @@ body {
 	<h2 align="center" class="m-0"></h2>
 
 	<div class="row bg-light">
+
+		       
 		<div class="col-12 text-center mt-3 mb-2">
-			<h1 id="tituloEmpresa">AGENCIA X</h1>
+
+			            <img id="imagenCabecera" alt="" width=100%
+				src="/imagenes/header.png">        
 		</div>
+
+		   
 	</div>
 	<!-- MENU NAVEGAION CABECERA-->
 
@@ -100,10 +107,11 @@ body {
 						alt="Bootstrap" width="32" height="32">
 				</a></li>
 
-				<li class="nav-item"><a href="loginYregistro"
-					class=" nav-link btn btn-primary"><img
+				<li class="nav-item"><a href="/redireccionUsuario"
+					class="nav-link btn btn-primary"> <img
 						src="recursos/Bootstrap/bootstrap-icons-1.10.4/person-fill.svg"
-						alt="Bootstrap" width="40" height="32"></a></li>
+						alt="Bootstrap" width="40" height="32">
+				</a></li>
 
 			</ul>
 		</div>
@@ -111,6 +119,11 @@ body {
 
 
 	<h3 align="center" class="mt-4">MENÚ ADMIN</h3>
+
+	<form action="/cerrarSesion" method="post" align="center">
+		<button type="submit" class="btn btn-danger mt-2">Cerrar
+			Sesión</button>
+	</form>
 
 	<div id="menuAdmin" class="container-fluid mt-2">
 
@@ -121,18 +134,21 @@ body {
 				<ul class="navbar-nav justify-content-between w-100">
 
 					<li id="menuAdminGestionarUsuarios" class="nav-item active"><a
-						class="nav-link" href="gestionarUsuariosAdmin">Gestionar Usuarios</a></li>
+						class="nav-link" href="gestionarUsuariosAdmin">Gestionar
+							Usuarios</a></li>
 
 					<li id="menuAdminInsertarOfertas" class="nav-item"><a
 						class="nav-link" href="insertarOfertasAdmin">Insertar Ofertas</a></li>
 
 					<li id="menuAdminActualizarOfertas" class="nav-item"><a
-						class="nav-link" href="gestionarOfertasAdmin">Gestionar Ofertas</a></li>
+						class="nav-link" href="gestionarOfertasAdmin">Gestionar
+							Ofertas</a></li>
 
-					
-						
+
+
 					<li id="menuAdminInsertarDestino" class="nav-item"><a
-						class="nav-link" href="insertarDestinoAdmin">Gestionar Destinos</a></li>
+						class="nav-link" href="insertarDestinoAdmin">Gestionar
+							Destinos</a></li>
 
 
 				</ul>
@@ -140,11 +156,6 @@ body {
 		</nav>
 
 	</div>
-
-
-
-	
-
 
 	<!--  SUBMENU DE INSERTAR -->
 
@@ -158,12 +169,14 @@ body {
 				class="btn btn-primary">Insertar Menu Restaurante</button>
 			<button id="botonSubMenuInsertarSalaHotel" class="btn btn-primary">Insertar
 				Sala Hotel</button>
+			<button id="botonSubMenuInsertarActividad" class="btn btn-primary">Insertar
+				Actividad</button>
 		</div>
 	</div>
 
 
 
-
+	<!--  INSERTAR HOTEL -->
 	<div id="insertarHotelAdmin" class="container-fluid w-100 d-none">
 		<div class="row">
 			<div class="col-sm-12 offset-sm-0 col-md-8 offset-md-2">
@@ -172,25 +185,19 @@ body {
 					align="center" modelAttribute="hotel" method="POST"
 					action="insertarHotel" enctype="multipart/form-data">
 
-
 					<h2 align="center">INSERTAR HOTEL</h2>
-
-				
-
 					<label for="inputNombreHotel">Nombre del Hotel</label>
 					<form:input path="nombreHotel" type="text" id="inputNombreHotel"
 						class="form-control" placeholder="Hotel Example" required="true"></form:input>
 
 					<label for="inputDestino">Destino del Hotel</label>
-					<form:select path="destino.idDestino" id="inputDestino"
-						class="form-control" required="true">
+					<form:select path="destino" id="inputDestino" class="form-control"
+						required="true">
 						<form:option value="" label="Selecciona un destino"
 							disabled="true" />
 						<form:options items="${destinos}" itemValue="idDestino"
 							itemLabel="ciudad" />
 					</form:select>
-
-
 
 					<label for="inputCategoriaHotel">Categoría del Hotel</label>
 					<form:input path="categoriaHotel" type="number"
@@ -253,7 +260,7 @@ body {
 
 
 
-
+	<!--  INSERTAR RESTAURANTE -->
 
 	<div id="insertarRestauranteAdmin" class="container-fluid w-100 d-none">
 		<div class="row">
@@ -265,10 +272,7 @@ body {
 					modelAttribute="restaurante" method="POST"
 					action="insertarRestaurante" enctype="multipart/form-data">
 
-
 					<h2 align="center">INSERTAR RESTAURANTE</h2>
-
-			
 
 					<label for="inputNombreRestaurante">Nombre del Restaurante</label>
 					<form:input path="nombreRestaurante" type="text"
@@ -283,7 +287,6 @@ body {
 						<form:options items="${destinos}" itemValue="idDestino"
 							itemLabel="ciudad" />
 					</form:select>
-
 
 					<label for="inputTipoRestaurante">Tipo de Restaurante</label>
 					<form:input path="tipoRestaurante" type="text"
@@ -308,8 +311,8 @@ body {
 						placeholder="Calle Ejemplo 123" required="true"></form:input>
 
 
-
-					<label for="inputImagenesRestaurante">Imágenes del Restaurante</label>
+					<label for="inputImagenesRestaurante">Imágenes del
+						Restaurante</label>
 					<input type="file" name="multipartFiles"
 						id="inputImagenesRestaurante" class="form-control" multiple="true" />
 
@@ -325,7 +328,7 @@ body {
 
 
 
-
+	<!--  INSERTAR SALA HOTEL -->
 
 	<div id="insertarSalaHotelAdmin" class="container-fluid w-100 d-none">
 
@@ -337,8 +340,6 @@ body {
 					action="insertarSalaHotel" enctype="multipart/form-data">
 
 					<h2 align="center">INSERTAR SALA DE HOTEL</h2>
-
-			
 
 					<label for="inputNombreSala">Nombre de la Sala</label>
 					<form:input path="nombreSala" type="text" id="inputNombreSala"
@@ -372,8 +373,6 @@ body {
 					<form:input path="precioSala" type="number" id="inputPrecioSala"
 						class="form-control" placeholder="150" step="0.01" required="true"></form:input>
 
-
-
 					<label for="inputImagenesSalaHotel">Imágenes de la Sala</label>
 					<input type="file" name="multipartFiles"
 						id="inputImagenesSalaHotel" class="form-control" multiple="true" />
@@ -387,14 +386,13 @@ body {
 		</div>
 	</div>
 
-
+	<!--  INSERTAR MENU RESTAURANTE -->
 
 	<div id="insertarMenuRestauranteAdmin"
 		class="container-fluid w-100 d-none">
 
 		<div class="row">
 			<div class="col-sm-12 offset-sm-0 col-md-8 offset-md-2">
-
 
 				<form:form id="formularioInsertarMenuRestaurante"
 					class="form-signin mt-5" align="center"
@@ -403,7 +401,6 @@ body {
 
 					<h2 align="center">INSERTAR MENÚ DE RESTAURANTE</h2>
 
-			
 
 					<label for="inputRestaurante">Restaurante al que pertenece
 						el Menú</label>
@@ -437,7 +434,6 @@ body {
 						placeholder="16.00" step="0.01" required="true"></form:input>
 
 
-
 					<label for="inputImagenesMenuRestaurante">Imágenes del Menú</label>
 					<input type="file" name="multipartFiles"
 						id="inputImagenesMenuRestaurante" class="form-control"
@@ -452,6 +448,60 @@ body {
 		</div>
 	</div>
 
+	<!--  INSERTAR ACTIVIDAD -->
+
+	<div id="insertarActividadAdmin" class="container-fluid w-100 d-none">
+		<div class="row">
+			<div class="col-sm-12 offset-sm-0 col-md-8 offset-md-2">
+				<form:form id="formularioInsertarActividad" class="form-signin mt-5"
+					align="center" modelAttribute="actividad" method="POST"
+					action="insertarActividad" enctype="multipart/form-data">
+
+					<h2 align="center">INSERTAR ACTIVIDAD</h2>
+
+					<label for="inputNombreActividad">Nombre de la Actividad</label>
+					<form:input path="nombreActividad" type="text"
+						id="inputNombreActividad" class="form-control" required="true" />
+
+					<label for="inputDestino">Destino de la Actividad</label>
+					<form:select path="destino.idDestino" id="inputDestino"
+						class="form-control" required="true">
+						<form:option value="" label="Selecciona un destino"
+							disabled="true" />
+						<form:options items="${destinos}" itemValue="idDestino"
+							itemLabel="ciudad" />
+					</form:select>
+
+					<label for="inputTipoActividad">Tipo de Actividad</label>
+					<form:input path="tipoActividad" type="text"
+						id="inputTipoActividad" class="form-control" required="true" />
+
+					<label for="inputDireccionActividad">Dirección de la
+						Actividad</label>
+					<form:input path="direccionActividad" type="text"
+						id="inputDireccionActividad" class="form-control" required="true" />
+
+					<label for="inputAforoActividad">Aforo de la Actividad</label>
+					<form:input path="aforoActividad" type="number"
+						id="inputAforoActividad" class="form-control" required="true" />
+
+					<label for="inputPrecioActividad">Precio de la Actividad</label>
+					<form:input path="precioActividad" type="number"
+						id="inputPrecioActividad" class="form-control" step="0.01"
+						required="true" />
+
+
+					<label for="inputImagenesActividad">Imágenes de la
+						Actividad</label>
+					<input type="file" name="multipartFiles"
+						id="inputImagenesActividad" class="form-control" multiple="true" />
+
+					<button class="btn btn-lg btn-primary btn-block mt-2" type="submit">INSERTAR
+						ACTIVIDAD</button>
+				</form:form>
+			</div>
+		</div>
+	</div>
 
 
 	<!-- Footer-->
@@ -465,37 +515,33 @@ body {
 	<script>
 		$(document).ready(
 				function() {
+					console.log('Id del usuario: ${sessionScope.idUsuario}');
 
 					function mostrarDiv(element) {
-
 						$(element).removeClass("d-none");
-
 					}
 
 					function esconderDivs(elements) {
-
 						elements.forEach(function(element) {
-
 							$(element).addClass("d-none");
-
 						});
 					}
 
 					$("#botonSubMenuInsertarHotel").click(
 							function() {
-
 								esconderDivs([ "#insertarRestauranteAdmin",
 										"#insertarMenuRestauranteAdmin",
-										"#insertarSalaHotelAdmin" ]);
+										"#insertarSalaHotelAdmin",
+										"#insertarActividadAdmin" ]);
 								mostrarDiv("#insertarHotelAdmin");
-
 							});
 
 					$("#botonSubMenuInsertarRestaurante").click(
 							function() {
 								esconderDivs([ "#insertarHotelAdmin",
 										"#insertarMenuRestauranteAdmin",
-										"#insertarSalaHotelAdmin" ]);
+										"#insertarSalaHotelAdmin",
+										"#insertarActividadAdmin" ]);
 								mostrarDiv("#insertarRestauranteAdmin");
 							});
 
@@ -503,7 +549,8 @@ body {
 							function() {
 								esconderDivs([ "#insertarHotelAdmin",
 										"#insertarRestauranteAdmin",
-										"#insertarSalaHotelAdmin" ]);
+										"#insertarSalaHotelAdmin",
+										"#insertarActividadAdmin" ]);
 								mostrarDiv("#insertarMenuRestauranteAdmin");
 							});
 
@@ -511,12 +558,22 @@ body {
 							function() {
 								esconderDivs([ "#insertarHotelAdmin",
 										"#insertarRestauranteAdmin",
-										"#insertarMenuRestauranteAdmin" ]);
+										"#insertarMenuRestauranteAdmin",
+										"#insertarActividadAdmin" ]);
 								mostrarDiv("#insertarSalaHotelAdmin");
 							});
 
+					$("#botonSubMenuInsertarActividad").click(
+							function() {
+								esconderDivs([ "#insertarHotelAdmin",
+										"#insertarRestauranteAdmin",
+										"#insertarMenuRestauranteAdmin",
+										"#insertarSalaHotelAdmin" ]);
+								mostrarDiv("#insertarActividadAdmin");
+							});
 				});
 	</script>
+
 
 
 </body>

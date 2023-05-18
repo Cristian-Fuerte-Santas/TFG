@@ -1,20 +1,28 @@
 package com.tfg.imf.entidades;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "actividad")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idActividad")
 public class Actividad {
 
 	// 1. CREO ATRIBUTOS
@@ -35,8 +43,15 @@ public class Actividad {
 	private Destino destino;
 
 	// Relacion ManyToMany: https://www.youtube.com/watch?v=T_cWyhhy0yw
-	@ManyToMany(mappedBy = "actividadesGuardados")
+	@ManyToMany
+	@JoinTable(name = "usuarios_actividades", joinColumns = @JoinColumn(name = "idActividad"), inverseJoinColumns = @JoinColumn(name = "idUsuario"))
 	private List<Usuario> usuariosGuardados = new ArrayList<>();
+
+	@OneToMany(mappedBy = "actividad", cascade = CascadeType.ALL)
+	private Set<ImagenesActividad> listadoImagenesActividad = new HashSet<>();
+
+	@OneToMany(mappedBy = "actividad", cascade = CascadeType.ALL, orphanRemoval = false)
+	private List<Reserva> reservas = new ArrayList<>();
 
 	public Actividad() {
 		super();
@@ -107,14 +122,22 @@ public class Actividad {
 		this.usuariosGuardados = usuariosGuardados;
 	}
 
-	@Override
-	public String toString() {
-		return "Actividad [idActividad=" + idActividad + ", tipoActividad=" + tipoActividad + ", nombreActividad="
-				+ nombreActividad + ", direccionActividad=" + direccionActividad + ", aforoActividad=" + aforoActividad
-				+ ", precioActividad=" + precioActividad + ", destino=" + destino + ", usuariosGuardados="
-				+ usuariosGuardados + "]";
+	public Set<ImagenesActividad> getListadoImagenesActividad() {
+		return listadoImagenesActividad;
 	}
-	
-	
+
+	public void setListadoImagenesActividad(Set<ImagenesActividad> listadoImagenesActividad) {
+		this.listadoImagenesActividad = listadoImagenesActividad;
+	}
+
+	/*
+	 * @Override public String toString() { return "Actividad [idActividad=" +
+	 * idActividad + ", tipoActividad=" + tipoActividad + ", nombreActividad=" +
+	 * nombreActividad + ", direccionActividad=" + direccionActividad +
+	 * ", aforoActividad=" + aforoActividad + ", precioActividad=" + precioActividad
+	 * + ", destino=" + destino + ", usuariosGuardados=" + usuariosGuardados + "]";
+	 * }
+	 * 
+	 */
 
 }

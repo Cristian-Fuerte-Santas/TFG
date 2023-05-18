@@ -8,23 +8,27 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
 @Table(name = "imagen_hotel")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idImagenHotel")
 public class ImagenesHotel {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idImagenHotel;
-    private String urlImagenHotel;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer idImagenHotel;
+	private String urlImagenHotel;
 
-    @ManyToOne
-    @JoinColumn(name = "id_hotel")
-    private Hotel hotel;
+	@ManyToOne
+	@JoinColumn(name = "id_hotel")
+	private Hotel hotel;
 
-    public ImagenesHotel() {
-    	
-    	System.out.println("Accediendo a la entidad ImagenesHotel.java");
-    }
+	public ImagenesHotel() {
+
+		System.out.println("Accediendo a la entidad ImagenesHotel.java");
+	}
 
 	public Integer getIdImagenHotel() {
 		return idImagenHotel;
@@ -55,6 +59,4 @@ public class ImagenesHotel {
 		return "ImagenesHotel [idImagenHotel=" + idImagenHotel + ", urlImagenHotel=" + urlImagenHotel + "]";
 	}
 
-    
 }
-

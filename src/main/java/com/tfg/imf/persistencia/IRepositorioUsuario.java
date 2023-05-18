@@ -12,10 +12,6 @@ public interface IRepositorioUsuario extends JpaRepository<Usuario, Integer> {
 
 	@Query(value = "SELECT * FROM usuario", nativeQuery = true)
 	List<Usuario> verTodosLosUsuarios();
-	
-	//Usuario findByEmailUsuarioAndContraseniaUsuario(String emailUsuario, String contraseniaUsuario);
-
-	
 
 	@Query
 
@@ -23,17 +19,12 @@ public interface IRepositorioUsuario extends JpaRepository<Usuario, Integer> {
 
 	String findEmail(@Param("email") String email);
 
-	
-
 	@Query("SELECT u.idUsuario FROM Usuario u WHERE u.emailUsuario = :email")
 
-	 Integer findIdByEmail(@Param("email") String email);
-
-	
-
+	Integer findIdByEmail(@Param("email") String email);
 
 	@Query("SELECT u.contraseniaUsuario FROM Usuario u WHERE u.idUsuario = :id")
 
 	String findContraseniaById(@Param("id") Integer idUsuario);
-	
+
 }

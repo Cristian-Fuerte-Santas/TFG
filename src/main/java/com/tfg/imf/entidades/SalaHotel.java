@@ -2,7 +2,9 @@ package com.tfg.imf.entidades;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.ArrayList;
 
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -37,6 +39,9 @@ public class SalaHotel {
 
 	@OneToMany(mappedBy = "salaHotel", cascade = CascadeType.ALL)
 	private Set<ImagenesSalaHotel> listadoImagenesSalaHotel = new HashSet<>();
+
+	@OneToMany(mappedBy = "salaHotel", cascade = CascadeType.ALL, orphanRemoval = false)
+	private List<Reserva> reservas = new ArrayList<>();
 
 	public SalaHotel() {
 		super();
