@@ -3,6 +3,7 @@ package com.tfg.imf.entidades;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
@@ -12,60 +13,43 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+
 import javax.persistence.Table;
-import javax.validation.constraints.Email;
+
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
-
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "usuario")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idUsuario")
 public class Usuario {
 
 	// 1. CREO ATRIBUTOS
-	
-	//USO DE ANOTACIOENS PARA VALIDAR: https://programandoointentandolo.com/2019/03/spring-boot-validacion-spring-mvc-y-thymeleaf.html
-	
+
+	// USO DE ANOTACIOENS PARA VALIDAR:
+	// https://programandoointentandolo.com/2019/03/spring-boot-validacion-spring-mvc-y-thymeleaf.html
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idUsuario;
 
-	@NotEmpty(message="El campo no puede estar vacio")
-	//@Size(min = 2, max=40, message = "El nombre de Empresa debe ser entre 2 y 40 caracteres")
+	@NotEmpty(message = "El campo no puede estar vacio")
 	private String nombreEmpresa;
-	
-	@Column(name = "nifEmpresa", length = 9)	
-	//@NotEmpty(message="El campo no puede estar vacio")
-	//@Pattern(regexp = "^[A-Z]\\d{8}$", message = "La primera letra debe ser mayúscula y debe seguirle 8 digitos") //(^[A-Z])que empiece por letra + (\\d{8}) y el resto de digitos + ($)final de cadena
+
+	@Column(name = "nifEmpresa", length = 9)
 	private String nifEmpresa;
-	
-	//@NotEmpty(message="El campo no puede estar vacio")	
-	//@Size(min = 2, max=40, message = "El nombre de Empresa debe ser entre 2 y 40 caracteres")
+
 	private String nombreUsuario;
-	
-	//https://es.stackoverflow.com/questions/453176/como-validar-correctamente-un-email-con-expresiones-regulares
-	//@NotEmpty(message="El campo no puede estar vacio")
-	//@Email(regexp = "[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,5}", message = "Antes y después de la @ los símbolos válidos son '.', '_','-'. El dominio debe ser mínimo de dos letras")
+
 	private String emailUsuario;
-	
-	//@NotEmpty(message="El campo no puede estar vacio")
+
 	private String telefonoUsuario;
-	
-	//@NotEmpty(message="El campo no puede estar vacio")
-	//@Size(min = 8, max = 12, message = "La contraseña debe tener entre 8 y 12 digitos")
+
 	private String contraseniaUsuario;
 
-	
-	
-	public Usuario() {
-		super();
-		System.out.println("Accediendo a la entidad Usuario.java");
-	}
-
-	
-	
 	// 2. CREO RELACIONES
 	// https://www.youtube.com/watch?v=T_cWyhhy0yw
 	@ManyToMany
@@ -73,20 +57,21 @@ public class Usuario {
 	private List<Hotel> hotelesGuardados = new ArrayList<>();
 
 	@ManyToMany
-	@JoinTable(name = "usuarios_restaurantes", joinColumns = @JoinColumn(name = "idUsuario"), inverseJoinColumns = @JoinColumn(name = "idHotel"))
+	@JoinTable(name = "usuarios_restaurantes", joinColumns = @JoinColumn(name = "idUsuario"), inverseJoinColumns = @JoinColumn(name = "idRestaurante"))
 	private List<Hotel> restaurantesGuardados = new ArrayList<>();
 
 	@ManyToMany
-	@JoinTable(name = "usuarios_actividades", joinColumns = @JoinColumn(name = "idUsuario"), inverseJoinColumns = @JoinColumn(name = "idHotel"))
-	private List<Hotel> actividadesGuardados = new ArrayList<>();
+	@JoinTable(name = "usuarios_actividades", joinColumns = @JoinColumn(name = "idUsuario"), inverseJoinColumns = @JoinColumn(name = "idActividad"))
+	private List<Actividad> actividadesGuardados = new ArrayList<>();
 
-	@ManyToMany
-	@JoinTable(name = "usuarios_transportes", joinColumns = @JoinColumn(name = "idUsuario"), inverseJoinColumns = @JoinColumn(name = "idHotel"))
-	private List<Hotel> transportesGuardados = new ArrayList<>();
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Reserva> reservas = new ArrayList<>();
 
-	
-	
-	
+	public Usuario() {
+		super();
+		System.out.println("Accediendo a la entidad Usuario.java");
+	}
+
 	public Integer getIdUsuario() {
 		return idUsuario;
 	}
@@ -159,34 +144,21 @@ public class Usuario {
 		this.restaurantesGuardados = restaurantesGuardados;
 	}
 
-	public List<Hotel> getActividadesGuardados() {
+	public List<Actividad> getActividadesGuardados() {
 		return actividadesGuardados;
 	}
 
-	public void setActividadesGuardados(List<Hotel> actividadesGuardados) {
+	public void setActividadesGuardados(List<Actividad> actividadesGuardados) {
 		this.actividadesGuardados = actividadesGuardados;
 	}
-
-	public List<Hotel> getTransportesGuardados() {
-		return transportesGuardados;
-	}
-
-	public void setTransportesGuardados(List<Hotel> transportesGuardados) {
-		this.transportesGuardados = transportesGuardados;
-	}
-	
-	
-	
-	
-	
-	
-	
 
 	@Override
 	public String toString() {
 		return "Usuario [idUsuario=" + idUsuario + ", nombreEmpresa=" + nombreEmpresa + ", nifEmpresa=" + nifEmpresa
 				+ ", nombreUsuario=" + nombreUsuario + ", emailUsuario=" + emailUsuario + ", telefonoUsuario="
-				+ telefonoUsuario + ", contraseniaUsuario=" + contraseniaUsuario + "]";
+				+ telefonoUsuario + ", contraseniaUsuario=" + contraseniaUsuario + ", hotelesGuardados="
+				+ hotelesGuardados + ", restaurantesGuardados=" + restaurantesGuardados + ", actividadesGuardados="
+				+ actividadesGuardados + "]";
 	}
 
 }

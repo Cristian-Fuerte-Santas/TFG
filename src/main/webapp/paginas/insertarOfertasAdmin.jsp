@@ -1,11 +1,6 @@
 <%@ page isErrorPage="true"%>
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
-
-
-<!--  Directivas  -->
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
@@ -51,6 +46,12 @@ body {
 	font-size: 80px;
 	color: blue;
 }
+
+#imagenCabecera {
+	max-height: 200px;
+	margin-top: -65px;
+	margin-bottom: -60px;
+}
 </style>
 
 </head>
@@ -62,9 +63,15 @@ body {
 	<h2 align="center" class="m-0"></h2>
 
 	<div class="row bg-light">
+
+		       
 		<div class="col-12 text-center mt-3 mb-2">
-			<h1 id="tituloEmpresa">AGENCIA X</h1>
+
+			            <img id="imagenCabecera" alt="" width=100%
+				src="/imagenes/header.png">        
 		</div>
+
+		   
 	</div>
 	<!-- MENU NAVEGAION CABECERA-->
 
@@ -100,10 +107,11 @@ body {
 						alt="Bootstrap" width="32" height="32">
 				</a></li>
 
-				<li class="nav-item"><a href="loginYregistro"
-					class=" nav-link btn btn-primary"><img
+				<li class="nav-item"><a href="/redireccionUsuario"
+					class="nav-link btn btn-primary"> <img
 						src="recursos/Bootstrap/bootstrap-icons-1.10.4/person-fill.svg"
-						alt="Bootstrap" width="40" height="32"></a></li>
+						alt="Bootstrap" width="40" height="32">
+				</a></li>
 
 			</ul>
 		</div>
@@ -111,6 +119,11 @@ body {
 
 
 	<h3 align="center" class="mt-4">MENÚ ADMIN</h3>
+
+	<form action="/cerrarSesion" method="post" align="center">
+		<button type="submit" class="btn btn-danger mt-2">Cerrar
+			Sesión</button>
+	</form>
 
 	<div id="menuAdmin" class="container-fluid mt-2">
 
@@ -144,11 +157,6 @@ body {
 
 	</div>
 
-
-
-
-
-
 	<!--  SUBMENU DE INSERTAR -->
 
 	<div id="subMenuInsertarOfertas">
@@ -177,25 +185,19 @@ body {
 					align="center" modelAttribute="hotel" method="POST"
 					action="insertarHotel" enctype="multipart/form-data">
 
-
 					<h2 align="center">INSERTAR HOTEL</h2>
-
-
-
 					<label for="inputNombreHotel">Nombre del Hotel</label>
 					<form:input path="nombreHotel" type="text" id="inputNombreHotel"
 						class="form-control" placeholder="Hotel Example" required="true"></form:input>
 
 					<label for="inputDestino">Destino del Hotel</label>
-					<form:select path="destino.idDestino" id="inputDestino"
-						class="form-control" required="true">
+					<form:select path="destino" id="inputDestino" class="form-control"
+						required="true">
 						<form:option value="" label="Selecciona un destino"
 							disabled="true" />
 						<form:options items="${destinos}" itemValue="idDestino"
 							itemLabel="ciudad" />
 					</form:select>
-
-
 
 					<label for="inputCategoriaHotel">Categoría del Hotel</label>
 					<form:input path="categoriaHotel" type="number"
@@ -270,10 +272,7 @@ body {
 					modelAttribute="restaurante" method="POST"
 					action="insertarRestaurante" enctype="multipart/form-data">
 
-
 					<h2 align="center">INSERTAR RESTAURANTE</h2>
-
-
 
 					<label for="inputNombreRestaurante">Nombre del Restaurante</label>
 					<form:input path="nombreRestaurante" type="text"
@@ -288,7 +287,6 @@ body {
 						<form:options items="${destinos}" itemValue="idDestino"
 							itemLabel="ciudad" />
 					</form:select>
-
 
 					<label for="inputTipoRestaurante">Tipo de Restaurante</label>
 					<form:input path="tipoRestaurante" type="text"
@@ -311,7 +309,6 @@ body {
 					<form:input path="direccionRestaurante" type="text"
 						id="inputDireccionRestaurante" class="form-control"
 						placeholder="Calle Ejemplo 123" required="true"></form:input>
-
 
 
 					<label for="inputImagenesRestaurante">Imágenes del
@@ -343,8 +340,6 @@ body {
 					action="insertarSalaHotel" enctype="multipart/form-data">
 
 					<h2 align="center">INSERTAR SALA DE HOTEL</h2>
-
-
 
 					<label for="inputNombreSala">Nombre de la Sala</label>
 					<form:input path="nombreSala" type="text" id="inputNombreSala"
@@ -378,8 +373,6 @@ body {
 					<form:input path="precioSala" type="number" id="inputPrecioSala"
 						class="form-control" placeholder="150" step="0.01" required="true"></form:input>
 
-
-
 					<label for="inputImagenesSalaHotel">Imágenes de la Sala</label>
 					<input type="file" name="multipartFiles"
 						id="inputImagenesSalaHotel" class="form-control" multiple="true" />
@@ -400,7 +393,6 @@ body {
 
 		<div class="row">
 			<div class="col-sm-12 offset-sm-0 col-md-8 offset-md-2">
-
 
 				<form:form id="formularioInsertarMenuRestaurante"
 					class="form-signin mt-5" align="center"
@@ -442,7 +434,6 @@ body {
 						placeholder="16.00" step="0.01" required="true"></form:input>
 
 
-
 					<label for="inputImagenesMenuRestaurante">Imágenes del Menú</label>
 					<input type="file" name="multipartFiles"
 						id="inputImagenesMenuRestaurante" class="form-control"
@@ -456,9 +447,6 @@ body {
 
 		</div>
 	</div>
-
-	<!--  INSERTAR ACTIVIDAD -->
-
 
 	<!--  INSERTAR ACTIVIDAD -->
 
@@ -488,8 +476,6 @@ body {
 					<form:input path="tipoActividad" type="text"
 						id="inputTipoActividad" class="form-control" required="true" />
 
-
-
 					<label for="inputDireccionActividad">Dirección de la
 						Actividad</label>
 					<form:input path="direccionActividad" type="text"
@@ -518,15 +504,6 @@ body {
 	</div>
 
 
-
-
-
-
-
-
-
-
-
 	<!-- Footer-->
 	<footer class="footer mt-auto py-3 mb-0">
 		<div class="container" align="center">
@@ -538,19 +515,15 @@ body {
 	<script>
 		$(document).ready(
 				function() {
+					console.log('Id del usuario: ${sessionScope.idUsuario}');
 
 					function mostrarDiv(element) {
-
 						$(element).removeClass("d-none");
-
 					}
 
 					function esconderDivs(elements) {
-
 						elements.forEach(function(element) {
-
 							$(element).addClass("d-none");
-
 						});
 					}
 
@@ -598,9 +571,9 @@ body {
 										"#insertarSalaHotelAdmin" ]);
 								mostrarDiv("#insertarActividadAdmin");
 							});
-
 				});
 	</script>
+
 
 
 </body>

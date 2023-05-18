@@ -8,18 +8,22 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
-@Table (name = "imagen_actividad" )
+@Table(name = "imagen_actividad")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idImagenActividad")
 public class ImagenesActividad {
-	
+
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idImagenActividad;
-    private String urlImagenActividad;
-    
-    @ManyToOne
-    @JoinColumn(name = "id_actividad")
-    private Actividad actividad;
+	private String urlImagenActividad;
+
+	@ManyToOne
+	@JoinColumn(name = "id_actividad")
+	private Actividad actividad;
 
 	public ImagenesActividad() {
 		super();
@@ -49,8 +53,5 @@ public class ImagenesActividad {
 	public void setActividad(Actividad actividad) {
 		this.actividad = actividad;
 	}
-    
-    
-    
 
 }

@@ -8,25 +8,21 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
-@Table (name = "imagen_restaurante")
+@Table(name = "imagen_restaurante")
 
-@JsonIdentityInfo(
-		  generator = ObjectIdGenerators.PropertyGenerator.class, 
-		  property = "idImagenRestaurante")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "idImagenRestaurante")
 public class ImagenesRestaurante {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idImagenRestaurante;
 	private String urlImagenRestaurante;
-	
+
 	@ManyToOne
-    @JoinColumn(name = "id_restaurante")
-	@JsonIdentityReference(alwaysAsId = true)
+	@JoinColumn(name = "id_restaurante")
 	private Restaurante restaurante;
 
 	public ImagenesRestaurante() {
@@ -57,18 +53,5 @@ public class ImagenesRestaurante {
 	public void setRestaurante(Restaurante restaurante) {
 		this.restaurante = restaurante;
 	}
-	
-	/*
-
-	@Override
-	public String toString() {
-		return "ImagenesRestaurante [idImagenRestaurante=" + idImagenRestaurante + ", urlImagenRestaurante="
-				+ urlImagenRestaurante  + "]";
-	}
-	
-	*/
-	
-	
-	
 
 }

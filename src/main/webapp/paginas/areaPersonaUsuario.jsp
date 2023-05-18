@@ -1,12 +1,5 @@
-
-
-
-
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
-<!--  Directivas  -->
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
@@ -15,279 +8,524 @@
 <html>
 
 <head>
-<meta charset="UTF-8">
-<title>areaPersonalUsuario</title>
+    <meta charset="UTF-8">
+    <title>areaPersonalUsuario</title>
 
-<!-- jQuery 3.6.4 -->
-<script src="/recursos/jQuery3.6.4/jQuery3.6.4.js"></script>
+    <!-- jQuery 3.6.4 -->
+    <script src="/recursos/jQuery3.6.4/jQuery3.6.4.js"></script>
 
-<!-- Bootstrap 4.6.2 -->
-<link rel="stylesheet"
-	href="/recursos/Bootstrap/Bootstrap4.6.2/css/bootstrap.min.css">
-<script src="/recursos/Bootstrap/Bootstrap4.6.2/js/bootstrap.min.js"></script>
+    <!-- Bootstrap 4.6.2 -->
+    <link rel="stylesheet" href="/recursos/Bootstrap/Bootstrap4.6.2/css/bootstrap.min.css">
+    <script src="/recursos/Bootstrap/Bootstrap4.6.2/js/bootstrap.min.js"></script>
 
-<!-- fuente Ejemplos Bootraps: https://getbootstrap.com/docs/4.6/examples/ -->
+    <!-- fuente Ejemplos Bootraps: https://getbootstrap.com/docs/4.6/examples/ -->
 
 
-<style>
-html {
-	overflow-x: hidden;
-}
+    <style>
+        html {
+            overflow-x: hidden;
+        }
 
-.container {
-	width: auto;
-	padding: 0px;
-}
+        .container {
+            width: auto;
+            padding: 0px;
+        }
 
-.footer {
-	background-color: lightblue;
-}
+        .footer {
+            background-color: lightblue;
+        }
 
-body {
-	margin-bottom: 0;
-}
+        body {
+            margin-bottom: 0;
+        }
 
-#tituloEmpresa {
-	font-size: 80px;
-	color: blue;
-}
-</style>
+        #tituloEmpresa {
+            font-size: 80px;
+            color: blue;
+        }
+
+        #imagenCabecera {
+            max-height: 200px;
+            margin-top: -65px;
+            margin-bottom: -60px;
+        }
+
+        .text-blue {
+            color: blue;
+        }
+    </style>
 
 </head>
 
 <body class="d-flex flex-column min-vh-100 m-0 p-0">
 
 
-	<!-- CABECERA-->
-	<h2 align="center" class="m-0"></h2>
+    <!-- CABECERA-->
+    <h2 align="center" class="m-0"></h2>
 
-	<div class="row bg-light">
-		<div class="col-12 text-center mt-3 mb-2">
-			<h1 id="tituloEmpresa">AGENCIA X</h1>
-		</div>
-	</div>
-	<!-- MENU NAVEGAION CABECERA-->
+    <div class="row bg-light">
 
-	<!-- Fuente del menu: https://getbootstrap.com/docs/4.6/components/navbar/     -->
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+               
+        <div class="col-12 text-center mt-3 mb-2">
 
-
-		<button class="navbar-toggler" type="button" data-toggle="collapse"
-			data-target="#navbarNav" aria-controls="navbarNav"
-			aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-
-		<div class="collapse navbar-collapse" id="navbarNav">
-
-			<ul class="navbar-nav justify-content-between w-100">
-
-				<li class="nav-item "><a class="nav-link" href="index.html">INICIO</a>
-				</li>
-
-				<li class="nav-item "><a class="nav-link"
-					href="busquedaPersonalizada">BÚSQUEDA PERSONALIZADA</a></li>
-
-				<li class="nav-item"><a class="nav-link" href="contacto">CONTACTO</a>
-				</li>
-
-				<li class="nav-item"><a class="nav-link" href="faq">FAQ</a></li>
-
-				<li class="nav-item"><a id="iconoCarrito" href="carrito"> <img
-						id="iconoCarrito"
-						src="recursos/Bootstrap/bootstrap-icons-1.10.4/cart-fill.svg"
-						alt="Bootstrap" width="32" height="32">
-				</a></li>
+                        <img id="imagenCabecera" alt="" width=100% src="/imagenes/header.png">        
+        </div>
 
-				<li class="nav-item"><a href="loginYregistro"
-					class=" nav-link btn btn-primary"><img
-						src="recursos/Bootstrap/bootstrap-icons-1.10.4/person-fill.svg"
-						alt="Bootstrap" width="40" height="32"></a></li>
+           
+    </div>
+    <!-- MENU NAVEGAION CABECERA-->
 
-			</ul>
-		</div>
-	</nav>
+    <!-- Fuente del menu: https://getbootstrap.com/docs/4.6/components/navbar/     -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
 
-	<div class="container-fluid mt-5">
-		<div class="row ">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-			<!-- Menú lateral -->
-			<div class="col-md-3 col-lg-3 ">
-				<div class="d-flex flex-column flex-shrink-0 p-3 bg-light mt-0"
-					style="width: 280px;">
+        <div class="collapse navbar-collapse" id="navbarNav">
 
-					<h6 class="nav-header" align="center">MENÚ AREA PERSONAL</h6>
+            <ul class="navbar-nav justify-content-between w-100">
 
-					<ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item "><a class="nav-link" href="index.html">INICIO</a>
+                </li>
 
-						<li id="menuMisDatosPersonales"
-							class="nav-item nav-pills-item active"><a href="#"
-							class="nav-link " aria-current="page"> <img
-								src="recursos/Bootstrap/bootstrap-icons-1.10.4/person.svg"
-								alt="Bootstrap" width="20" height="20"> Mis Datos
-								Personales
-						</a></li>
+                <li class="nav-item "><a class="nav-link" href="busquedaPersonalizada">BÚSQUEDA
+                        PERSONALIZADA</a></li>
 
-						<li id="menuMisReservas" class="nav-item nav-pills-item"><a
-							href="#" class="nav-link link-dark"> <img
-								src="recursos/Bootstrap/bootstrap-icons-1.10.4/calendar-check.svg"
-								alt="Bootstrap" width="20" height="20"> Mis Reservas
-						</a></li>
+                <li class="nav-item"><a class="nav-link" href="contacto">CONTACTO</a>
+                </li>
 
+                <li class="nav-item"><a class="nav-link" href="faq">FAQ</a></li>
 
+                <li class="nav-item"><a id="iconoCarrito" href="carrito"> <img id="iconoCarrito"
+                            src="recursos/Bootstrap/bootstrap-icons-1.10.4/cart-fill.svg" alt="Bootstrap" width="32"
+                            height="32">
+                    </a></li>
 
-						<li id="botonCerrarSesion" align="center"><a
-							class="btn btn-danger mt-5"> Cerrar Sesión </a></li>
-					</ul>
-				</div>
-			</div>
+                <li class="nav-item"><a href="/redireccionUsuario" class="nav-link btn btn-primary"> <img
+                            src="recursos/Bootstrap/bootstrap-icons-1.10.4/person-fill.svg" alt="Bootstrap" width="40"
+                            height="32">
+                    </a></li>
 
 
+            </ul>
+        </div>
+    </nav>
 
-			<!-- Contenido Mis Datos Personales -->
-			<div id="contenidoMisDatosPersonales" class="col-md-9 col-lg-9 ">
 
-				<div class="row">
-					<div class="card w-75">
-						<div class="card-body">
-							<h5 class="card-title">Mis Datos Personales</h5>
-							<form>
+    <div class="container-fluid mt-5">
+        <div class="row ">
 
-								<div class="form-group">
-									<label for="nombreEmpresa">Nombre de Empresa</label> <input
-										type="text" class="form-control" id="nombreEmpresa">
-								</div>
-								<div class="form-group">
-									<label for="nifEmpresa">NIF de Empresa</label> <input
-										type="text" class="form-control" id="nifEmpresa">
-								</div>
-								<div class="form-group">
-									<label for="nombreUsuario">Nombre de Usuario</label> <input
-										type="text" class="form-control" id="nombreUsuario">
-								</div>
-								<div class="form-group">
-									<label for="emailUsuario">Email de Usuario</label> <input
-										type="email" class="form-control" id="emailUsuario">
-								</div>
-								<div class="form-group">
-									<label for="telefonoUsuario">Teléfono de Usuario</label> <input
-										type="tel" class="form-control" id="telefonoUsuario">
-								</div>
-								<div class="form-group">
-									<label for="contraseniaUsuario">Contraseña de Usuario</label> <input
-										type="password" class="form-control" id="contraseniaUsuario">
-								</div>
-								<button type="submit" class="btn btn-primary">Actualizar</button>
-							</form>
-						</div>
-					</div>
-				</div>
+            <!-- Menú lateral -->
+            <div class="col-md-3 col-lg-3 ">
+                <div class="d-flex flex-column flex-shrink-0 p-3 bg-light mt-0" style="width: 280px;">
 
-			</div>
+                    <h6 class="nav-header" align="center">MENÚ AREA PERSONAL</h6>
 
+                    <ul class="nav nav-pills flex-column mb-auto">
 
-			<!-- Contenido Mis Reservas -->
-			<div id="contenidoMisReservas" class="col-md-9 col-lg-9 d-none">
+                        <li id="menuMisDatosPersonales" class="nav-item nav-pills-item active"><a href="#"
+                                class="nav-link " aria-current="page"> <img
+                                    src="recursos/Bootstrap/bootstrap-icons-1.10.4/person.svg" alt="Bootstrap"
+                                    width="20" height="20"> Mis Datos
+                                Personales
+                            </a></li>
 
-				<div class="row ">
+                        <li id="menuMisReservas" class="nav-item nav-pills-item"><a href="#" class="nav-link link-dark">
+                                <img src="recursos/Bootstrap/bootstrap-icons-1.10.4/calendar-check.svg" alt="Bootstrap"
+                                    width="20" height="20"> Mis Reservas
+                            </a></li>
 
-					<div class="card w-75">
 
-						<div class="card-body">
 
-							<h5 class="card-title">Mis Reservas</h5>
+                        <li>
+                            <form action="/cerrarSesion" method="post" align="center">
+                                <button type="submit" class="btn btn-danger mt-5">Cerrar
+                                    Sesión</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
 
-							<form>
 
-								<div class="form-group">
-									<label for="nombreEmpresa">Reserva</label> <input type="text"
-										class="form-control" id="nombreEmpresa">
-								</div>
 
-								<button type="submit" class="btn btn-danger">Cancelar
-									Reserva</button>
-							</form>
-						</div>
+            <!-- Contenido Mis Datos Personales -->
+            <div id="contenidoMisDatosPersonales" class="col-md-9 col-lg-9 ">
 
-					</div>
+                <div class="row">
+                    <div class="card w-75">
+                        <div class="card-body">
+                            <h5 class="card-title">Mis Datos Personales</h5>
 
-				</div>
+                            <form action="/actualizarDatosPersonales" method="POST">
+
+                                <div class="form-group">
+                                    <label for="nombreEmpresa">Nombre de Empresa</label> <input type="text"
+                                        class="form-control" name="nombreEmpresa" id="nombreEmpresa"
+                                        value="${usuario.nombreEmpresa}" readonly style="color: black;">
+
+                                    <c:if test="${errorNombreEmpresaInvalido}">
+                                        <div class="alert alert-danger">Nombre de empresa
+                                            inválido.</div>
+                                    </c:if>
+
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="nifEmpresa">NIF de Empresa</label> <input type="text"
+                                        class="form-control" name="nifEmpresa" id="nifEmpresa"
+                                        value="${usuario.nifEmpresa}" readonly style="color: black;">
+
+                                    <c:if test="${errorNifEmpresaInvalido}">
+                                        <div class="alert alert-danger">NIF de empresa invalido.</div>
+                                    </c:if>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="nombreUsuario">Nombre</label> <input type="text" class="form-control"
+                                        name="nombreUsuario" id="nombreUsuario" value="${usuario.nombreUsuario}"
+                                        readonly style="color: black;">
+                                    <c:if test="${errorNombreUsuarioInvalido}">
+                                        <div class="alert alert-danger">Nombre invalido.</div>
+                                    </c:if>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="emailUsuario">Email</label> <input type="text" class="form-control"
+                                        name="emailUsuario" id="emailUsuario" value="${usuario.emailUsuario}" readonly
+                                        style="color: black;">
+                                    <span id="emailError" class="alert alert-danger" style="display: none;">Este campo
+                                        no puede modificarse.</span>
+                                </div>
 
-			</div>
 
-		</div>
+                                <div class="form-group">
+                                    <label for="telefonoUsuario">Teléfono </label> <input type="text"
+                                        class="form-control" name="telefonoUsuario" id="telefonoUsuario"
+                                        value="${usuario.telefonoUsuario}" readonly style="color: black;">
+                                    <c:if test="${errorTelefonoUsuarioInvalido}">
+                                        <div class="alert alert-danger">Telefono invalido.</div>
+                                    </c:if>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="contraseniaUsuario">Contraseña </label> <input type="password"
+                                        class="form-control" name="contraseniaUsuario" id="contraseniaUsuario"
+                                        value="${usuario.contraseniaUsuario}" readonly style="color: black;">
+                                    <c:if test="${errorContraseniaUsuarioInvalido}">
+                                        <div class="alert alert-danger">NIF de empresa invalido.</div>
+                                    </c:if>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="verificarContrasenia">Vuelva a introducir
+                                        su contraseña</label> <input name="verificarContrasenia" type="password"
+                                        id="verificarContrasenia" class="form-control"
+                                        placeholder="Vuelva a introducir la contraseña" readonly
+                                        style="color: black;" />
+                                </div>
 
-	</div>
+                                <c:if test="${errorPasswordNoCoincide}">
+                                    <div class="alert alert-danger">Las contraseñas no
+                                        coinciden.</div>
+                                </c:if>
 
 
-	<!-- Footer-->
-	<footer class="footer mt-auto py-3 mb-0">
-		<div class="container" align="center">
-			<span class="text-muted"> Gala Gallardo García y Cristian
-				Fuerte Santas</span>
-		</div>
-	</footer>
+                                <button type="button" class="btn btn-primary" id="actualizarBoton">Actualizar</button>
 
+                                <button type="submit" class="btn btn-primary" id="guardarCambiosBoton"
+                                    style="display: none;">Guardar
+                                    cambios</button>
 
+                            </form>
+                        </div>
+                    </div>
+                </div>
 
-	<script>
-		$(document).ready(function() {
+            </div>
 
-			function subrayarCategoriaSeleccionada(element) {
 
-				$(".nav-pills-item").removeClass("active");
 
-				$(element).addClass("active");
+            <!-- Contenido Mis Reservas -->
+            <div id="contenidoMisReservas" class="col-md-9 col-lg-9 d-none">
+                <div class="row">
+                    <div class="col-sm-12 col-md-8">
+                        <h3>Mis Reservas:</h3>
+                        <table class="table table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th id="columnaIdReserva">ID Reserva</th>
+                                    <th id="columnaUsuario">Usuario</th>
+                                    <th id="columnaReservado">Reservado</th>
+                                    <th id="columnaPrecio">Precio</th>
+                                    <th id="columnaCancelacion">Cancelación</th>
+
+                                </tr>
+                            </thead>
+                            <tbody id="listaReservas">
+                                <!-- Aquí se insertarán las filas de la tabla desde JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="precioTotalDiv" class="mb-5 mt-4" style="font-size: 44px; font-weight: bold;">
+                    PRECIO TOTAL: <span id="precioTotal"></span> &#8364;
+                </div>
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+
+    <!-- Footer-->
+    <footer class="footer mt-auto py-3 mb-0">
+        <div class="container" align="center">
+            <span class="text-muted"> Gala Gallardo García y Cristian
+                Fuerte Santas</span>
+        </div>
+    </footer>
 
-			}
 
-			function mostrarDiv(element) {
 
-				$(element).removeClass("d-none");
+    <script>
 
-			}
 
-			function esconderDivs(elements) {
+        function eliminarReserva(idReserva) {
 
-				elements.forEach(function(element) {
+            return new Promise((resolve, reject) => {
+                $.ajax({
+                    url: "/eliminarReserva/" + idReserva,
+                    type: 'POST',
+                    success: function (result) {
+                        // Si la operación es exitosa, resolver la promesa con el resultado
+                        resolve(result);
+                        //recargar la pagina
+                        location.reload();
+                    },
+                    error: function (error) {
+                        // Si la operacion falla, rechazar la promesa con el error
+                        reject(error);
+                    }
+                });
+            });
+        }
 
-					$(element).addClass("d-none");
 
-				});
-			}
+        //EMPIEZA EL JQUERY
+        $(document).ready(function () {
 
-			//MENU MIS DATOS PERSONALES
-			$("#menuMisDatosPersonales").click(function() {
+            console.log('Id del usuario: ${sessionScope.idUsuario}');
 
-				subrayarCategoriaSeleccionada(this);
+            var idUsuario = '${usuario.idUsuario}';
 
-				mostrarDiv("#contenidoMisDatosPersonales");
+            obtenerReservas(idUsuario);
+
+
+
+            function obtenerReservas(idUsuario) {
+                return new Promise((resolve, reject) => {
+                    $.get("/obtenerReservas/" + idUsuario, function (data) {
+                        $('#listaReservas').empty();
+                        var precioTotal = 0;
+
+                        $.each(data, function (i, reserva) {
+                            var fila = '<tr>' +
+                                '<td>' + reserva.idReserva + '</td>';
+
+                            // Columna de Usuario
+                            if (reserva.nombreUsuario !== null) {
+                                fila += '<td class="text-blue text-left">' + reserva.nombreUsuario + '</td>';
+                            } else {
+                                fila += '<td></td>';
+                            }
+
+                            // Columna de Reservado
+                            var reservado = '';
+                            if (reserva.nombreActividad !== null) {
+                                reservado = reserva.nombreActividad;
+                            } else if (reserva.nombreRestaurante !== null) {
+                                reservado = reserva.nombreRestaurante;
+                            } else if (reserva.nombreHotel !== null) {
+                                reservado = reserva.nombreHotel;
+                            } else if (reserva.nombreMenuRestaurante !== null) {
+                                reservado = reserva.nombreMenuRestaurante;
+                            } else if (reserva.nombreSalaHotel !== null) {
+                                reservado = reserva.nombreSalaHotel;
+                            }
+                            fila += '<td class="text-blue text-left">' + reservado + '</td>';
+
+                            // Columna de Precio
+
+                            var precio = 0;
+                            if (reserva.precioActividad !== null) {
+                                precio += Number(reserva.precioActividad);
+                            }
+
+
+                            if (reserva.precioRestaurante !== null) {
+                                precio += Number(reserva.precioRestaurante);
+                            }
+
+                            if (reserva.precioHotel !== null) {
+                                precio += Number(reserva.precioHotel);
+                            }
 
-				esconderDivs([ "#contenidoMisReservas", ]);
+                            if (reserva.precioMenuRestaurante !== null) {
+                                precio += Number(reserva.precioMenuRestaurante);
+                            }
 
-			});
+                            if (reserva.precioSalaHotel !== null) {
+                                precio += Number(reserva.precioSalaHotel);
+                            }
 
-			//MENU MIS RESERVAS
-			$("#menuMisReservas").click(function() {
+                            fila += '<td class="text-blue text-left">' + precio + '</td>';
 
-				subrayarCategoriaSeleccionada(this);
 
-				mostrarDiv("#contenidoMisReservas");
 
-				esconderDivs([ "#contenidoMisDatosPersonales" ]);
+							// Columna de Cancelación
+                            fila += '<td>' +
+                                '<button class="btn btn-danger" onclick="eliminarReserva(' + reserva.idReserva + ').then(function() { return obtenerReservas(idUsuario); })">Cancelar Reserva</button>' +
+                                '</td>' +
+                                '</tr>';
 
-			});
+                            $('#listaReservas').append(fila);
 
-			//CERRAR SESIÓN
-			$("#botonCerrarSesion").click(function() {
+                            precioTotal += precio;
+                        });
 
-				console.log("Has dado al boton de cerrar sesion");
+                        // Mostrar el precio total
+                        $('#precioTotal').text(precioTotal);
+                        resolve(data);  // Si la operación es exitosa, resolver la promesa con los datos obtenidos
+                    })
+                        .fail(function (error) {
+                            reject(error);  // Si la operación falla, rechazar la promesa con el error
+                        });
+                });
+            }
 
-			});
 
-		});
-	</script>
+            $('#actualizarBoton').click(habilitarEdicion);
+
+            //ACTUALIZAR DATOS PERSONALES
+            function habilitarEdicion() {
+
+                document.getElementById('nombreEmpresa')
+                    .removeAttribute('readonly');
+                document.getElementById('nifEmpresa')
+                    .removeAttribute('readonly');
+                document.getElementById('nombreUsuario')
+                    .removeAttribute('readonly');
+                //document.getElementById('emailUsuario').removeAttribute('readonly');
+                document.getElementById('telefonoUsuario')
+                    .removeAttribute('readonly');
+                document.getElementById('contraseniaUsuario')
+                    .removeAttribute('readonly');
+                document.getElementById('verificarContrasenia')
+                    .removeAttribute('readonly');
+
+                // Añadir controlador de evento click en el input de email
+                document
+                    .getElementById('emailUsuario')
+                    .addEventListener(
+                        'click',
+                        function () {
+                            this.style.backgroundColor = 'grey';
+                            document
+                                .getElementById('emailError').style.display = 'block';
+                        });
+
+                // Ocultar el botón "Actualizar" y mostrar el botón "Guardar cambios"
+                document.getElementById('actualizarBoton').style.display = 'none';
+                document.getElementById('guardarCambiosBoton').style.display = 'inline-block';
+
+                // Añadir el evento para resaltar los campos modificados en verde
+                var inputs = document
+                    .querySelectorAll('input[type="text"]');
+                inputs
+                    .forEach(function (input) {
+                        input
+                            .addEventListener(
+                                'input',
+                                function () {
+                                    this.style.backgroundColor = 'lightgreen';
+                                });
+                    });
+
+            }
+
+            //CODIGO DE CRISTIAN - NO TOCAR
+
+            function subrayarCategoriaSeleccionada(element) {
+
+                $(".nav-pills-item").removeClass("active");
+
+                $(element).addClass("active");
+
+            }
+
+            function mostrarDiv(element) {
+
+                $(element).removeClass("d-none");
+
+            }
+
+            function esconderDivs(elements) {
+
+                elements.forEach(function (element) {
+
+                    $(element).addClass("d-none");
+
+                });
+            }
+
+            //MENU MIS DATOS PERSONALES
+            $("#menuMisDatosPersonales").click(function () {
+
+                subrayarCategoriaSeleccionada(this);
+
+                mostrarDiv("#contenidoMisDatosPersonales");
+
+                esconderDivs(["#contenidoMisReservas",]);
+
+            });
+
+            //MENU MIS RESERVAS
+            $("#menuMisReservas")
+                .click(
+                    function () {
+
+                        subrayarCategoriaSeleccionada(this);
+
+                        mostrarDiv("#contenidoMisReservas");
+
+                        esconderDivs(["#contenidoMisDatosPersonales"]);
+
+                    });
+
+            //CERRAR SESIÓN
+            $("#botonCerrarSesion")
+                .click(
+                    function () {
+
+                        console
+                            .log("Has dado al boton de cerrar sesion");
+
+                    });
+
+        });
+
+    </script>
 </body>
 
-</html> 
+</html>

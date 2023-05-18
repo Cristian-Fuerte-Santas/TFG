@@ -2,197 +2,208 @@
 <html>
 
 <head>
-    <meta charset="UTF-8">
-    <title> index TFG</title>
-    
-    <!-- jQuery 3.6.4 -->
-<script src="/recursos/jQuery3.6.4/jQuery3.6.4.js"></script>
+	<meta charset="UTF-8">
+	<title> Index</title>
 
-    <!-- Bootstrap 4.6.2 -->
-<link rel="stylesheet" href="/recursos/Bootstrap/Bootstrap4.6.2/css/bootstrap.min.css">
-<script src="/recursos/Bootstrap/Bootstrap4.6.2/js/bootstrap.min.js"></script>
+	<!-- jQuery 3.6.4 -->
+	<script src="/recursos/jQuery3.6.4/jQuery3.6.4.js"></script>
 
-
+	<!-- Bootstrap 4.6.2 -->
+	<link rel="stylesheet" href="/recursos/Bootstrap/Bootstrap4.6.2/css/bootstrap.min.css">
+	<script src="/recursos/Bootstrap/Bootstrap4.6.2/js/bootstrap.min.js"></script>
 
 
-    <!-- fuente Ejemplos Bootraps: https://getbootstrap.com/docs/4.6/examples/ -->
+	<style>
+		html {
+			overflow-x: hidden;
+		}
+
+		.container {
+			width: auto;
+
+			padding: 0px;
+		}
+
+		.footer {
+			background-color: lightblue;
+		}
+
+		body {
+			margin-bottom: 0;
+		}
+
+		#tituloEmpresa {
 
 
-    <style>
-        html {
-            overflow-x: hidden;
-        }
+			font-size: 80px;
+			color: blue;
+		}
 
-        .container {
-            width: auto;
-
-            padding: 0px;
-        }
-
-        .footer {
-            background-color: lightblue;
-        }
-
-        body {
-            margin-bottom: 0;
-        }
-
-        #tituloEmpresa {
-
-
-            font-size: 80px;
-            color: blue;
-        }
-    </style>
+		#imagenCabecera {
+			max-height: 200px;
+			margin-top: -65px;
+			margin-bottom: -60px;
+		}
+	</style>
 
 </head>
 
 <body class="d-flex flex-column min-vh-100 m-0 p-0">
 
 
-    <!-- CABECERA-->
-    <h2 align="center" class="m-0"></h2>
+	<!-- CABECERA-->
+	<h2 align="center" class="m-0"></h2>
 
-    <div class="row bg-light">
-        <div class="col-12 text-center mt-3 mb-2">
-            <h1 id="tituloEmpresa">AGENCIA X</h1>
-        </div>
-    </div>
-    <!-- MENU NAVEGAION CABECERA-->
+	<div class="row bg-light">
 
-    <!-- Fuente del menu: https://getbootstrap.com/docs/4.6/components/navbar/     -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		       
+		<div class="col-12 text-center mt-3 mb-2">
 
+			            <img id="imagenCabecera" alt="" width=100% src="/imagenes/header.png">        
+		</div>
 
-
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarNav">
-
-            <ul class="navbar-nav justify-content-between w-100">
-
-                <li class="nav-item ">
-                    <a class="nav-link" href="index.html">INICIO</a>
-                </li>
-
-                <li class="nav-item ">
-                    <a class="nav-link" href="busquedaPersonalizada">BÚSQUEDA PERSONALIZADA</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="contacto">CONTACTO</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="faq">FAQ</a>
-                </li>
-
-                <li class="nav-item">
-                    <a id="iconoCarrito" href="carrito">
-                        <img id="iconoCarrito" src="recursos/Bootstrap/bootstrap-icons-1.10.4/cart-fill.svg" alt="Bootstrap" width="32"
-                            height="32">
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a href="loginYregistro" class=" nav-link btn btn-primary"><img src="recursos/Bootstrap/bootstrap-icons-1.10.4/person-fill.svg" alt="Bootstrap" width="40" height="32"></a>
-                </li>
-
-            </ul>
-        </div>
-    </nav>
+		   
+	</div>
 
 
+	<!-- MENU NAVEGAION CABECERA-->
+
+	<!-- Fuente del menu: https://getbootstrap.com/docs/4.6/components/navbar/     -->
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+			aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarNav">
+
+			<ul class="navbar-nav justify-content-between w-100">
+
+				<li class="nav-item ">
+					<a class="nav-link" href="index.html">INICIO</a>
+				</li>
+
+				<li class="nav-item ">
+					<a class="nav-link" href="busquedaPersonalizada">BÚSQUEDA PERSONALIZADA</a>
+				</li>
+
+				<li class="nav-item">
+					<a class="nav-link" href="contacto">CONTACTO</a>
+				</li>
+
+				<li class="nav-item">
+					<a class="nav-link" href="faq">FAQ</a>
+				</li>
+
+				<li class="nav-item">
+					<a id="iconoCarrito" href="carrito">
+						<img id="iconoCarrito" src="recursos/Bootstrap/bootstrap-icons-1.10.4/cart-fill.svg"
+							alt="Bootstrap" width="32" height="32">
+					</a>
+				</li>
+
+				<li class="nav-item">
+					<a href="/redireccionUsuario" class="nav-link btn btn-primary">
+						<img src="recursos/Bootstrap/bootstrap-icons-1.10.4/person-fill.svg" alt="Bootstrap" width="40"
+							height="32">
+					</a>
+				</li>
+
+			</ul>
+		</div>
+	</nav>
 
 
+<!-- fuente Ejemplos Bootraps: https://getbootstrap.com/docs/4.6/examples/ -->
+	<!-- PRINCIPAL -->
+	<div class="flex-grow-1 bg-light">
 
-    <!-- PRINCIPAL -->
-    <div class="flex-grow-1 bg-light">
+		<main role="main" class="flex-shrink-0 ">
 
-        <main role="main" class="flex-shrink-0 ">
+			<div class="container">
 
-            <div class="container">
+				<h1 class="mt-5 mb-4" align="center">Quiénes somos</h1>
+				<p class="lead" align="center">Somos una agencia que se dedica a ofrecer experiencias a empresas.
 
-                <h1 class="mt-5 mb-4" align="center">Quiénes somos</h1>
-                <p class="lead" align="center">Somos una agencia que se dedica a ofrecer experiencias a empresas.
+				</p>
+				<p class="lead" align="center">
+					Es decir, cualquier empresa que necesite organizar eventos para sus empleados puede contar con
+					nosotros
+					para buscar hoteles, restaurantes, actividades, e incluso el transporte, para cualquier evento que
+					quiera organizar
+				</p>
 
-                </p>
-                <p class="lead" align="center">
-                    Es decir, cualquier empresa que necesite organizar eventos para sus empleados puede contar con
-                    nosotros
-                    para buscar hoteles, restaurantes, actividades, e incluso el transporte, para cualquier evento que
-                    quiera organizar
-                </p>
+			</div>
 
-            </div>
+			<div class="container">
 
-            <div class="container">
+				<h1 class="mt-5 mb-4" align="center">Nuestra historia</h1>
+				<p class="lead" align="center">Fundada en 2023, nacemos con la intención de presentar nuestro trabajo
+					TFG ante nuestro
+					centro de formación IMF
+				</p>
 
-                <h1 class="mt-5 mb-4" align="center">Nuestra historia</h1>
-                <p class="lead" align="center">Fundada en 2023, nacemos con la intención de presentar nuestro trabajo
-                    TFG ante nuestro
-                    centro de formación IMF
-                </p>
+			</div>
 
-            </div>
+			<div class="container">
 
-            <div class="container">
+				<h1 class="mt-5 mb-4" align="center">Sobre los fundadores</h1>
+				<p class="lead" align="center">La web ha sido creada por Gala Gallardo García y Cristian Fuerte Santas,
+					ambos alumnos de 2º de DAW
+					(Desarollo de Aplicaciones Web), con la inestimable ayuda y consejo de nuestro tutor Carlos
+					Rufiángel García
+				</p>
 
-                <h1 class="mt-5 mb-4" align="center">Sobre los fundadores</h1>
-                <p class="lead" align="center">La web ha sido creada por Gala Gallardo García y Cristian Fuerte Santas,
-                    ambos alumnos de 2º de DAW
-                    (Desarollo de Aplicaciones Web), con la inestimable ayuda y consejo de nuestro tutor Carlos
-                    Rufiángel García
-                </p>
+			</div>
 
-            </div>
+			<div class="container">
 
-            <div class="container">
+				<h1 class="mt-5 mb-4" align="center">Nuestros objetivos</h1>
+				<p class="lead" align="center">Tenemos 2 objetivos:</p>
+				<p class="lead" align="center"> En primer lugar, queremos probarnos a nosotros mismos viendo hasta donde
+					somos capaces de llegar
+					a la hora de crear una página lo más funcional posible
+				</p>
+				<p class="lead" align="center"> En segundo lugar, estamos usando por primera vez SpringBoot, por lo que
+					al ser una nueva tecnología
+					desconocida para nosotros, nos tomamos como un reto ser capaz de aprenderlo e implementarlo en el
+					tiempo que tenemos asignado para el TFG
+				</p>
 
-                <h1 class="mt-5 mb-4" align="center">Nuestros objetivos</h1>
-                <p class="lead" align="center">Tenemos 2 objetivos:</p>
-                <p class="lead" align="center"> En primer lugar, queremos probarnos a nosotros mismos viendo hasta donde
-                    somos capaces de llegar
-                    a la hora de crear una página lo más funcional posible
-                </p>
-                <p class="lead" align="center"> En segundo lugar, estamos usando por primera vez SpringBoot, por lo que
-                    al ser una nueva tecnología
-                    desconocida para nosotros, nos tomamos como un reto ser capaz de aprenderlo e implementarlo en el
-                    tiempo que tenemos asignado para el TFG
-                </p>
+			</div>
 
-            </div>
+			<div class="container mb-5">
 
-            <div class="container mb-5">
-
-                <h1 class="mt-5 mb-4" align="center">Limitaciones</h1>
-                <p class="lead" align="center">Idealmente crearíamos una web totalmente funcional. Sin embargo,
-                    a la hora de que el usuario haya llegado a la parte donde tiene su reserva hecha en el carrito y
-                    lista para ser pagada,
-                    no se hará un pago real. Más bien, aparecerá un mensaje de que uno de los empleados de Agencia X se
-                    pondrá en contacto con el
-                    usuario para completar la compra.
-                </p>
-
-
-            </div>
-
-        </main>
-
-    </div>
+				<h1 class="mt-5 mb-4" align="center">Limitaciones</h1>
+				<p class="lead" align="center">Idealmente crearíamos una web totalmente funcional. Sin embargo,
+					a la hora de que el usuario haya llegado a la parte donde tiene su reserva hecha en el carrito y
+					lista para ser pagada,
+					no se hará un pago real. Más bien, aparecerá un mensaje de que uno de los empleados de Agencia X se
+					pondrá en contacto con el
+					usuario para completar la compra.
+				</p>
 
 
+			</div>
 
-    <!-- Footer-->
-    <footer class="footer mt-auto py-3 mb-0">
-        <div class="container" align="center">
-            <span class="text-muted"> Gala Gallardo García Y Cristian Fuerte Santas</span>
-        </div>
-    </footer>
+		</main>
 
+	</div>
+
+	<!-- Footer-->
+	<footer class="footer mt-auto py-3 mb-0">
+		<div class="container" align="center">
+			<span class="text-muted"> Gala Gallardo García Y Cristian Fuerte Santas</span>
+		</div>
+	</footer>
+	<script>
+		$(document).ready(function () {
+
+			console.log('Id del usuario: ${sessionScope.idUsuario}');
+
+		});
+	</script>
 </body>
 
 </html>

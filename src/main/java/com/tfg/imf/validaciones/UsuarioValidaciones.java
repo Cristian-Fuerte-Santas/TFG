@@ -37,6 +37,4 @@ public class UsuarioValidaciones {
 
 	}
 
-	/// Pendiente validacion de telefono
-
 }

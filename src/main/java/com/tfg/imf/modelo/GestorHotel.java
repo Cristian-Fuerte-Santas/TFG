@@ -7,12 +7,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tfg.imf.entidades.Hotel;
 import com.tfg.imf.entidades.ImagenesHotel;
+
 import com.tfg.imf.persistencia.IRepositorioHotel;
 import com.tfg.imf.persistencia.IRepositorioImagenesHotel;
 
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,8 +29,6 @@ public class GestorHotel {
 
 	@Autowired
 	private GestorImagenes gestorImagenes;
-
-
 
 	public GestorHotel() {
 		super();
@@ -52,14 +52,13 @@ public class GestorHotel {
 
 	@Transactional
 	public void borrar(Hotel hotel) {
-		
+
 		// Antes de eliminar el hotel, primero elimina sus imágenes
 		for (ImagenesHotel imagen : hotel.getListadoImagenesHotel()) {
 			String nombreArchivo = Paths.get(imagen.getUrlImagenHotel()).getFileName().toString();
 			gestorImagenes.eliminarImagen(nombreArchivo);
 		}
 
-		
 		repositorioHotel.delete(hotel);
 	}
 
@@ -83,6 +82,18 @@ public class GestorHotel {
 	@Transactional(readOnly = true) // Especifica que esta transacción es solo de lectura
 	public List<Hotel> verTodosLosHoteles() {
 		return repositorioHotel.verTodosLosHoteles();
+	}
+
+	// Para seleccionar el hotel el boton de modificar correspondiente
+	@Transactional(readOnly = true)
+	public Hotel obtenerHotelPorId(Integer idHotel) {
+		try {
+			return repositorioHotel.findById(idHotel).orElse(null);
+		} catch (NoSuchElementException e) {
+			System.out.println("No se encontró el hotel con el id: " + idHotel);
+
+			return null;
+		}
 	}
 
 }

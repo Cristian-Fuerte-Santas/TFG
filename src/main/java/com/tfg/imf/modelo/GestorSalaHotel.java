@@ -1,10 +1,10 @@
 package com.tfg.imf.modelo;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.tfg.imf.entidades.ImagenesHotel;
 import com.tfg.imf.entidades.ImagenesSalaHotel;
 import com.tfg.imf.entidades.SalaHotel;
 import com.tfg.imf.persistencia.IRepositorioImagenesSalaHotel;
@@ -63,7 +62,7 @@ public class GestorSalaHotel {
 	}
 
 	// PARA LAS IMAGENES DE SALA HOTEL
-	
+
 	// Para insertarlas en la base de datos
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void insertarImagenHotel(ImagenesSalaHotel imagenSalaHotel) {
@@ -72,7 +71,7 @@ public class GestorSalaHotel {
 
 		System.out.println("Se ha insertado la imagen de la sala hotel correctamente");
 	}
-	
+
 	// Para insertarlas en el ordenador localmente, en el sistema de archivos
 	@Transactional
 	public String guardarImagenSalaHotel(MultipartFile file) throws IOException {
@@ -83,6 +82,18 @@ public class GestorSalaHotel {
 	@Transactional(readOnly = true) // Especifica que esta transacción es solo de lectura
 	public List<SalaHotel> verTodasLasSalasHotel() {
 		return repositorioSalaHotel.verTodasLasSalasHotel();
+	}
+
+	// Para seleccionar el restaurante el boton de modificar correspondiente
+	@Transactional(readOnly = true)
+	public SalaHotel obtenerSalaHotelPorId(Integer idSalaHotel) {
+		try {
+			return repositorioSalaHotel.findById(idSalaHotel).orElse(null);
+		} catch (NoSuchElementException e) {
+			System.out.println("No se encontró la sal hotel con el id: " + idSalaHotel);
+
+			return null;
+		}
 	}
 
 }
