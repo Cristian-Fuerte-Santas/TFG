@@ -186,7 +186,6 @@
     window.initMap = initMap;
 </script>
 
-<script defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiHsROEwzwI6zd6kUadBnvYklxfhKvalI&callback=initMap"></script>
+
 
 </html>
