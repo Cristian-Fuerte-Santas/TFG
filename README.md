@@ -1,77 +1,72 @@
-# TFG
+# Final Degree Project (TFG)
 
 
-## EXPLICACIÓN
+## EXPLANATION
 
-Al no estar usando un servidor real, las imágenes se guardan en el ordenador local de quien lo ejecute, entonces necesitamos hacer varios pasos.
-Estas imágenes tienen un límite de subida de 10 MB, pero se puede modificar a gusto del usuario.
-
-
-## REQUISITOS
-
-### 1. SOBRE EL IDE
-Es un proyecto Spring Boot, por lo que si se está usando Eclipse, hay que instalarse desde Eclipse Marketplace el Spring Tools 4.
-En nuestro caso hemos usado  `Spring Tools 4 (aka Spring Tool Suite 4) 4.18.1.RELEASE` .
-
-### 2. SOBRE LA BASE DE DATOS
-Hay que tener XAMPP o algo similar ejecutándose antes de ejecutar el programa. No hay que crear la base de datos previamente, sino que se crea automáticamente en la primera ejecución del programa.
-Por defecto se ejecuta en el `puerto 8080`.
-
-### 3. EJECUCIÓN INICIAL
-Hay que hacer un `Maven Install` para compilar el proyecto, que se puede hacer desde la terminal de Eclipse con `mvn install` si tenemos Maven instalado en el ordenador, o
-podemos hacerlo haciendo click derecho en la carpeta  principal del proyecto, y darle a `Run as > Maven install`.
-
-Si hay algún problema, se puede hacer un `mvn clean install` en la terminal o simplemente borrar la carpeta `target`.
-
-Una vez compilado el proyecto, damos a `Run as > Spring Boot App` para iniciar la aplicación. No es necesario tener Tomcat, ya que Spring Boot lo trae embebido.
+Since a real server is not being used, images are saved on the local computer of the person running the application; therefore, several steps are required.
+These images have a 10 MB upload limit, though this can be modified according to the user's preference.
 
 
+## REQUIREMENTS
 
-## QUE HACER PARA QUE FUNCIONE TODO CORRECTAMENTE AL EJECUTARSE?
+### 1. IDE
+This is a Spring Boot project; if using Eclipse, you must install "Spring Tools 4" from the Eclipse Marketplace.
+In our case, we used `Spring Tools 4 (aka Spring Tool Suite 4) 4.18.1.RELEASE`.
 
-Si no se hacen estos pasos, el resto de la aplicación seguirá funcionando igualmente, pero no se podrá hacer ningún tipo de CRUD con las imágenes.
+### 2. DATABASE
+You must have XAMPP (or similar software) running before launching the program. There is no need to create the database beforehand; it is created automatically the first time the program runs.
+By default, it runs on `port 8080`.
 
-### 1. CREAR CARPETA
+### 3. INITIAL EXECUTION
+You need to perform a `Maven Install` to compile the project. This can be done via the Eclipse terminal using `mvn install` (if Maven is installed on your computer) or
+by right-clicking the main project folder and selecting `Run as > Maven install`.
 
-Se crea una carpeta en el lugar preferido del ordenador, que será donde se guarden las imágenes del proyecto, y será necesaria para mostrarlas y hacer el CRUD correspondiente.
+If any issues arise, you can run `mvn clean install` in the terminal or simply delete the `target` folder.
 
-### 2. MODIFICAR ARCHIVOS
+Once the project is compiled, select `Run as > Spring Boot App` to start the application. Tomcat is not required, as Spring Boot includes an embedded version.
 
-Se necesita hacer cambios en 2 sitios:
 
-#### 2.2 EN EL ARCHIVO `application.properties`
 
-El archivo con el símbolo de la hoja de Spring Boot, que está en `Java Resources > src > main > resources > application.properties`, necesita ser modificado. Debes colocar la ruta a esa carpeta que se ha creado.
+## WHAT MUST BE DONE FOR EVERYTHING TO WORK CORRECTLY?
 
-Por ejemplo, tenemos esto ahora:
+If these steps are not followed, the rest of the application will still function, but you will be unable to perform CRUD operations involving images.
+
+### 1. CREATE FOLDER
+
+Create a folder at a location of your choice on your computer; this is where project images will be stored, and it is necessary for displaying them and performing the corresponding CRUD operations. ### 2. MODIFYING FILES
+
+Changes need to be made in two places:
+
+#### 2.2 IN THE `application.properties` FILE
+
+The file marked with the Spring Boot leaf icon—located at `Java Resources > src > main > resources > application.properties`—needs to be modified. You must enter the path to the folder that was created.
+
+For example, we currently have this:
 `spring.web.resources.static-locations=classpath:/static/,file:/Users/cristianfuertesantas/Pictures/ImagenesInsertadasDesdeBd/`
 
-Entonces, todo lo que hay después de `file:`, es la ruta de la carpeta, y es lo único hay que cambiar.
+So, everything following `file:` is the folder path, and that is the only part that needs changing.
 
-Es decir, esto NO se cambia: `spring.web.resources.static-locations=classpath:/static/,file:`
+In other words, this part does NOT change: `spring.web.resources.static-locations=classpath:/static/,file:`
 
-Y esto SÍ se cambia, con la ruta de la carpeta creada: `/Users/cristianfuertesantas/Pictures/ImagenesInsertadasDesdeBd/`
+And this part *does* change to the path of the created folder: `/Users/cristianfuertesantas/Pictures/ImagenesInsertadasDesdeBd/`
 
-#### 2.3 EN EL ARCHIVO `GestorImagenes.java `
+#### 2.3 IN THE `GestorImagenes.java` FILE
 
-El archivo está en el paquete `com.tfg.imf.modelo` 
+This file is located in the `com.tfg.imf.modelo` package.
 
-Hay que cambiar esta línea con la ruta de la carpeta creada: `private final String directorioImagenes = "/Users/cristianfuertesantas/Pictures/ImagenesInsertadasDesdeBd/";`
+You need to update this line with the path to the created folder: `private final String directorioImagenes = "/Users/cristianfuertesantas/Pictures/ImagenesInsertadasDesdeBd/";`
 
-Es decir, el valor de esa varible debe ser la ruta a la carpeta. Debe ser la misma ruta que se puso en el paso anterior.
+In other words, the value of that variable must be the folder path. It must be the same path used in the previous step.
 
 ## EXTRA
 
-### 1. TAMAÑO DE LAS IMÁGENES
-En el archivo `application.properties` se pueden cambiar el tamaño máximo permitido para la subida de imágenes:
+### 1. IMAGE SIZE
+In the `application.properties` file, you can change the maximum allowed size for image uploads:
 
 `spring.servlet.multipart.max-file-size=10MB `
 `spring.servlet.multipart.max-request-size=10MB`
 
-### 2. PUERTO DE EJECUCIÓN
-En ese mismo archivo también se puede cambiar el puerto de ejecución:
+### 2. EXECUTION PORT
+In that same file, you can also change the execution port:
 
 `server.port= 8080`
-
-
-
