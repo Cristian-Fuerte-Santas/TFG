@@ -1,4 +1,4 @@
-# Final Degree Project (TFG) - Web Application Developtment
+# Final Degree Project (TFG) - Web Application Development
 
 This project was originally developed in Spanish as my final project for the Higher Technician Diploma in Web Application Development (DAW). 
 Variable names, comments and file names remain in Spanish to preserve the original project.
