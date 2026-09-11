@@ -1,6 +1,7 @@
 # Final Degree Project (TFG) - Web Application Developtment
 
-This project was originally developed in Spanish as my final project for the Higher Technician Diploma in Web Application Development. Variable names, comments and some file names remain in Spanish to preserve the original project.
+This project was originally developed in Spanish as my final project for the Higher Technician Diploma in Web Application Development (DAW). 
+Variable names, comments and file names remain in Spanish to preserve the original project.
 
 ## EXPLANATION
 
@@ -34,7 +35,9 @@ If these steps are not followed, the rest of the application will still function
 
 ### 1. CREATE FOLDER
 
-Create a folder at a location of your choice on your computer; this is where project images will be stored, and it is necessary for displaying them and performing the corresponding CRUD operations. ### 2. MODIFYING FILES
+Create a folder at a location of your choice on your computer; this is where project images will be stored, and it is necessary for displaying them and performing the corresponding CRUD operations. 
+
+### 2. MODIFYING FILES
 
 Changes need to be made in two places:
 
