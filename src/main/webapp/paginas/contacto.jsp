@@ -187,6 +187,6 @@
 </script>
 
 <script defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiHsROEwzwI6zd6kUadBnvYklxfhKvalI&callback=initMap"></script>
+    src="***"></script>
 
 </html>
